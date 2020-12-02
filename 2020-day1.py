@@ -1,7 +1,7 @@
-from main.main import getInputData
+from .main import *
 
 if __name__ == "__main__":
-    data = getInputData(day=1,typecast=int)
+    data = getInputData(year=2020,day=1,typecast=int)
 
     # Stage 1
 

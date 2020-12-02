@@ -1,9 +1,10 @@
-import main
+from main import getInputData
+from main import getSpiltList
 
 if __name__ == "__main__":
-    data = main.getInputData(day=2)
+    data = getInputData(year=2020,day=2)
 
-    data = main.getSpiltList(data=data, splitChar=':')
+    data = getSpiltList(data=data, splitChar=':')
 
     rangeVals = []
     charVals = []
