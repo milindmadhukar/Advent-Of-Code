@@ -1,4 +1,3 @@
-from typing import Counter
 from main import getInputData
 
 def getTreesEncountered(data, xStep, yStep):
@@ -17,7 +16,7 @@ if __name__ == "__main__":
     data = getInputData()
 
     for i in range(len(data)):
-        data[i] += data[i]*2000 #Hardcode Gang yeahhhh
+        data[i] += data[i]*200 #Hardcode Gang yeahhhh
 
     # Stage 1
     print("Number of trees encountered:",getTreesEncountered(data,3,1))
