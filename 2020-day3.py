@@ -13,7 +13,7 @@ def getTreesEncountered(data, xStep, yStep):
     return count
     
 if __name__ == "__main__":
-    data = getInputData()
+    data = getInputData(year=2020,day=3)
 
     for i in range(len(data)):
         data[i] += data[i]*200 #Hardcode Gang yeahhhh
