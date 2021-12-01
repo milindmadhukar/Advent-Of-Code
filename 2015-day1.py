@@ -1,14 +1,14 @@
 from main import getInputData
 
 if __name__ == "__main__":
-    data = getInputData(year=2015,day=1)
+    data = getInputData(year=2015, day=1)
     # Stage 1
     floor = 0
     for char in data:
-        if char == '(':
+        if char == "(":
             floor += 1
-        
-        elif char ==')':
+
+        elif char == ")":
             floor -= 1
 
     print(floor)
@@ -17,12 +17,13 @@ if __name__ == "__main__":
 
     floor = 0
     for i in range(len(data)):
-        if data[i] == '(':
+        if data[i] == "(":
             floor += 1
 
-        elif data[i] == ')':
+        elif data[i] == ")":
             floor -= 1
 
         if floor == -1:
-            print("Reached Basement at character",(i+1))
+            print("Reached Basement at character", (i + 1))
             break
+

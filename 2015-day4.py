@@ -3,6 +3,7 @@ import hashlib
 import threading
 from functools import partial
 
+
 def checkStart(start, num):
     n = num
     while True:
@@ -11,20 +12,20 @@ def checkStart(start, num):
         if md5_hex.startswith(start):
             print(md5_hex)
             print(key)
-            exit()2020
+            exit()
         # print(out, end='\r')
-        print(n, end='\r')
+        print(n, end="\r")
         n += 1
 
 
 if __name__ == "__main__":
-    data = getInputData(year=2015,day=4)
+    data = getInputData(year=2015, day=4)
 
-    t1 = threading.Thread(target=partial(checkStart, '000000',0))
-    t2 = threading.Thread(target=partial(checkStart, '000000',10000))
-    t3 = threading.Thread(target=partial(checkStart, '000000',20000))
-    t4 = threading.Thread(target=partial(checkStart, '000000',30000))
-    t5 = threading.Thread(target=partial(checkStart, '000000',40000))
+    t1 = threading.Thread(target=partial(checkStart, "000000", 0))
+    t2 = threading.Thread(target=partial(checkStart, "000000", 10000))
+    t3 = threading.Thread(target=partial(checkStart, "000000", 20000))
+    t4 = threading.Thread(target=partial(checkStart, "000000", 30000))
+    t5 = threading.Thread(target=partial(checkStart, "000000", 40000))
 
     t1.start()
     t2.start()
@@ -38,5 +39,3 @@ if __name__ == "__main__":
     t4.join()
     t5.join()
 
-    
-        
