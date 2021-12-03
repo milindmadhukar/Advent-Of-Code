@@ -12,9 +12,9 @@ def getInputData(
     if inputFileName is not None:
         f = open(inputFileName, "r")
 
-        data = f.read()
+        data = f.read().strip()
         f.close()
-        return data + " "
+        return data
 
     else:
         session_key = open("sessionkey.txt", "r").read().strip()
