@@ -34,28 +34,11 @@ func day2part1(data [][]string) {
 		}
 	}
 
-	log.Println("Answer of part 1 is:", horizontal*depth)
+	log.Println("Answer for Day 2, Part 1 is:", horizontal*depth)
 
 }
 
 func day2part2(data [][]string) {
-
-	// horizontal = 0
-	// depth = 0
-	// aim = 0
-
-	// for instruction in data:
-	//     direction = instruction[0]
-	//     value = instruction[1]
-	//     if direction == "forward":
-	//         horizontal += value
-	//         depth += value * aim
-
-	//     elif direction == "down":
-	//         aim += value
-	//     elif direction == "up":
-	//         aim -= value
-
 	var horizontal, depth, aim int
 
 	for _, instruction := range data {
@@ -77,5 +60,5 @@ func day2part2(data [][]string) {
 		}
 	}
 
-	log.Println("Answer of part 2 is:", horizontal*depth)
+	log.Println("Answer for Day 2, Part 2 is:", horizontal*depth)
 }
