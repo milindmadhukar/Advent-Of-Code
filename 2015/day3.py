@@ -1,5 +1,4 @@
-from main import getInputData
-from main import getSpiltList
+from utils import getInputData
 
 if __name__ == "__main__":
     data = getInputData(year=2015, day=3)

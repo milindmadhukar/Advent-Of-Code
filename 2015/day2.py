@@ -40,4 +40,3 @@ if __name__ == "__main__":
         )
 
     print("Total Ribbon Needed", sum)
-

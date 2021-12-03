@@ -1,12 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 )
+
+func day3() {
+
+	data := getInputData(2021, 3)
+	day3Part1(data)
+	day3Part2(data)
+
+}
 
 func getPlaces(data []string) [][]string {
 	var places [][]string
@@ -64,20 +70,7 @@ func getValuesWithGivenIndex(indexes []int, data []string) []string {
 	return temp
 }
 
-func getData(fileName string) []string {
-
-	file, err := os.ReadFile(fileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	contents := strings.Trim(string(file), " \n")
-
-	data := strings.Split(contents, "\n")
-	return data
-}
-
-func partOne(data []string) {
+func day3Part1(data []string) {
 
 	places := getPlaces(data)
 
@@ -90,16 +83,17 @@ func partOne(data []string) {
 	secondBitNumber := flipBits(firstBitNumber)
 
 	num1, err := strconv.ParseInt(firstBitNumber, 2, 64)
-	num2, err := strconv.ParseInt(secondBitNumber, 2, 64)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	num2, err := strconv.ParseInt(secondBitNumber, 2, 64)
+
 	log.Println("Answer for part 1 is", num1*num2)
 }
 
-func partTwo(data []string) {
+func day3Part2(data []string) {
 
 	oxygenRating := data
 	carbonDioxideRating := data
@@ -109,38 +103,34 @@ func partTwo(data []string) {
 		places := getPlaces(oxygenRating)
 		cBit := getCommonBit(places[pos], "1")
 
-		var indexesToKeep []int
+		var indicesToKeep []int
 
 		for index, number := range oxygenRating {
 			if string(number[pos]) == cBit {
-				indexesToKeep = append(indexesToKeep, index)
+				indicesToKeep = append(indicesToKeep, index)
 			}
 		}
 
-		oxygenRating = getValuesWithGivenIndex(indexesToKeep, oxygenRating)
+		oxygenRating = getValuesWithGivenIndex(indicesToKeep, oxygenRating)
 
 		if len(oxygenRating) == 1 {
 			break
 		}
 	}
 
-	fmt.Println("CO2", carbonDioxideRating)
-
 	for pos := 0; pos < 12; pos++ {
 
 		places := getPlaces(carbonDioxideRating)
 		cBit := getCommonBit(places[pos], "1")
-		fmt.Println("Common bit is ", cBit, "at position", pos)
-		var indexesToKeep []int
+		var indicesToKeep []int
 
 		for index, number := range carbonDioxideRating {
 			if string(number[pos]) != cBit {
-				indexesToKeep = append(indexesToKeep, index)
-				fmt.Println(number)
+				indicesToKeep = append(indicesToKeep, index)
 			}
 		}
 
-		carbonDioxideRating = getValuesWithGivenIndex(indexesToKeep, carbonDioxideRating)
+		carbonDioxideRating = getValuesWithGivenIndex(indicesToKeep, carbonDioxideRating)
 
 		if len(carbonDioxideRating) == 1 {
 			break
@@ -151,20 +141,11 @@ func partTwo(data []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	num2, err := strconv.ParseInt(carbonDioxideRating[0], 2, 64)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("num1", num1, "num2", num2, "o2rating", oxygenRating, "co2rating", carbonDioxideRating)
-
 	log.Println("Answer to part 2 is", num1*num2)
-}
-
-func main() {
-
-	data := getData("day3.txt")
-	partOne(data)
-	partTwo(data)
-
 }

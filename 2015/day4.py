@@ -1,4 +1,4 @@
-from main import getInputData
+from utils import getInputData
 import hashlib
 import threading
 from functools import partial
@@ -38,4 +38,3 @@ if __name__ == "__main__":
     t3.join()
     t4.join()
     t5.join()
-
