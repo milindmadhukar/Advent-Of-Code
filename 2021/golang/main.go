@@ -11,7 +11,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// day1()
+	day1()
 	day2()
-	// day3()
+	day3()
+	day4()
 }

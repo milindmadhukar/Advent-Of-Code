@@ -147,5 +147,5 @@ func day3Part2(data []string) {
 		log.Fatal(err)
 	}
 
-	log.Println("Answer for Day 1, Part 2 is", num1*num2)
+	log.Println("Answer for Day 3, Part 2 is", num1*num2)
 }

@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func getInputData(year, day int) []string {
+func getAOCInputBody(year, day int) string {
 	sessionKey := os.Getenv("SESSION")
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day), nil)
 	cookie := http.Cookie{
@@ -34,8 +34,15 @@ func getInputData(year, day int) []string {
 	body, err := ioutil.ReadAll(resp.Body)
 	contents := string(body)
 
+	return contents
+
+}
+
+func getInputData(year, day int) []string {
 	var data []string
 	var tmp string
+
+	contents := getAOCInputBody(year, day)
 
 	if strings.Contains(contents, "\n") {
 		for _, char := range contents {
@@ -52,6 +59,10 @@ func getInputData(year, day int) []string {
 
 	return data
 
+}
+
+func getRawInputData(year, day int) string {
+	return getAOCInputBody(year, day)
 }
 
 func getDataFromFile(fileName string) []string {
@@ -71,7 +82,7 @@ func StringSliceToIntegerSlice(s []string) []int {
 	var ints []int
 
 	for _, stringVal := range s {
-		intVal, err := strconv.Atoi(stringVal)
+		intVal, err := strconv.Atoi(strings.Trim(stringVal, " "))
 		if err != nil {
 			log.Fatal(err)
 		}
