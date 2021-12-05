@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+type Board [][]int
+type MarkedIndices [][]bool
+
 func day4() {
 	data := getRawInputData(2021, 4)
 	parsedData := strings.Split(data, "\n\n")
@@ -18,7 +21,7 @@ func day4() {
 
 }
 
-func day4part1(randomNums []int, boards [][][]int) {
+func day4part1(randomNums []int, boards []Board) {
 
 	markedIndices := getEmptyMarkedIndices(len(boards))
 
@@ -35,7 +38,7 @@ func day4part1(randomNums []int, boards [][][]int) {
 	}
 }
 
-func day4part2(randomNums []int, boards [][][]int) {
+func day4part2(randomNums []int, boards []Board) {
 
 	markedIndices := getEmptyMarkedIndices(len(boards))
 
@@ -58,13 +61,13 @@ func day4part2(randomNums []int, boards [][][]int) {
 
 }
 
-func getBingoBoards(parsedData []string) [][][]int {
+func getBingoBoards(parsedData []string) []Board {
 
-	var boards [][][]int
+	var boards []Board
 
 	for _, block := range parsedData {
 		lines := strings.Split(block, "\n")
-		var board [][]int
+		var board Board
 		for _, line := range lines {
 			splitLine := removeEmptyElements(strings.Split(line, " "))
 			x := StringSliceToIntegerSlice(splitLine)
@@ -105,7 +108,7 @@ func isElementinSlice(element int, s []int) bool {
 	return false
 }
 
-func getWinningBoards(markedIndices [][][]bool, boards [][][]int) []int {
+func getWinningBoards(markedIndices []MarkedIndices, boards []Board) []int {
 	var boardsWinning []int
 
 	for boardNum, board := range boards {
@@ -118,7 +121,7 @@ func getWinningBoards(markedIndices [][][]bool, boards [][][]int) []int {
 
 }
 
-func isBoardWinning(markedIndices [][]bool, board [][]int) bool {
+func isBoardWinning(markedIndices MarkedIndices, board Board) bool {
 
 	isColumnMarked := checkColumnMarked(markedIndices)
 	isRowMarked := checkRowMarked(markedIndices)
@@ -130,7 +133,7 @@ func isBoardWinning(markedIndices [][]bool, board [][]int) bool {
 	return false
 }
 
-func getSumOfUnmarkedNumbers(markedIndices [][]bool, board [][]int) int {
+func getSumOfUnmarkedNumbers(markedIndices MarkedIndices, board Board) int {
 
 	var sum int
 
@@ -146,7 +149,7 @@ func getSumOfUnmarkedNumbers(markedIndices [][]bool, board [][]int) int {
 
 }
 
-func boardWhichWon(markedIndices [][][]bool) int {
+func boardWhichWon(markedIndices []MarkedIndices) int {
 
 	for boardNum, board := range markedIndices {
 		isColumnMarked := checkColumnMarked(board)
@@ -170,8 +173,8 @@ func checkAllTrue(boolSlice []bool) bool {
 	return true
 }
 
-func checkRowMarked(board [][]bool) bool {
-	for _, row := range board {
+func checkRowMarked(markedIndices MarkedIndices) bool {
+	for _, row := range markedIndices {
 		isAllTrue := checkAllTrue(row)
 		if isAllTrue {
 			return true
@@ -180,10 +183,10 @@ func checkRowMarked(board [][]bool) bool {
 	return false
 }
 
-func checkColumnMarked(board [][]bool) bool {
-	for i := 0; i < len(board); i++ {
+func checkColumnMarked(markedIndices MarkedIndices) bool {
+	for i := 0; i < len(markedIndices); i++ {
 		var column []bool
-		for _, row := range board {
+		for _, row := range markedIndices {
 			column = append(column, row[i])
 		}
 		isAllTrue := checkAllTrue(column)
@@ -194,7 +197,7 @@ func checkColumnMarked(board [][]bool) bool {
 	return false
 }
 
-func unmarkNumbers(number int, markedIndices *[][][]bool, boards [][][]int) {
+func unmarkNumbers(number int, markedIndices *[]MarkedIndices, boards []Board) {
 
 	for boardNum, board := range boards {
 		x, y := findNumberInBoard(number, board)
@@ -208,7 +211,7 @@ func unmarkNumbers(number int, markedIndices *[][][]bool, boards [][][]int) {
 
 }
 
-func markNumbers(number int, markedIndices *[][][]bool, boards [][][]int) {
+func markNumbers(number int, markedIndices *[]MarkedIndices, boards []Board) {
 
 	for boardNum, board := range boards {
 		x, y := findNumberInBoard(number, board)
@@ -222,7 +225,7 @@ func markNumbers(number int, markedIndices *[][][]bool, boards [][][]int) {
 
 }
 
-func findNumberInBoard(randNumber int, board [][]int) (int, int) {
+func findNumberInBoard(randNumber int, board Board) (int, int) {
 	for i, line := range board {
 		for j, number := range line {
 
@@ -245,12 +248,12 @@ func removeEmptyElements(s []string) []string {
 	return tmp
 }
 
-func getEmptyMarkedIndices(boardCount int) [][][]bool {
-	var markedIndices [][][]bool
+func getEmptyMarkedIndices(boardCount int) []MarkedIndices {
+	var markedIndices []MarkedIndices
 
 	for i := 0; i < boardCount; i++ {
 
-		var emptyRows [][]bool
+		var emptyRows MarkedIndices
 
 		for j := 0; j < 5; j++ {
 
