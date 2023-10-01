@@ -18,7 +18,6 @@ func day4() {
 
 	day4part1(randomNums, boards)
 	day4part2(randomNums, boards)
-
 }
 
 func day4part1(randomNums []int, boards []Board) {
@@ -26,7 +25,6 @@ func day4part1(randomNums []int, boards []Board) {
 	markedIndices := getEmptyMarkedIndices(len(boards))
 
 	for _, number := range randomNums {
-
 		markNumbers(number, &markedIndices, boards)
 		boardNum := boardWhichWon(markedIndices)
 
@@ -56,9 +54,7 @@ func day4part2(randomNums []int, boards []Board) {
 			log.Println("Answer for Day 4, Part 2 is", number*sum)
 			return
 		}
-
 	}
-
 }
 
 func getBingoBoards(parsedData []string) []Board {
@@ -77,9 +73,7 @@ func getBingoBoards(parsedData []string) []Board {
 	}
 	// HACK: WEIRD EXTRA ROW IN THE LAST BOARD
 	boards[len(boards)-1] = boards[len(boards)-1][:len(boards[len(boards)-1])-1]
-
 	return boards
-
 }
 
 func reverseRandomNumbers(randNums []int) []int {
@@ -96,7 +90,6 @@ func whichBoardDiffers(boardsWinning, currWinningBoards []int) int {
 		}
 	}
 	return -1
-
 }
 
 func isElementinSlice(element int, s []int) bool {
@@ -116,9 +109,7 @@ func getWinningBoards(markedIndices []MarkedIndices, boards []Board) []int {
 			boardsWinning = append(boardsWinning, boardNum)
 		}
 	}
-
 	return boardsWinning
-
 }
 
 func isBoardWinning(markedIndices MarkedIndices, board Board) bool {
@@ -129,14 +120,12 @@ func isBoardWinning(markedIndices MarkedIndices, board Board) bool {
 	if isRowMarked || isColumnMarked {
 		return true
 	}
-
 	return false
 }
 
 func getSumOfUnmarkedNumbers(markedIndices MarkedIndices, board Board) int {
 
 	var sum int
-
 	for rowNum, row := range markedIndices {
 		for colNum, isMarked := range row {
 			if !isMarked {
@@ -144,9 +133,7 @@ func getSumOfUnmarkedNumbers(markedIndices MarkedIndices, board Board) int {
 			}
 		}
 	}
-
 	return sum
-
 }
 
 func boardWhichWon(markedIndices []MarkedIndices) int {
@@ -158,9 +145,7 @@ func boardWhichWon(markedIndices []MarkedIndices) int {
 		if isRowMarked || isColumnMarked {
 			return boardNum
 		}
-
 	}
-
 	return -1
 }
 
@@ -204,11 +189,8 @@ func unmarkNumbers(number int, markedIndices *[]MarkedIndices, boards []Board) {
 		if x == -1 && y == -1 {
 			continue
 		}
-
 		(*markedIndices)[boardNum][x][y] = false
-
 	}
-
 }
 
 func markNumbers(number int, markedIndices *[]MarkedIndices, boards []Board) {
@@ -218,11 +200,8 @@ func markNumbers(number int, markedIndices *[]MarkedIndices, boards []Board) {
 		if x == -1 && y == -1 {
 			continue
 		}
-
 		(*markedIndices)[boardNum][x][y] = true
-
 	}
-
 }
 
 func findNumberInBoard(randNumber int, board Board) (int, int) {
@@ -233,7 +212,6 @@ func findNumberInBoard(randNumber int, board Board) (int, int) {
 				return i, j
 			}
 		}
-
 	}
 	return -1, -1
 }
@@ -250,15 +228,10 @@ func removeEmptyElements(s []string) []string {
 
 func getEmptyMarkedIndices(boardCount int) []MarkedIndices {
 	var markedIndices []MarkedIndices
-
 	for i := 0; i < boardCount; i++ {
-
 		var emptyRows MarkedIndices
-
 		for j := 0; j < 5; j++ {
-
 			var emptyColumns []bool
-
 			for k := 0; k < 5; k++ {
 				emptyColumns = append(emptyColumns, false)
 			}
@@ -266,7 +239,5 @@ func getEmptyMarkedIndices(boardCount int) []MarkedIndices {
 		}
 		markedIndices = append(markedIndices, emptyRows)
 	}
-
 	return markedIndices
-
 }
