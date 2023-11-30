@@ -21,28 +21,6 @@ def find_contiguos_set(num):
 
 if __name__ == "__main__":
     data = getInputData(year=2020, day=9, typecast=int)
-#     inp = """35
-# 20
-# 15
-# 25
-# 47
-# 40
-# 62
-# 55
-# 65
-# 95
-# 102
-# 117
-# 150
-# 182
-# 127
-# 219
-# 299
-# 277
-# 309
-# 576""".split()
-#     data = list(map(int, inp))
-
     preamble_size = 25
     num = 0
     for i in range(preamble_size, len(data)):
