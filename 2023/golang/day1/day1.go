@@ -1,6 +1,8 @@
 package day1
 
 import (
+	"fmt"
+	"os"
 	"slices"
 	"strconv"
 	"unicode"
@@ -29,8 +31,8 @@ func getNumber(tmp string) (int, bool) {
 		if v, ok := names_to_number[tmp[i:]]; ok {
 			return v, true
 		} else {
-      i += 1
-    }
+			i += 1
+		}
 	}
 	return -1, false
 }
@@ -73,6 +75,7 @@ func SplitIntoNumbers(data []string) [][]number {
 
 func (d day1) Part1() any {
 	sum := 0
+
 	for _, line := range d.parsedData {
 		num := 0
 		for _, digit := range line {
@@ -81,11 +84,13 @@ func (d day1) Part1() any {
 				break
 			}
 		}
+
 		num *= 10
 
-		var lineCopy []number
-    copy(lineCopy, line)
+    lineCopy := append([]number{}, line...)
 		slices.Reverse(lineCopy)
+
+    fmt.Println(lineCopy)
 
 		for _, digit := range lineCopy {
 			if !digit.isWord {
@@ -93,7 +98,11 @@ func (d day1) Part1() any {
 				break
 			}
 		}
+  
+    fmt.Println(num)
+
 		sum += num
+
 	}
 	return sum
 }
@@ -102,9 +111,9 @@ func (d day1) Part2() any {
 	sum := 0
 
 	for _, digits := range d.parsedData {
-    if len(digits) < 1 {
-      continue
-    }
+		if len(digits) < 1 {
+			continue
+		}
 		num := digits[0].num
 		num *= 10
 		num += digits[len(digits)-1].num
@@ -117,8 +126,8 @@ func (d day1) Part2() any {
 
 func Solve() day1 {
 	data, err := utils.GetInputDataFromAOC(2023, 1)
-	// exampleFile, _ := os.ReadFile("day1/example.txt")
-	// data = utils.ParseFromString(string(exampleFile))
+	exampleFile, _ := os.ReadFile("day1/input.txt")
+	data = utils.ParseFromString(string(exampleFile))
 
 	if err != nil {
 		panic(err)
