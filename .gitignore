@@ -34,7 +34,6 @@ MANIFEST
 *.spec
 
 *.txt
-tempCodeRunnerFile.py
 
 # Installer logs
 pip-log.txt
