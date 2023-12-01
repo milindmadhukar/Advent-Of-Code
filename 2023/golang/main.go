@@ -23,7 +23,7 @@ func GetTodaysSolution() models.Solution {
   case 2:
     return day2.Solve()
 	default:
-		panic("Not the right time to run this")
+		panic("Solution not implemented yet")
 	}
 
 }

@@ -26,7 +26,6 @@ func GetInputDataFromAOC(year int, day int) ([]string, error) {
   }
 
   resp, err := http.DefaultClient.Do(req)
-
   if err != nil {
     return nil, err
   }
@@ -39,6 +38,10 @@ func GetInputDataFromAOC(year int, day int) ([]string, error) {
 	}
 
 	bodyString := string(bodyBytes)
+
+  if resp.StatusCode != 200 {
+    return nil, fmt.Errorf("Could not fetch input. %s", bodyString)
+  }
 
   return ParseFromString(bodyString), nil
 }
