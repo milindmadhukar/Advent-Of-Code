@@ -109,6 +109,8 @@ func (d day1_2) Part1() any {
 	return sum
 }
 
+
+// BUG: Worked for my input but for 8nine37bpkmtghhnc2hnreightwohvs gives 88 instead of 82 coz overlap eightwo
 func (d day1_2) Part2() any {
 	sum := 0
 
