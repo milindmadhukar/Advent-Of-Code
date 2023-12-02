@@ -1,6 +1,8 @@
 package day2
 
 import (
+	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -8,102 +10,93 @@ import (
 )
 
 type day2 struct {
-	data map[int]Game
+	data []string
+  games map[int]GameCubes
 }
 
 func (d day2) Part1() any {
 	sum := 0
+  for gameId, game := range d.games {
+    if game.redCubes[0] > 12 || game.greenCubes[0] > 13|| game.blueCubes[0] > 14 {
+      continue
+    }
+    sum += gameId
+  }
 
-	for gameId, game := range d.data {
-		redMaxCount := 12
-		greenMaxCount := 13
-		blueMaxCount := 14
-
-		valid := true
-	gameLoop:
-		for _, cubeSet := range game {
-			for _, cube := range cubeSet {
-				if (cube.colour == "red" && cube.quantity > redMaxCount) || (cube.colour == "blue" && cube.quantity > blueMaxCount) || (cube.colour == "green" && cube.quantity > greenMaxCount) {
-					valid = false
-					break gameLoop
-				}
-			}
-		}
-		if valid {
-			sum += gameId
-		}
-	}
-
-	return sum
+  return sum
 }
 
 func (d day2) Part2() any {
-	sum := 0
+  sum := 0
+	for _, game := range d.games {
+    sum += game.redCubes[0] * game.greenCubes[0] * game.blueCubes[0]
+  }
 
-	for _, game := range d.data {
-		var minRed, minGreen, minBlue int
-		for _, cubeSet := range game {
-			for _, cube := range cubeSet {
-				if cube.colour == "red" && cube.quantity > minRed {
-					minRed = cube.quantity
-				} else if cube.colour == "green" && cube.quantity > minGreen {
-					minGreen = cube.quantity
-				} else if cube.colour == "blue" && cube.quantity > minBlue {
-					minBlue = cube.quantity
-				}
-			}
-		}
-		power := minRed * minBlue * minGreen
-
-		sum += power
-	}
-
-	return sum
+  return sum
 }
 
-type Cube struct {
-	quantity int
-	colour   string
+type GameCubes struct {
+	redCubes   []int
+	blueCubes  []int
+	greenCubes []int
 }
 
-type CubeSet []Cube
-
-type Game []CubeSet
-
-func Solve() day2 {
-	rawData, err := utils.GetInputDataFromAOC(2023, 2)
+func Solve2() day2 {
+	data, err := utils.GetInputDataFromAOC(2023, 2)
 	if err != nil {
 		panic(err)
 	}
 
 	// exampleFile, _ := os.ReadFile("day2/example.txt")
-	// rawData = utils.ParseFromString(string(exampleFile))
+	// data = utils.ParseFromString(string(exampleFile))
 
-	var data = make(map[int]Game)
+	var games = make(map[int]GameCubes)
 
-	gamesToCubes := utils.GetSplitData(rawData, ": ")
-	for _, gameToCube := range gamesToCubes {
-		gameId, _ := strconv.Atoi(gameToCube[0][5:])
-		gameCubeSetsSlice := strings.Split(gameToCube[1], "; ")
-		var game Game
-		for _, gameCubeSet := range gameCubeSetsSlice {
-			cubesSlice := strings.Split(gameCubeSet, ", ")
-			var cubeSet CubeSet
-			for _, cube := range cubesSlice {
-				cubeSlice := strings.Split(cube, " ")
-				cubeAmount, _ := strconv.Atoi(cubeSlice[0])
-				cubeColour := cubeSlice[1]
-				cubeSet = append(cubeSet, Cube{
-					quantity: cubeAmount,
-					colour:   cubeColour,
-				})
-			}
-			game = append(game, cubeSet)
+	for _, line := range data {
+		game := strings.Split(line, ": ")
+    gameId, _ := strconv.Atoi(game[0][5:])
+
+		cubes := game[1]
+		redRegex := regexp.MustCompile(`\d+\ (red)`)
+		blueRegex := regexp.MustCompile(`\d+\ (blue)`)
+		greenRegex := regexp.MustCompile(`\d+\ (green)`)
+
+    var redMatches, blueMatches, greenMatches []int
+
+		redCubes := utils.GetSplitData(redRegex.FindAllString(cubes, -1), " ")
+    for _, redCube := range redCubes {
+      redCubeInt, _ := strconv.Atoi(redCube[0])
+      redMatches = append(redMatches, redCubeInt)
+    }
+
+    blueCubes := utils.GetSplitData(blueRegex.FindAllString(cubes, -1), " ")
+    for _, blueCube := range blueCubes {
+      blueCubeInt, _ := strconv.Atoi(blueCube[0])
+      blueMatches = append(blueMatches, blueCubeInt)
+    }
+
+    greenCubes := utils.GetSplitData(greenRegex.FindAllString(cubes, -1), " ")
+    for _, greenCube := range greenCubes {
+      greenCubeInt, _ := strconv.Atoi(greenCube[0])
+      greenMatches = append(greenMatches, greenCubeInt)
+    }
+
+    slices.Sort(redMatches)
+    slices.Reverse(redMatches)
+    slices.Sort(blueMatches)
+    slices.Reverse(blueMatches)
+    slices.Sort(greenMatches)
+    slices.Reverse(greenMatches)
+
+		games[gameId] = GameCubes{
+			redCubes:   redMatches,
+			blueCubes:  blueMatches,
+			greenCubes: greenMatches,
 		}
-		data[gameId] = game
 	}
 
 	return day2{
 		data: data,
+    games : games,
 	}
 }
