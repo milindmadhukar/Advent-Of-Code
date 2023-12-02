@@ -89,10 +89,10 @@ func (d day1_2) Part1() any {
 
 		num *= 10
 
-    lineCopy := append([]number{}, line...)
+		lineCopy := append([]number{}, line...)
 		slices.Reverse(lineCopy)
 
-    fmt.Println(lineCopy)
+		fmt.Println(lineCopy)
 
 		for _, digit := range lineCopy {
 			if !digit.isWord {
@@ -100,8 +100,8 @@ func (d day1_2) Part1() any {
 				break
 			}
 		}
-  
-    fmt.Println(num)
+
+		fmt.Println(num)
 
 		sum += num
 

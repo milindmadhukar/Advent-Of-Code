@@ -39,13 +39,13 @@ func (d day1) Part2() any {
 
 	sum := 0
 
-  // NOTE: Finding first number by using the normal regex but reversing the regex and input to find first from last.
+	// NOTE: Finding first number by using the normal regex but reversing the regex and input to find first from last.
 
 	digitRegexPattern := `one|two|three|four|five|six|seven|eight|nine`
 	digitRegexPatternReverse := reverseString(digitRegexPattern)
 
-  digitRegexPattern = fmt.Sprintf(`(\d|%s)`, digitRegexPattern)
-  digitRegexPatternReverse = fmt.Sprintf(`(\d|%s)`, digitRegexPatternReverse)
+	digitRegexPattern = fmt.Sprintf(`(\d|%s)`, digitRegexPattern)
+	digitRegexPatternReverse = fmt.Sprintf(`(\d|%s)`, digitRegexPatternReverse)
 
 	digitRegex := regexp.MustCompile(digitRegexPattern)
 	digitRegexReverse := regexp.MustCompile(digitRegexPatternReverse)
@@ -60,10 +60,10 @@ func (d day1) Part2() any {
 			first = names_to_number[firstStr]
 		}
 		last, err = strconv.Atoi(lastStr)
-    if err != nil {
-      last = names_to_number[reverseString(lastStr)]
-    }
-    sum += (first*10) + last
+		if err != nil {
+			last = names_to_number[reverseString(lastStr)]
+		}
+		sum += (first * 10) + last
 	}
 
 	return sum
