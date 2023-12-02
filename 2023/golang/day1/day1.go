@@ -2,123 +2,68 @@ package day1
 
 import (
 	"fmt"
-	"os"
-	"slices"
+	"regexp"
 	"strconv"
-	"unicode"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
 
 type day1 struct {
-	data       []string
-	parsedData [][]number
+	data []string
 }
 
-type number struct {
-	num    int
-	isWord bool
-}
+func reverseString(s string) string {
+	rns := []rune(s)
+	for i, j := 0, len(rns)-1; i < j; i, j = i+1, j-1 {
 
-var names_to_number = map[string]int{"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
-
-func getNumber(tmp string) (int, bool) {
-	i := 0
-	for {
-		if tmp[i:] == "" {
-			break
-		}
-		if v, ok := names_to_number[tmp[i:]]; ok {
-			return v, true
-		} else {
-			i += 1
-		}
+		rns[i], rns[j] = rns[j], rns[i]
 	}
-	return -1, false
-}
-
-func SplitIntoNumbers(data []string) [][]number {
-	var numList [][]number
-
-	for _, line := range data {
-		tmp := ""
-		var digits []number
-		for _, char := range line {
-			if unicode.IsLetter(char) {
-				tmp += string(char)
-				v, ok := getNumber(tmp)
-				if ok {
-					digits = append(digits, number{
-						num:    v,
-						isWord: true,
-					})
-					tmp = ""
-				} else {
-					continue
-				}
-			}
-
-			if unicode.IsDigit(char) {
-				num, _ := strconv.Atoi(string(char))
-				digits = append(digits, number{
-					num:    num,
-					isWord: false,
-				})
-				tmp = ""
-			}
-		}
-		numList = append(numList, digits)
-	}
-
-	return numList
+	return string(rns)
 }
 
 func (d day1) Part1() any {
 	sum := 0
-
-	for _, line := range d.parsedData {
-		num := 0
-		for _, digit := range line {
-			if !digit.isWord {
-				num += digit.num
-				break
-			}
-		}
-
-		num *= 10
-
-    lineCopy := append([]number{}, line...)
-		slices.Reverse(lineCopy)
-
-    fmt.Println(lineCopy)
-
-		for _, digit := range lineCopy {
-			if !digit.isWord {
-				num += digit.num
-				break
-			}
-		}
-  
-    fmt.Println(num)
-
-		sum += num
-
+	r := regexp.MustCompile(`(\d)`)
+	for _, line := range d.data {
+		digits := r.FindAllString(line, -1)
+		first, _ := strconv.Atoi(digits[0])
+		last, _ := strconv.Atoi(digits[len(digits)-1])
+		sum += (first * 10) + last
 	}
 	return sum
 }
 
 func (d day1) Part2() any {
+
+	var names_to_number = map[string]int{"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
+
 	sum := 0
 
-	for _, digits := range d.parsedData {
-		if len(digits) < 1 {
-			continue
-		}
-		num := digits[0].num
-		num *= 10
-		num += digits[len(digits)-1].num
+  // NOTE: Finding first number by using the normal regex but reversing the regex and input to find first from last.
 
-		sum += num
+	digitRegexPattern := `one|two|three|four|five|six|seven|eight|nine`
+	digitRegexPatternReverse := reverseString(digitRegexPattern)
+
+  digitRegexPattern = fmt.Sprintf(`(\d|%s)`, digitRegexPattern)
+  digitRegexPatternReverse = fmt.Sprintf(`(\d|%s)`, digitRegexPatternReverse)
+
+	digitRegex := regexp.MustCompile(digitRegexPattern)
+	digitRegexReverse := regexp.MustCompile(digitRegexPatternReverse)
+
+	for _, line := range d.data {
+		var first, last int
+		var err error
+		firstStr := digitRegex.FindString(line)
+		lastStr := digitRegexReverse.FindString(reverseString(line))
+		first, err = strconv.Atoi(firstStr)
+		if err != nil {
+			first = names_to_number[firstStr]
+		}
+		last, err = strconv.Atoi(lastStr)
+    if err != nil {
+      last = names_to_number[reverseString(lastStr)]
+    }
+    sum += (first*10) + last
 	}
 
 	return sum
@@ -126,15 +71,14 @@ func (d day1) Part2() any {
 
 func Solve() day1 {
 	data, err := utils.GetInputDataFromAOC(2023, 1)
-	exampleFile, _ := os.ReadFile("day1/input.txt")
-	data = utils.ParseFromString(string(exampleFile))
+	// exampleFile, _ := os.ReadFile("day1/input.txt")
+	// data = utils.ParseFromString(string(exampleFile))
 
 	if err != nil {
 		panic(err)
 	}
 
 	return day1{
-		data:       data,
-		parsedData: SplitIntoNumbers(data),
+		data: data,
 	}
 }
