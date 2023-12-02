@@ -1,6 +1,9 @@
 package utils
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 func ParseFromString(data string) []string {
   data = strings.Trim(data, " ")
@@ -16,4 +19,18 @@ func GetSplitData(data []string, splitter string) [][]string {
   }
 
   return splitData
+}
+
+func StringSliceToIntegerSlice(s []string) []int {
+	var ints []int
+
+	for _, stringVal := range s {
+		intVal, err := strconv.Atoi(stringVal)
+		if err != nil {
+			panic(err)
+		}
+		ints = append(ints, intVal)
+	}
+
+	return ints
 }
