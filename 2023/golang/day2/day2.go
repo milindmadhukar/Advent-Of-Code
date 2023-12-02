@@ -19,19 +19,19 @@ func (d day2) Part1() any {
 		greenMaxCount := 13
 		blueMaxCount := 14
 
-    valid := true
-    gameLoop:
+		valid := true
+	gameLoop:
 		for _, cubeSet := range game {
 			for _, cube := range cubeSet {
 				if (cube.colour == "red" && cube.quantity > redMaxCount) || (cube.colour == "blue" && cube.quantity > blueMaxCount) || (cube.colour == "green" && cube.quantity > greenMaxCount) {
 					valid = false
-          break gameLoop
+					break gameLoop
 				}
 			}
 		}
-    if valid {
-      sum += gameId
-    }
+		if valid {
+			sum += gameId
+		}
 	}
 
 	return sum
@@ -40,23 +40,23 @@ func (d day2) Part1() any {
 func (d day2) Part2() any {
 	sum := 0
 
-  for _, game := range d.data {
-    var minRed, minGreen, minBlue int
-    for _, cubeSet := range game {
-      for _, cube := range cubeSet {
-        if cube.colour == "red" && cube.quantity > minRed {
-          minRed = cube.quantity
-        } else if cube.colour == "green" && cube.quantity > minGreen {
-          minGreen = cube.quantity
-        } else if cube.colour == "blue" && cube.quantity > minBlue {
-          minBlue = cube.quantity
-        }
-      }
-    }
-    power := minRed * minBlue * minGreen
+	for _, game := range d.data {
+		var minRed, minGreen, minBlue int
+		for _, cubeSet := range game {
+			for _, cube := range cubeSet {
+				if cube.colour == "red" && cube.quantity > minRed {
+					minRed = cube.quantity
+				} else if cube.colour == "green" && cube.quantity > minGreen {
+					minGreen = cube.quantity
+				} else if cube.colour == "blue" && cube.quantity > minBlue {
+					minBlue = cube.quantity
+				}
+			}
+		}
+		power := minRed * minBlue * minGreen
 
-    sum += power
-  }
+		sum += power
+	}
 
 	return sum
 }
