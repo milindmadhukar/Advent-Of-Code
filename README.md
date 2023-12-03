@@ -2,18 +2,9 @@
 
 This is my way of approaching the Advent Of Code Challenges!
 
-To run this program yourself, create a "sessionkey.txt" and add your session cookie key
+# My Solutions
+- ### [2023](https://github.com/milindmadhukar/Advent-Of-Code/tree/main/2023/golang)
+- ### [2022](https://github.com/milindmadhukar/Advent-Of-Code/tree/main/2022/python)
+- ### [2021](https://github.com/milindmadhukar/Advent-Of-Code/tree/main/2021)
+- ### [2020](https://github.com/milindmadhukar/Advent-Of-Code/tree/main/2020)
 
-You will find your session key by:
-<br/>
-1)Going to https://adventofcode.com/
-<br/>
-2)On Chrome, InspectElement(Ctrl + Shift + I)
-<br/>
-3)Click on Network Tab
-<br/>
-4)Ctrl + R to open network activity
-<br/>
-5)Click on "2020"
-<br/>
-6)Scroll Down and Copy the Value of "cookie"
