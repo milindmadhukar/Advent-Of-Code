@@ -12,7 +12,6 @@ type day3 struct {
 	data []string
 }
 
-
 var symbols string = `+-*/@&$#=%`
 
 func leftCheck(numIdx []int, line string) bool {
@@ -98,8 +97,6 @@ type GearPart struct {
 
 func (d day3) Part2() any {
 	sum := 0
-
-	// To check in all eight directions
 
 	for lineIdx, line := range d.data {
 
