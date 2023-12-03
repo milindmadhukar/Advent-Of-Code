@@ -5,6 +5,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
@@ -12,6 +13,7 @@ import (
 type day2 struct {
 	data []string
   games map[int]GameCubes
+  startTime time.Time
 }
 
 func (d day2) Part1() any {
@@ -41,7 +43,7 @@ type GameCubes struct {
 	greenCubes []int
 }
 
-func Solve2() day2 {
+func Solve() day2 {
 	data, err := utils.GetInputDataFromAOC(2023, 2)
 	if err != nil {
 		panic(err)
@@ -49,6 +51,8 @@ func Solve2() day2 {
 
 	// exampleFile, _ := os.ReadFile("day2/example.txt")
 	// data = utils.ParseFromString(string(exampleFile))
+
+  startTime := time.Now()
 
 	var games = make(map[int]GameCubes)
 
@@ -98,5 +102,11 @@ func Solve2() day2 {
 	return day2{
 		data: data,
     games : games,
+    startTime: startTime,
 	}
 }
+
+func (d day2) TimeTaken() time.Duration {
+  return time.Since(d.startTime)
+}
+

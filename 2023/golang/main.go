@@ -10,8 +10,9 @@ import (
 func main() {
 	var solution models.Solution
 
-	solution = solutions.GetTodaysSolution()
+	solution = solutions.GetSolution(1)
 
 	fmt.Println("Answer for Part 1:", solution.Part1())
 	fmt.Println("Answer for Part 2:", solution.Part2())
+	fmt.Println("Time taken:", solution.TimeTaken())
 }

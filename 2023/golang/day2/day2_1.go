@@ -3,12 +3,14 @@ package day2
 import (
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
 
 type day2_1 struct {
 	data map[int]Game
+  startTime time.Time
 }
 
 func (d day2_1) Part1() any {
@@ -70,11 +72,14 @@ type CubeSet []Cube
 
 type Game []CubeSet
 
-func Solve() day2_1 {
+func Solve2() day2_1 {
 	rawData, err := utils.GetInputDataFromAOC(2023, 2)
 	if err != nil {
 		panic(err)
 	}
+
+
+  startTime := time.Now()
 
 	var data = make(map[int]Game)
 
@@ -102,5 +107,11 @@ func Solve() day2_1 {
 
 	return day2_1{
 		data: data,
+    startTime: startTime,
 	}
+}
+
+
+func (d day2_1) TimeTaken() time.Duration {
+	return time.Since(d.startTime)
 }

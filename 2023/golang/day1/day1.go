@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
 
 type day1 struct {
-	data []string
+	data      []string
+	startTime time.Time
 }
 
 func reverseString(s string) string {
@@ -74,11 +76,18 @@ func Solve() day1 {
 	// exampleFile, _ := os.ReadFile("day1/input.txt")
 	// data = utils.ParseFromString(string(exampleFile))
 
+	startTime := time.Now()
+
 	if err != nil {
 		panic(err)
 	}
 
 	return day1{
-		data: data,
+		data:      data,
+		startTime: startTime,
 	}
+}
+
+func (d day1) TimeTaken() time.Duration {
+	return time.Since(d.startTime)
 }

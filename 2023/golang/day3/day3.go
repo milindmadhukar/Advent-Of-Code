@@ -4,12 +4,14 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
 
 type day3 struct {
 	data []string
+  startTime time.Time
 }
 
 var symbols string = `+-*/@&$#=%`
@@ -179,10 +181,17 @@ func Solve() day3 {
 		panic(err)
 	}
 
+  startTime := time.Now()
+
 	// exampleFile, _ := os.ReadFile("day3/example.txt")
 	// data = utils.ParseFromString(string(exampleFile))
 
 	return day3{
 		data: data,
+    startTime: startTime,
 	}
+}
+
+func (d day3) TimeTaken() time.Duration {
+  return time.Since(d.startTime)
 }

@@ -1,10 +1,10 @@
 package day1
 
 import (
-	"fmt"
 	"os"
 	"slices"
 	"strconv"
+	"time"
 	"unicode"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
@@ -12,6 +12,7 @@ import (
 
 type day1_2 struct {
 	data       []string
+  startTime time.Time
 	parsedData [][]number
 }
 
@@ -92,16 +93,12 @@ func (d day1_2) Part1() any {
 		lineCopy := append([]number{}, line...)
 		slices.Reverse(lineCopy)
 
-		fmt.Println(lineCopy)
-
 		for _, digit := range lineCopy {
 			if !digit.isWord {
 				num += digit.num
 				break
 			}
 		}
-
-		fmt.Println(num)
 
 		sum += num
 
@@ -128,16 +125,23 @@ func (d day1_2) Part2() any {
 	return sum
 }
 
+func (d day1_2) TimeTaken() time.Duration {
+  return time.Since(d.startTime)
+}
+
 func Solve2() day1_2 {
 	data, err := utils.GetInputDataFromAOC(2023, 1)
 	exampleFile, _ := os.ReadFile("day1/input.txt")
 	data = utils.ParseFromString(string(exampleFile))
+
+  startTime := time.Now()
 
 	if err != nil {
 		panic(err)
 	}
 	return day1_2{
 		data:       data,
+    startTime: startTime,
 		parsedData: SplitIntoNumbers(data),
 	}
 }
