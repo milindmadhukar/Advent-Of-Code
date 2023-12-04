@@ -25,6 +25,7 @@ func StringSliceToIntegerSlice(s []string) []int {
 	var ints []int
 
 	for _, stringVal := range s {
+    stringVal = strings.Trim(stringVal, " ")
 		intVal, err := strconv.Atoi(stringVal)
 		if err != nil {
 			panic(err)

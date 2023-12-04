@@ -10,7 +10,7 @@ import (
 func main() {
 	var solution models.Solution
 
-	solution = solutions.GetSolution(1)
+	solution = solutions.GetTodaysSolution()
 
 	fmt.Println("Answer for Part 1:", solution.Part1())
 	fmt.Println("Answer for Part 2:", solution.Part2())

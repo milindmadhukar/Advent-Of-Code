@@ -164,9 +164,13 @@ func (d day3) Part2() any {
 				}
 			}
 
-			if len(gearParts) != 2 {
-				continue
+			if len(gearParts) > 2 {
+				panic("More than 2 adjacents")
 			}
+
+      if len(gearParts) != 2 {
+        continue
+      }
 
 			sum += gearParts[0].value * gearParts[1].value
 		}
