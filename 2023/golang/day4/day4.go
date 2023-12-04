@@ -9,10 +9,9 @@ import (
 )
 
 type day4 struct {
-	data              []string
-	startTime         time.Time
-	scratchCards      map[int]scratchCard
-	scratchCardCounts map[int]int
+	data         []string
+	startTime    time.Time
+	scratchCards map[int]*scratchCard
 }
 
 func checkNumInSlice(num int, slice []int) bool {
@@ -62,12 +61,12 @@ func (d day4) Part2() any {
 			if !ok {
 				break matchingLoop
 			}
-			d.scratchCardCounts[id+i] += d.scratchCardCounts[id]
+			d.scratchCards[id+i].count += d.scratchCards[id].count
 		}
 	}
 
-	for _, count := range d.scratchCardCounts {
-		sum += count
+	for _, scratchCard := range d.scratchCards {
+		sum += scratchCard.count
 	}
 
 	return sum
@@ -76,7 +75,7 @@ func (d day4) Part2() any {
 type scratchCard struct {
 	winnings []int
 	current  []int
-	gameId   int
+	count    int
 }
 
 func Solve() day4 {
@@ -88,8 +87,7 @@ func Solve() day4 {
 	// exampleFile, _ := os.ReadFile("day4/example.txt")
 	// data = utils.ParseFromString(string(exampleFile))
 
-	var scratchCards = make(map[int]scratchCard)
-	var scratchCardCounts = make(map[int]int)
+	var scratchCards = make(map[int]*scratchCard)
 
 	for idx, line := range data {
 		line = line[9:]
@@ -99,20 +97,19 @@ func Solve() day4 {
 		winning_nums := utils.StringSliceToIntegerSlice(winningNumsStr)
 		current_num := utils.StringSliceToIntegerSlice(currentNumStr)
 
-		scratchCards[idx+1] = scratchCard{
+		scratchCards[idx+1] = &scratchCard{
 			winnings: winning_nums,
 			current:  current_num,
+			count:    1,
 		}
-		scratchCardCounts[idx+1] = 1
 	}
 
 	startTime := time.Now()
 
 	return day4{
-		data:              data,
-		startTime:         startTime,
-		scratchCards:      scratchCards,
-		scratchCardCounts: scratchCardCounts,
+		data:         data,
+		startTime:    startTime,
+		scratchCards: scratchCards,
 	}
 }
 
