@@ -55,13 +55,13 @@ func (d day4) Part2() any {
 			}
 		}
 
-	matchingLoop:
 		for i := 1; i <= matchingNumbersCount; i++ {
-			_, ok := d.scratchCards[id+i]
+			nextCard, ok := d.scratchCards[id+i]
 			if !ok {
-				break matchingLoop
+				break
+			} else {
+				nextCard.count += d.scratchCards[id].count
 			}
-			d.scratchCards[id+i].count += d.scratchCards[id].count
 		}
 	}
 
