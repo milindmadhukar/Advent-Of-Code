@@ -37,6 +37,6 @@ func Solve() day4 {
 }
 
 func (d day4) TimeTaken() time.Duration {
-  return 4
+  return time.Since(d.startTime)
 }
 
