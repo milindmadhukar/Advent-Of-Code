@@ -2,6 +2,7 @@ package day5
 
 import (
 	"math"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -15,33 +16,21 @@ type day5 struct {
 	startTime time.Time
 }
 
-func sourceToDestinationInMap(source int, sdRange []sourceDestinationRange) int {
-	destination := -1
-	for _, currentRange := range sdRange {
-		if source >= currentRange.source && source <= currentRange.source+currentRange.length-1 {
-			return currentRange.destination + (source - currentRange.source)
-		}
-	}
-
-	if destination == -1 {
-		return source
-	}
-	return destination
+type mapRange struct {
+	start    int
+	end      int
+	negative bool
 }
 
-func destinationToSourceInMap(destination int, sdRange []sourceDestinationRange) int {
-	source := -1
-	for _, currentRange := range sdRange {
-		if destination >= currentRange.destination && destination <= currentRange.destination+currentRange.length-1 {
-			return currentRange.source + (destination - currentRange.destination)
-		}
-	}
+type sourceDestinationRange struct {
+	destination int
+	source      int
+	length      int
+}
 
-	if source == -1 {
-		return destination
-	}
-
-	return source
+type mapType struct {
+	from string
+	to   string
 }
 
 func (d day5) getMapTypeFromSource(source string) mapType {
@@ -53,62 +42,115 @@ func (d day5) getMapTypeFromSource(source string) mapType {
 	return mapType{}
 }
 
-func (d day5) getMapTypeFromDestination(destination string) mapType {
-	for currentMapType := range d.data_map {
-		if currentMapType.to == destination {
-			return currentMapType
+func getCompleteMapRange(sdRanges []sourceDestinationRange) []mapRange {
+	var mapRanges []mapRange
+
+	for _, sdRange := range sdRanges {
+		mapRanges = append(mapRanges, mapRange{sdRange.source, sdRange.source + sdRange.length - 1, false})
+	}
+
+	start := sdRanges[0].source
+
+	if start > 0 {
+		mapRanges = append(mapRanges, mapRange{0, start - 1, true})
+	}
+
+	for i := 0; i < len(sdRanges)-1; i++ {
+		currentRange := sdRanges[i]
+		nextRange := sdRanges[i+1]
+		if currentRange.source+currentRange.length != nextRange.source {
+			mapRanges = append(mapRanges, mapRange{currentRange.source + currentRange.length, nextRange.source - 1, true})
 		}
 	}
-	return mapType{}
-}
 
-// NOTE: To traverse the different maps
-func (d day5) seedToLocation(seed int) int {
-	currentMapType := d.getMapTypeFromSource("seed")
-	currentSource := seed
-	for i := 0; i < len(d.data_map); i++ {
-		mapContent := d.data_map[currentMapType]
-		currentSource = sourceToDestinationInMap(currentSource, mapContent)
-		currentMapType = d.getMapTypeFromSource(currentMapType.to)
+	end := sdRanges[len(sdRanges)-1].source
+
+	if end < math.MaxInt {
+		mapRanges = append(mapRanges, mapRange{end + 1, math.MaxInt, true})
 	}
-	return currentSource
+
+	slices.SortFunc(mapRanges, func(a mapRange, b mapRange) int {
+		return a.start - b.start
+	})
+
+	return mapRanges
 }
 
-// NOTE: To reversely traverse the different maps
-func (d day5) locationToSeed(location int) int {
-	currentMapType := d.getMapTypeFromDestination("location")
-	currentDestination := location
-	for i := 0; i < len(d.data_map); i++ {
-		mapContent := d.data_map[currentMapType]
-		currentDestination = destinationToSourceInMap(currentDestination, mapContent)
-		if currentDestination == -1 {
-			return -1
+func intersection(a mapRange, b mapRange) mapRange {
+	var intersection mapRange
+
+	if a.start <= b.end && b.start <= a.end {
+		intersection.start = max(a.start, b.start)
+		intersection.end = min(a.end, b.end)
+	}
+
+	return intersection
+}
+
+func (d day5) Walk1(currentValue int, currentMapType mapType) int {
+	emptyMap := mapType{}
+	if currentMapType == emptyMap {
+		return currentValue
+	}
+
+	sdRanges := d.data_map[currentMapType]
+
+	for _, currentRange := range sdRanges {
+		if currentValue >= currentRange.source && currentValue < currentRange.source+currentRange.length {
+			newValue := currentRange.destination + (currentValue - currentRange.source)
+			return d.Walk1(newValue, d.getMapTypeFromSource(currentMapType.to))
 		}
-		currentMapType = d.getMapTypeFromDestination(currentMapType.from)
 	}
-	return currentDestination
+
+	return d.Walk1(currentValue, d.getMapTypeFromSource(currentMapType.to))
 }
 
-func (d day5) isSeedInRange(seed int) bool {
-	for i := 0; i < len(d.seeds); i += 2 {
-		seedRangeStart := d.seeds[i]
-		seedRangeLength := d.seeds[i+1]
+func (d day5) Walk2(currentMapRanges []mapRange, currentMapType mapType) []mapRange {
+	emptyMap := mapType{}
+	if currentMapType == emptyMap {
+		return currentMapRanges
+	}
 
-		if seed >= seedRangeStart && seed <= seedRangeStart+seedRangeLength-1 {
-			return true
+	var newMapRange []mapRange
+
+	completeRange := getCompleteMapRange(d.data_map[currentMapType])
+
+	orignalRangesIdx := -1
+	for _, currentRange := range completeRange {
+		if !currentRange.negative {
+			orignalRangesIdx++
+		}
+		for _, currentMapRange := range currentMapRanges {
+			rangeIntersection := intersection(currentRange, currentMapRange)
+			emptyMap := mapRange{}
+			if rangeIntersection == emptyMap {
+				continue
+			}
+			if currentRange.negative {
+				newMapRange = append(newMapRange, rangeIntersection)
+			} else {
+        sdRange := d.data_map[currentMapType][orignalRangesIdx]
+        start := sdRange.destination + (rangeIntersection.start - currentRange.start)
+        end := sdRange.destination + (rangeIntersection.end - currentRange.start)
+				newMapRange = append(newMapRange, mapRange{
+					start:    start,
+					end:      end,
+					negative: false,
+				})
+			}
 		}
 	}
-	return false
+
+	return d.Walk2(newMapRange, d.getMapTypeFromSource(currentMapType.to))
 }
 
 func (d day5) Part1() any {
 	lowestLocation := math.MaxInt
 
 	for _, seed := range d.seeds {
-		seedLocation := d.seedToLocation(seed)
-
-		if seedLocation < lowestLocation {
-			lowestLocation = seedLocation
+		location := d.Walk1(seed, d.getMapTypeFromSource("seed"))
+		if location < lowestLocation {
+			lowestLocation = location
 		}
 	}
 
@@ -116,28 +158,23 @@ func (d day5) Part1() any {
 }
 
 func (d day5) Part2() any {
-	currentLocation := 0
-	for {
-		seed := d.locationToSeed(currentLocation)
-		isSeedInRange := d.isSeedInRange(seed)
-		if seed != -1 && isSeedInRange {
-			break
-		}
-		currentLocation++
+	var seedRanges []mapRange
+	for i := 0; i < len(d.seeds); i += 2 {
+		startSeed := d.seeds[i]
+		rangeLength := d.seeds[i+1]
+		seedRanges = append(seedRanges, mapRange{
+			start: startSeed,
+			end:   startSeed + rangeLength - 1,
+		})
 	}
 
-	return currentLocation
-}
+	finalRanges := d.Walk2(seedRanges, d.getMapTypeFromSource("seed"))
 
-type mapType struct {
-	from string
-	to   string
-}
+	slices.SortFunc(finalRanges, func(a mapRange, b mapRange) int {
+		return a.start - b.start
+	})
 
-type sourceDestinationRange struct {
-	destination int
-	source      int
-	length      int
+	return finalRanges[0].start
 }
 
 func Solve() day5 {
@@ -178,6 +215,10 @@ func Solve() day5 {
 			length, _ := strconv.Atoi(destination_source_length[2])
 			data_map[category] = append(data_map[category], sourceDestinationRange{destination, source, length})
 		}
+
+		slices.SortFunc(data_map[category], func(a, b sourceDestinationRange) int {
+			return a.source - b.source
+		})
 	}
 
 	return day5{

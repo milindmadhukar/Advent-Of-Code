@@ -20,7 +20,7 @@ func (d day4) Part2() any {
 }
 
 func Solve() day4 {
-	data, err := utils.GetInputDataFromAOC(2023, 4)
+	data, err := utils.GetInputDataFromAOC(2023, 6)
 	if err != nil {
 		panic(err)
 	}
