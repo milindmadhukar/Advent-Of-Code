@@ -10,7 +10,7 @@ import (
 )
 
 type day5 struct {
-	data_map  map[MapType][]sourceDestinationRange
+	data_map  map[mapType][]sourceDestinationRange
 	seeds     []int
 	startTime time.Time
 }
@@ -44,22 +44,22 @@ func destinationToSourceInMap(destination int, sdRange []sourceDestinationRange)
 	return source
 }
 
-func (d day5) getMapTypeFromSource(source string) MapType {
-	for mapType := range d.data_map {
-		if mapType.from == source {
-			return mapType
+func (d day5) getMapTypeFromSource(source string) mapType {
+	for currentMapType := range d.data_map {
+		if currentMapType.from == source {
+			return currentMapType
 		}
 	}
-	return MapType{}
+	return mapType{}
 }
 
-func (d day5) getMapTypeFromDestination(destination string) MapType {
-	for mapType := range d.data_map {
-		if mapType.to == destination {
-			return mapType
+func (d day5) getMapTypeFromDestination(destination string) mapType {
+	for currentMapType := range d.data_map {
+		if currentMapType.to == destination {
+			return currentMapType
 		}
 	}
-	return MapType{}
+	return mapType{}
 }
 
 // NOTE: To traverse the different maps
@@ -129,7 +129,7 @@ func (d day5) Part2() any {
 	return currentLocation
 }
 
-type MapType struct {
+type mapType struct {
 	from string
 	to   string
 }
@@ -158,7 +158,7 @@ func Solve() day5 {
 
 	category_maps := data[1:]
 
-	var data_map = make(map[MapType][]sourceDestinationRange)
+	var data_map = make(map[mapType][]sourceDestinationRange)
 
 	for _, categoryMaps := range category_maps {
 		categoryData := strings.Split(categoryMaps, "\n")
@@ -169,7 +169,7 @@ func Solve() day5 {
 		from := fromTo[0]
 		to := fromTo[1][0:strings.Index(fromTo[1], " ")]
 
-		category := MapType{from, to}
+		category := mapType{from, to}
 
 		for _, desination_source_length := range categoryData {
 			destination_source_length := strings.Split(desination_source_length, " ")

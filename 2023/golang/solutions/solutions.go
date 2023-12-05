@@ -1,6 +1,7 @@
 package solutions
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day1"
@@ -8,6 +9,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day3"
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day4"
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day5"
+	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day6"
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/models"
 )
 
@@ -23,6 +25,8 @@ func GetSolution(day int) models.Solution {
 		return day4.Solve()
 	case 5:
 		return day5.Solve()
+  case 6:
+    return day6.Solve()
 	default:
 		panic("Solution not implemented yet")
 	}
@@ -37,4 +41,15 @@ func GetTodaysSolution() models.Solution {
 	}
 
 	return GetSolution(day)
+}
+
+func RunAllSolutions() {
+  for i := 1; i <= 25; i++ {
+    solution := GetSolution(i)
+    fmt.Println("Day", i)
+    fmt.Println("Answer for Part 1:", solution.Part1())
+    fmt.Println("Answer for Part 2:", solution.Part2())
+    fmt.Println("Time taken:", solution.TimeTaken())
+    fmt.Println()
+  }
 }
