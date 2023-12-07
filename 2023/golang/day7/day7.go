@@ -1,7 +1,6 @@
 package day7
 
 import (
-	"fmt"
 	"slices"
 	"strconv"
 	"strings"
@@ -9,16 +8,6 @@ import (
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
-
-func getUniqueCardsFromHand(hand string) []string {
-	var uniqueCards []string
-	for _, card := range hand {
-		if !slices.Contains(uniqueCards, string(card)) {
-			uniqueCards = append(uniqueCards, string(card))
-		}
-	}
-	return uniqueCards
-}
 
 func getHandType(hand string) int {
 	var handType = map[string]int{
@@ -31,7 +20,12 @@ func getHandType(hand string) int {
 		"fiveOfAKind":  7,
 	}
 
-	uniqueCards := getUniqueCardsFromHand(hand)
+	var cards []string
+	for _, char := range hand {
+		cards = append(cards, string(char))
+	}
+
+	uniqueCards := utils.GetUniqueElements(cards)
 
 	if len(uniqueCards) == 1 {
 		return handType["fiveOfAKind"]
@@ -90,7 +84,12 @@ func fillJokersValue(hand string) string {
 		return "AAAAA"
 	}
 
-	uniqueCards := getUniqueCardsFromHand(hand)
+	var cards []string
+	for _, char := range hand {
+		cards = append(cards, string(char))
+	}
+
+	uniqueCards := utils.GetUniqueElements(cards)
 	maxCount := 0
 	maxCard := ""
 
@@ -178,7 +177,6 @@ func (d day7) Part2() any {
 	})
 
 	for idx, hand := range d.data {
-		fmt.Println(hand)
 		handBet, _ := strconv.Atoi(hand[1])
 		sum += handBet * (idx + 1)
 	}
@@ -201,8 +199,7 @@ func Solve() day7 {
 
 	return day7{
 		data:      data,
-		startTime: startTime,
-	}
+		startTime: startTime, }
 }
 
 func (d day7) TimeTaken() time.Duration {

@@ -22,16 +22,5 @@ func GetSplitData(data []string, splitter string) [][]string {
 }
 
 func StringSliceToIntegerSlice(s []string) []int {
-	var ints []int
-
-	for _, stringVal := range s {
-    stringVal = strings.Trim(stringVal, " ")
-		intVal, err := strconv.Atoi(stringVal)
-		if err != nil {
-			panic(err)
-		}
-		ints = append(ints, intVal)
-	}
-
-	return ints
+  return Map(MustClosure(strconv.Atoi), s)
 }
