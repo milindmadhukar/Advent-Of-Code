@@ -1,6 +1,7 @@
 package day7
 
 import (
+	"fmt"
 	"slices"
 	"strconv"
 	"strings"
@@ -80,8 +81,7 @@ func compareHands(hand1, hand2 string, cardValues map[string]int) int {
 	return 0
 }
 
-func fillJokersValue(hand string, cardValues map[string]int) string {
-	// Joker can become any card
+func fillJokersValue(hand string) string {
 	if !strings.Contains(hand, "J") {
 		return hand
 	}
@@ -91,122 +91,17 @@ func fillJokersValue(hand string, cardValues map[string]int) string {
 	}
 
 	uniqueCards := getUniqueCardsFromHand(hand)
-	if len(uniqueCards) == 2 {
-		// Get the card which is not J
-		var card string
-		for _, c := range uniqueCards {
-			if c != "J" {
-				card = c
-			}
-		}
-		return strings.ReplaceAll(hand, "J", card)
-	}
+	maxCount := 0
+	maxCard := ""
 
-	if len(uniqueCards) == 3 {
-		var card1, card2 string
-		for _, c := range uniqueCards {
-			if c != "J" {
-				if card1 == "" {
-					card1 = c
-				} else {
-					card2 = c
-				}
-			}
-		}
-
-		card1Count := strings.Count(hand, card1)
-		card2Count := strings.Count(hand, card2)
-		JCount := strings.Count(hand, "J")
-
-		if card1Count == 3 && JCount == 1 {
-			return strings.ReplaceAll(hand, "J", card1)
-		} else if card2Count == 3 && JCount == 1 {
-			return strings.ReplaceAll(hand, "J", card2)
-		}
-
-		if card1Count == 2 && JCount == 2 {
-			return strings.ReplaceAll(hand, "J", card1)
-		} else if card2Count == 2 && JCount == 2 {
-			return strings.ReplaceAll(hand, "J", card2)
-		}
-
-		if card1Count == card2Count {
-			var higherCard string
-			if cardValues[card1] > cardValues[card2] {
-				higherCard = card1
-			} else {
-				higherCard = card2
-			}
-			return strings.ReplaceAll(hand, "J", higherCard)
+	for _, card := range uniqueCards {
+		if count := strings.Count(hand, card); count > maxCount && card != "J" {
+			maxCount = count
+			maxCard = card
 		}
 	}
 
-	//1233J, 123JJ
-
-	if len(uniqueCards) == 4 {
-		var card1, card2, card3 string
-		for _, c := range uniqueCards {
-			if c != "J" {
-				if card1 == "" {
-					card1 = c
-				} else if card2 == "" {
-					card2 = c
-				} else {
-					card3 = c
-				}
-			}
-		}
-		if strings.Count(hand, card1) == 2 {
-			return strings.ReplaceAll(hand, "J", card1)
-		}
-		if strings.Count(hand, card2) == 2 {
-			return strings.ReplaceAll(hand, "J", card2)
-		}
-		if strings.Count(hand, card3) == 2 {
-			return strings.ReplaceAll(hand, "J", card3)
-		}
-
-		var higherCard string
-		if cardValues[card1] > cardValues[card2] && cardValues[card1] > cardValues[card3] {
-			higherCard = card1
-		} else if cardValues[card2] > cardValues[card1] && cardValues[card2] > cardValues[card3] {
-			higherCard = card2
-		} else {
-			higherCard = card3
-		}
-		return strings.ReplaceAll(hand, "J", higherCard)
-	}
-
-	if len(uniqueCards) == 5 {
-		var card1, card2, card3, card4 string
-		for _, c := range uniqueCards {
-			if c != "J" {
-				if card1 == "" {
-					card1 = c
-				} else if card2 == "" {
-					card2 = c
-				} else if card3 == "" {
-					card3 = c
-				} else {
-					card4 = c
-				}
-			}
-		}
-
-		var higherCard string
-		if cardValues[card1] > cardValues[card2] && cardValues[card1] > cardValues[card3] && cardValues[card1] > cardValues[card4] {
-			higherCard = card1
-		} else if cardValues[card2] > cardValues[card1] && cardValues[card2] > cardValues[card3] && cardValues[card2] > cardValues[card4] {
-			higherCard = card2
-		} else if cardValues[card3] > cardValues[card1] && cardValues[card3] > cardValues[card2] && cardValues[card3] > cardValues[card4] {
-			higherCard = card3
-		} else {
-			higherCard = card4
-		}
-		return strings.ReplaceAll(hand, "J", higherCard)
-	}
-
-	return hand
+	return strings.ReplaceAll(hand, "J", maxCard)
 }
 
 type day7 struct {
@@ -271,8 +166,8 @@ func (d day7) Part2() any {
 	}
 
 	slices.SortFunc(d.data, func(hand1, hand2 []string) int {
-		hand1WithJokerValues := fillJokersValue(hand1[0], cardValues)
-		hand2WithJokerValues := fillJokersValue(hand2[0], cardValues)
+		hand1WithJokerValues := fillJokersValue(hand1[0])
+		hand2WithJokerValues := fillJokersValue(hand2[0])
 		handType1 := getHandType(hand1WithJokerValues)
 		handType2 := getHandType(hand2WithJokerValues)
 		if handType1 != handType2 {
@@ -283,6 +178,7 @@ func (d day7) Part2() any {
 	})
 
 	for idx, hand := range d.data {
+		fmt.Println(hand)
 		handBet, _ := strconv.Atoi(hand[1])
 		sum += handBet * (idx + 1)
 	}
@@ -298,7 +194,7 @@ func Solve() day7 {
 
 	startTime := time.Now()
 
-	// exampleFile, _ := os.ReadFile("day7/example.txt")
+	// exampleFile, err := os.ReadFile("day7/example.txt")
 	// rawData = utils.ParseFromString(string(exampleFile))
 
 	data := utils.GetSplitData(rawData, " ")
