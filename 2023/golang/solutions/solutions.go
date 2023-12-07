@@ -11,6 +11,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day5"
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day6"
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day7"
+	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/day8"
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/models"
 )
 
@@ -30,6 +31,8 @@ func GetSolution(day int) models.Solution {
 		return day6.Solve()
 	case 7:
 		return day7.Solve()
+	case 8:
+		return day8.Solve()
 	default:
 		panic("Solution not implemented yet")
 	}
