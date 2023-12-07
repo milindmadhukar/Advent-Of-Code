@@ -31,7 +31,6 @@ func getTotalNumberOfWays(raceTime []int, distanceToCover []int) int {
 		if numberOfWays == 0 {
 			continue
 		}
-		fmt.Println("total ways", numberOfWays, raceTime)
 		totalNumberOfWays *= numberOfWays
 	}
 	return totalNumberOfWays
@@ -65,9 +64,7 @@ func Solve() day6 {
 	// data = utils.ParseFromString(string(exampleFile))
 
 	raceTime := utils.StringSliceToIntegerSlice(regexp.MustCompile(`\d+`).FindAllString(data[0], -1))
-	fmt.Println(raceTime)
 	distanceToCover := utils.StringSliceToIntegerSlice(regexp.MustCompile(`\d+`).FindAllString(data[1], -1))
-	fmt.Println(distanceToCover)
 
 	return day6{
 		data:            data,
