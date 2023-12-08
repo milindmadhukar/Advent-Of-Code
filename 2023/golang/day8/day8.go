@@ -60,8 +60,10 @@ func traverse(root string, data []string, nodes map[string]*node) *node {
 		name: nodeName,
 	}
 	nodes[nodeName] = newNode
+
 	newNode.left = traverse(nodeLeft, data, nodes)
 	newNode.right = traverse(nodeRight, data, nodes)
+
 	return traverse(root, data, nodes)
 }
 
@@ -125,6 +127,8 @@ func Solve() day8 {
 	data = data[2:]
 
 	var nodes = make(map[string]*node)
+
+  // Traversing through all nodes as graph is disjoint with multiple components
 	for _, line := range data {
 		node_left_right := strings.Split(line, " = ")
 		nodeName := node_left_right[0]
