@@ -15,28 +15,11 @@ type day8 struct {
 	startTime             time.Time
 }
 
-
 type node struct {
 	name  string
 	left  *node
 	right *node
 }
-
-func gcd(a, b int) int {
-	if a == 0 {
-		return b
-	}
-	return gcd(b%a, a)
-}
-
-func lcm(numbers []int) int {
-	result := numbers[0]
-	for i := 1; i < len(numbers); i++ {
-		result = (result * numbers[i]) / gcd(result, numbers[i])
-	}
-	return result
-}
-
 
 func getNodeNameLeftRightFromName(name string, data []string) (string, string, string) {
 	for _, line := range data {
@@ -94,9 +77,9 @@ func (d day8) Part2() any {
 	var minimumStepsPerNode []int
 
 	// Calculate minimum steps per node to reach one that ends with Z
-	for _, node := range concernedNodes {
+	for _, givenNode := range concernedNodes {
 		nodeSteps := 0
-		for currentNode := node; !strings.HasSuffix(currentNode.name, "Z"); {
+		for currentNode := givenNode; !strings.HasSuffix(currentNode.name, "Z"); {
 			currentInstruction := d.directionInstructions[nodeSteps%len(d.directionInstructions)]
 			if currentInstruction == 'L' {
 				currentNode = currentNode.left
@@ -108,9 +91,8 @@ func (d day8) Part2() any {
 		minimumStepsPerNode = append(minimumStepsPerNode, nodeSteps)
 	}
 
-	return lcm(minimumStepsPerNode)
+	return utils.Lcm(minimumStepsPerNode)
 }
-
 
 func Solve() day8 {
 	data, err := utils.GetInputDataFromAOC(2023, 8)
@@ -128,7 +110,7 @@ func Solve() day8 {
 
 	var nodes = make(map[string]*node)
 
-  // Traversing through all nodes as graph is disjoint with multiple components
+	// Traversing through all nodes as graph is disjoint with multiple components
 	for _, line := range data {
 		node_left_right := strings.Split(line, " = ")
 		nodeName := node_left_right[0]
@@ -136,6 +118,28 @@ func Solve() day8 {
 	}
 
 	root := nodes["AAA"]
+
+  // NOTE: Creating the graph visualization using dominikbraun/graph
+
+	// g := graph.New(graph.StringHash, graph.Directed())
+	// for _, node := range nodes {
+	// 	g.AddVertex(node.name)
+	// }
+	// for _, node := range nodes {
+	// 	if node.left == node.right {
+	// 		g.AddEdge(node.name, node.left.name, graph.EdgeAttribute("label", "L-R"), graph.EdgeAttribute("color", "red"))
+	// 	}
+	// 	if node.left != nil {
+	// 		g.AddEdge(node.name, node.left.name, graph.EdgeAttribute("label", "L"))
+	// 	}
+	// 	if node.right != nil {
+	// 		g.AddEdge(node.name, node.right.name, graph.EdgeAttribute("label", "R"))
+	// 	}
+	// }
+	//
+	// file, _ := os.Create("day8/graph.gv")
+	//
+	// _ = draw.DOT(g, file)
 
 	return day8{
 		data:                  data,

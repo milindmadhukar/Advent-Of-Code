@@ -12,7 +12,7 @@ import (
 
 type day2 struct {
 	data      []string
-	games     map[int]GameCubes
+	games     map[int]gameCubes
 	startTime time.Time
 }
 
@@ -37,7 +37,7 @@ func (d day2) Part2() any {
 	return sum
 }
 
-type GameCubes struct {
+type gameCubes struct {
 	redCubes   []int
 	blueCubes  []int
 	greenCubes []int
@@ -54,7 +54,7 @@ func Solve() day2 {
 
 	startTime := time.Now()
 
-	var games = make(map[int]GameCubes)
+	var games = make(map[int]gameCubes)
 
 	for _, line := range data {
 		game := strings.Split(line, ": ")
@@ -95,7 +95,7 @@ func Solve() day2 {
 			return b - a
 		})
 
-		games[gameId] = GameCubes{
+		games[gameId] = gameCubes{
 			redCubes:   redMatches,
 			blueCubes:  blueMatches,
 			greenCubes: greenMatches,
