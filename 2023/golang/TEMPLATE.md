@@ -1,42 +1,43 @@
-package day4
+package day8
 
 import (
+	"os"
 	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
 )
 
-type day4 struct {
-	data []string
-  startTime time.Time
+type day8 struct {
+	data      []string
+	startTime time.Time
 }
 
-func (d day4) Part1() any {
+func (d day8) Part1() any {
 	return 0
 }
 
-func (d day4) Part2() any {
+func (d day8) Part2() any {
 	return 0
 }
 
-func Solve() day4 {
-	data, err := utils.GetInputDataFromAOC(2023, 4)
+func Solve() day8 {
+	data, err := utils.GetInputDataFromAOC(2023, 8)
 	if err != nil {
 		panic(err)
 	}
 
-  startTime := time.Now()
+	startTime := time.Now()
 
-	// exampleFile, _ := os.ReadFile("day4/example.txt")
-	// data = utils.ParseFromString(string(exampleFile))
+	exampleFile, _ := os.ReadFile("day8/example.txt")
+	data = utils.ParseFromString(string(exampleFile))
 
-	return day4{
-		data: data,
-    startTime: startTime,
+	return day8{
+		data:      data,
+		startTime: startTime,
 	}
 }
 
-func (d day4) TimeTaken() time.Duration {
-  return time.Since(d.startTime)
+func (d day8) TimeTaken() time.Duration {
+	return time.Since(d.startTime)
 }
 
