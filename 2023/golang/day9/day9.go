@@ -21,9 +21,9 @@ func allZeroes(arr []int) bool {
 	return true
 }
 
-func nextValue(series []int, last int) int {
+func nextValue(series []int) int {
 	if allZeroes(series) {
-		return last
+		return series[len(series)-1]
 	}
 
 	var differences []int
@@ -31,14 +31,12 @@ func nextValue(series []int, last int) int {
 		differences = append(differences, series[i+1]-series[i])
 	}
 
-	last = differences[len(differences)-1]
-
-	return series[len(series)-1] + nextValue(differences, last)
+	return series[len(series)-1] + nextValue(differences)
 }
 
-func previousValue(series []int, first int) int {
+func previousValue(series []int) int {
 	if allZeroes(series) {
-		return first
+		return series[0]
 	}
 
 	var differences []int
@@ -46,15 +44,13 @@ func previousValue(series []int, first int) int {
 		differences = append(differences, series[i+1]-series[i])
 	}
 
-	first = differences[0]
-
-	return series[0] - previousValue(differences, first)
+	return series[0] - previousValue(differences)
 }
 
 func (d day9) Part1() any {
 	sum := 0
 	for _, series := range d.sequences {
-		sum += nextValue(series, 0)
+		sum += nextValue(series)
 	}
 	return sum
 }
@@ -62,7 +58,7 @@ func (d day9) Part1() any {
 func (d day9) Part2() any {
 	sum := 0
 	for _, series := range d.sequences {
-		sum += previousValue(series, 0)
+		sum += previousValue(series)
 	}
 	return sum
 }
