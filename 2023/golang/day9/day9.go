@@ -1,6 +1,7 @@
 package day9
 
 import (
+	"slices"
 	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/utils"
@@ -34,18 +35,18 @@ func nextValue(series []int) int {
 	return series[len(series)-1] + nextValue(differences)
 }
 
-func previousValue(series []int) int {
-	if allZeroes(series) {
-		return 0
-	}
-
-	var differences []int
-	for i := 0; i < len(series)-1; i++ {
-		differences = append(differences, series[i+1]-series[i])
-	}
-
-	return series[0] - previousValue(differences)
-}
+// func previousValue(series []int) int {
+// 	if allZeroes(series) {
+// 		return 0
+// 	}
+//
+// 	var differences []int
+// 	for i := 0; i < len(series)-1; i++ {
+// 		differences = append(differences, series[i+1]-series[i])
+// 	}
+//
+// 	return series[0] - previousValue(differences)
+// }
 
 func (d day9) Part1() any {
 	sum := 0
@@ -58,7 +59,8 @@ func (d day9) Part1() any {
 func (d day9) Part2() any {
 	sum := 0
 	for _, series := range d.sequences {
-		sum += previousValue(series)
+    slices.Reverse(series)
+		sum += nextValue(series)
 	}
 	return sum
 }
