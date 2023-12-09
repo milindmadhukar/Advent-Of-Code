@@ -54,7 +54,7 @@ func previousValue(series []int, first int) int {
 func (d day9) Part1() any {
 	sum := 0
 	for _, series := range d.sequences {
-		sum += nextValue(series, series[len(series)-1])
+		sum += nextValue(series, 0)
 	}
 	return sum
 }
@@ -62,7 +62,7 @@ func (d day9) Part1() any {
 func (d day9) Part2() any {
 	sum := 0
 	for _, series := range d.sequences {
-		sum += previousValue(series, series[0])
+		sum += previousValue(series, 0)
 	}
 	return sum
 }
