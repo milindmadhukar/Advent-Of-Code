@@ -23,7 +23,7 @@ func allZeroes(arr []int) bool {
 
 func nextValue(series []int) int {
 	if allZeroes(series) {
-		return series[len(series)-1]
+		return 0
 	}
 
 	var differences []int
@@ -36,7 +36,7 @@ func nextValue(series []int) int {
 
 func previousValue(series []int) int {
 	if allZeroes(series) {
-		return series[0]
+		return 0
 	}
 
 	var differences []int
