@@ -22,7 +22,23 @@ type day10 struct {
 func (d day10) Part1() any {
 
 	// Using d.start node, calculate the distances to each vertex and store it in its distance field
-	dijkstra(d.start, d.vertices)
+	d.start.distance = 0
+
+  var queue = []*vertex{d.start}
+  var visited = make(map[point]bool)
+
+  for len(queue) > 0 {
+    currentVertex := queue[0]
+    queue = queue[1:]
+
+    for _, adj := range currentVertex.adjacents {
+      if !visited[adj.pos] {
+        adj.distance = currentVertex.distance + 1
+        queue = append(queue, adj)
+        visited[adj.pos] = true
+      }
+    }
+  }
 
 	// Find the vertex with the maximum distances
 	maxDistance := 0
@@ -117,8 +133,8 @@ func Solve() day10 {
 
 	startTime := time.Now()
 
-	exampleFile, _ := os.ReadFile("day10/example2.txt")
-	data = utils.ParseFromString(string(exampleFile))
+	// exampleFile, _ := os.ReadFile("day10/example2.txt")
+	// data = utils.ParseFromString(string(exampleFile))
 
 	var start *vertex
 
@@ -157,8 +173,6 @@ func Solve() day10 {
 
 	file, _ := os.Create("day10/graph.gv")
 	_ = draw.DOT(g, file)
-
-	fmt.Println(len(vertices))
 
 	return day10{
 		data:      data,
