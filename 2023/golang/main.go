@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	solution := solutions.GetTodaysSolution()
+	solution := solutions.GetSolution(10)
 
 	fmt.Println("Answer for Part 1:", solution.Part1())
 	fmt.Println("Answer for Part 2:", solution.Part2())

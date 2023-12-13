@@ -15,8 +15,9 @@ import (
 type day10 struct {
 	data      []string
 	startTime time.Time
-	start     *vertex
-	vertices  map[point]*vertex
+	start     *pipe
+	vertices  map[point]*pipe
+	tiles     map[point]*tile
 }
 
 func (d day10) Part1() any {
@@ -24,21 +25,21 @@ func (d day10) Part1() any {
 	// Using d.start node, calculate the distances to each vertex and store it in its distance field
 	d.start.distance = 0
 
-  var queue = []*vertex{d.start}
-  var visited = make(map[point]bool)
+	var queue = []*pipe{d.start}
+	var visited = make(map[point]bool)
 
-  for len(queue) > 0 {
-    currentVertex := queue[0]
-    queue = queue[1:]
+	for len(queue) > 0 {
+		currentVertex := queue[0]
+		queue = queue[1:]
 
-    for _, adj := range currentVertex.adjacents {
-      if !visited[adj.pos] {
-        adj.distance = currentVertex.distance + 1
-        queue = append(queue, adj)
-        visited[adj.pos] = true
-      }
-    }
-  }
+		for _, adj := range currentVertex.adjacents {
+			if !visited[adj.pos] {
+				adj.distance = currentVertex.distance + 1
+				queue = append(queue, adj)
+				visited[adj.pos] = true
+			}
+		}
+	}
 
 	// Find the vertex with the maximum distances
 	maxDistance := 0
@@ -53,76 +54,174 @@ func (d day10) Part1() any {
 }
 
 func (d day10) Part2() any {
-	return 0
+	count := 0
+
+	var visitedTiles = make(map[point]bool)
+
+	for _, v := range d.tiles {
+		var newVisitedTiles = make(map[point]bool)
+		if !visitedTiles[v.pos] {
+			bfs2(v, d.tiles, newVisitedTiles, d.data)
+		}
+
+		didReachEdge := false
+		for k, v := range newVisitedTiles {
+			if v && (k.x == 0 || k.y == 0 || k.x == len(d.data[0])-1 || k.y == len(d.data)-1) {
+				didReachEdge = true
+				break
+			}
+		}
+
+		if !didReachEdge {
+			count += len(newVisitedTiles)
+
+			for k, v := range newVisitedTiles {
+				fmt.Println(k, v)
+			}
+		}
+
+		for k, v := range newVisitedTiles {
+			visitedTiles[k] = v
+		}
+	}
+
+	return count
 }
 
-type vertex struct {
+type pipe struct {
 	pos       point
-	adjacents []*vertex
-	pipe      rune
+	adjacents []*pipe
+	pipeType  rune
 	distance  int
+}
+
+type tile struct {
+	pos point
 }
 
 type point struct {
 	x, y int
 }
 
-func bfs(start *vertex, vertices map[point]*vertex, data []string) {
-	directions := []point{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
-	var visited = make(map[point]bool)
-	visited[start.pos] = true
-	queue := []*vertex{start}
+var directions = []point{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
+
+func bfs1(start *pipe, pipes map[point]*pipe, data []string) {
+	var visitedPipes = make(map[point]bool)
+	visitedPipes[start.pos] = true
+	queue := []*pipe{start}
 
 	for len(queue) > 0 {
-		currentVertex := queue[0]
-		queue = queue[1:]
+		currentPipe := queue[len(queue)-1]
+		queue = queue[:len(queue)-1]
 
 		for _, direction := range directions {
-			nextPoint := point{currentVertex.pos.x + direction.x, currentVertex.pos.y + direction.y}
+			nextPoint := point{currentPipe.pos.x + direction.x, currentPipe.pos.y + direction.y}
 			if nextPoint.x < 0 || nextPoint.y < 0 || nextPoint.x >= len(data[0]) || nextPoint.y >= len(data) {
 				continue
 			}
 
-			currentPipe := rune(data[nextPoint.y][nextPoint.x])
+			currentPipeType := rune(data[nextPoint.y][nextPoint.x])
 
-			if data[nextPoint.y][nextPoint.x] == '.' {
+			if currentPipeType == '.' {
 				continue
 			}
 
 			// when going up
-			if direction.x == 0 && direction.y == -1 && !slices.Contains([]rune{'|', '7', 'F'}, currentPipe) {
+			if direction.x == 0 && direction.y == -1 && !slices.Contains([]rune{'|', '7', 'F'}, currentPipeType) {
+				// Make it a dot
 				continue
 			}
 
 			// when going down
-			if direction.x == 0 && direction.y == 1 && !slices.Contains([]rune{'|', 'J', 'L'}, currentPipe) {
+			if direction.x == 0 && direction.y == 1 && !slices.Contains([]rune{'|', 'J', 'L'}, currentPipeType) {
 				continue
 			}
 
 			// when going left
-			if direction.x == -1 && direction.y == 0 && !slices.Contains([]rune{'-', 'L', 'F'}, currentPipe) {
+			if direction.x == -1 && direction.y == 0 && !slices.Contains([]rune{'-', 'L', 'F'}, currentPipeType) {
 				continue
 			}
 
 			// when going right
-			if direction.x == 1 && direction.y == 0 && !slices.Contains([]rune{'-', '7', 'J'}, currentPipe) {
+			if direction.x == 1 && direction.y == 0 && !slices.Contains([]rune{'-', '7', 'J'}, currentPipeType) {
 				continue
 			}
 
-			newVertex := &vertex{
+			newPipe := &pipe{
 				pos:      nextPoint,
-				pipe:     currentPipe,
+				pipeType: currentPipeType,
 				distance: math.MaxInt,
 			}
 
-			if !visited[nextPoint] {
-				visited[nextPoint] = true
-				vertices[nextPoint] = newVertex
-				currentVertex.adjacents = append(currentVertex.adjacents, newVertex)
-				queue = append(queue, newVertex)
+			if !visitedPipes[nextPoint] {
+				visitedPipes[nextPoint] = true
+				pipes[nextPoint] = newPipe
+				currentPipe.adjacents = append(currentPipe.adjacents, newPipe)
+				newPipe.adjacents = append(newPipe.adjacents, currentPipe)
+				queue = append(queue, newPipe)
 			}
 		}
 	}
+
+	for _, line := range data {
+		fmt.Println(line)
+	}
+}
+
+func bfs2(start *tile, tiles map[point]*tile, visitedTiles map[point]bool, data []string) {
+	visitedTiles[start.pos] = true
+	queue := []*tile{start}
+
+	for len(queue) > 0 {
+		currentTile := queue[0]
+		queue = queue[1:]
+
+		for _, direction := range directions {
+			nextPoint := point{currentTile.pos.x + direction.x, currentTile.pos.y + direction.y}
+			if nextPoint.x < 0 || nextPoint.y < 0 || nextPoint.x >= len(data[0]) || nextPoint.y >= len(data) {
+				continue
+			}
+
+			currentTileType := rune(data[nextPoint.y][nextPoint.x])
+
+			if currentTileType != '.' {
+				continue
+			}
+
+			newTile := &tile{
+				pos: nextPoint,
+			}
+
+			if !visitedTiles[nextPoint] {
+				visitedTiles[nextPoint] = true
+				tiles[nextPoint] = newTile
+				queue = append(queue, newTile)
+			}
+		}
+	}
+}
+
+func findMainLoop(start *pipe) map[point]*pipe {
+	var mainLoop = make(map[point]*pipe)
+	// Walk through adjacents of start until you reach start again. Longest loop is the main loop
+
+	var visited = make(map[point]bool)
+	visited[start.pos] = true
+	queue := []*pipe{start}
+
+	for len(queue) > 0 {
+		currentPipe := queue[0]
+		queue = queue[1:]
+
+		for _, adj := range currentPipe.adjacents {
+			if !visited[adj.pos] {
+				visited[adj.pos] = true
+				queue = append(queue, adj)
+			}
+		}
+	}
+
+	return mainLoop
 }
 
 func Solve() day10 {
@@ -133,51 +232,69 @@ func Solve() day10 {
 
 	startTime := time.Now()
 
-	// exampleFile, _ := os.ReadFile("day10/example2.txt")
-	// data = utils.ParseFromString(string(exampleFile))
+	exampleFile, _ := os.ReadFile("day10/example.txt")
+	data = utils.ParseFromString(string(exampleFile))
 
-	var start *vertex
+	var start *pipe
 
 	// Finding S
 	for i, row := range data {
 		for j, char := range row {
 			if char == 'S' {
-				start = &vertex{
-					pos:  point{j, i},
-					pipe: rune(char),
+				start = &pipe{
+					pos:      point{j, i},
+					pipeType: rune(char),
 				}
 			}
 		}
 	}
 
-	var vertices = make(map[point]*vertex)
-	vertices[start.pos] = start
+	var pipes = make(map[point]*pipe)
+	pipes[start.pos] = start
 
-	bfs(start, vertices, data)
+	bfs1(start, pipes, data)
+
+	// Find all the tiles
+	var tiles = make(map[point]*tile)
+	for i, row := range data {
+		for j, char := range row {
+			if char == '.' {
+				tiles[point{j, i}] = &tile{
+					pos: point{j, i},
+				}
+			}
+		}
+	}
 
 	pointHash := func(p point) string {
 		return fmt.Sprintf("%d,%d", p.x, p.y)
 	}
 
-	g := graph.New(pointHash, graph.Directed())
+	pipeGraph := graph.New(pointHash, graph.Directed())
 
-	for _, v := range vertices {
-		g.AddVertex(v.pos, graph.VertexAttribute("label", string(v.pipe)))
+	for _, v := range pipes {
+		pipeGraph.AddVertex(v.pos,
+			graph.VertexAttribute(
+				"label",
+				fmt.Sprintf("%s - (%d,%d)", string(v.pipeType), v.pos.x, v.pos.y),
+			),
+		)
 	}
 
-	for _, v := range vertices {
+	for _, v := range pipes {
 		for _, adj := range v.adjacents {
-			g.AddEdge(pointHash(v.pos), pointHash(adj.pos))
+			pipeGraph.AddEdge(pointHash(v.pos), pointHash(adj.pos))
 		}
 	}
 
 	file, _ := os.Create("day10/graph.gv")
-	_ = draw.DOT(g, file)
+	_ = draw.DOT(pipeGraph, file)
 
 	return day10{
 		data:      data,
 		start:     start,
-		vertices:  vertices,
+		vertices:  pipes,
+		tiles:     tiles,
 		startTime: startTime,
 	}
 }
