@@ -1,6 +1,5 @@
 from utils import getInputData
 
-
 def show_trees(trees):
     for line in trees:
         print(line)
