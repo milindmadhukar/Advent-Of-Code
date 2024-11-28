@@ -17,6 +17,8 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2023/golang/models"
 )
 
+
+
 func GetSolution(day int) models.Solution {
 	switch day {
 	case 1:
