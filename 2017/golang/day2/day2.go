@@ -7,13 +7,13 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/utils"
 )
 
-type day1 struct {
+type day2 struct {
 	data       []string
 	startTime  time.Time
 	parsedData [][]int
 }
 
-func (d day1) Part1() any {
+func (d day2) Part1() any {
 
 	checksum := 0
 
@@ -34,7 +34,7 @@ func (d day1) Part1() any {
 	return checksum
 }
 
-func (d day1) Part2() any {
+func (d day2) Part2() any {
 	checksum := 0
 
 	for _, line := range d.parsedData {
@@ -59,7 +59,7 @@ func (d day1) Part2() any {
 	return checksum
 }
 
-func Solve() day1 {
+func Solve() day2 {
 	data, err := utils.GetInputDataFromAOC(2017, 2)
 	if err != nil {
 		panic(err)
@@ -74,13 +74,13 @@ func Solve() day1 {
 		parsedData = append(parsedData, utils.StringSliceToIntegerSlice(val))
 	}
 
-	return day1{
+	return day2{
 		data:       data,
 		startTime:  startTime,
 		parsedData: parsedData,
 	}
 }
 
-func (d day1) TimeTaken() time.Duration {
+func (d day2) TimeTaken() time.Duration {
 	return time.Since(d.startTime)
 }

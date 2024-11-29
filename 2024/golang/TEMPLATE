@@ -27,8 +27,7 @@ func Solve() day1 {
 
 	startTime := time.Now()
 
-	// exampleFileData, _ := os.ReadFile("day1/example.txt")
-	// data = utils.ParseFromString(string(exampleFile))
+	// data = utils.GetInputDataFromFile("day1/example.txt")
 
 	return day1{
 		data:      data,
