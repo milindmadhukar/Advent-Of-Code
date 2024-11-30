@@ -12,6 +12,9 @@ type day6 struct {
 	data       string
 	startTime  time.Time
 	parsedData []int
+	states     map[string]int
+	steps      int
+	loopSize   int
 }
 
 func getState(memoryBanks []int) string {
@@ -19,17 +22,13 @@ func getState(memoryBanks []int) string {
 	return strings.Join(memoryBanksStr, ",")
 }
 
-func (d day6) Part1() any {
-
-	states := make(map[string]bool)
-	steps := 0
-
+func (d *day6) GenerateStates() {
 	memoryBanks := make([]int, len(d.parsedData))
 	copy(memoryBanks, d.parsedData)
-	states[getState(memoryBanks)] = true
+	d.states[getState(memoryBanks)] = d.steps
 
 	for {
-		steps++
+		d.steps++
 
 		maxBlockIdx := 0
 		maxBlockCount := memoryBanks[0]
@@ -55,18 +54,23 @@ func (d day6) Part1() any {
 		}
 
 		state := getState(memoryBanks)
-		if _, ok := states[state]; ok {
+		if stepNo, ok := d.states[state]; ok {
+
+			d.loopSize = d.steps - stepNo
+
 			break
 		} else {
-			states[state] = true
+			d.states[state] = d.steps
 		}
 	}
+}
 
-	return steps
+func (d day6) Part1() any {
+	return d.steps
 }
 
 func (d day6) Part2() any {
-	return 0
+	return d.loopSize
 }
 
 func Solve() day6 {
@@ -82,11 +86,18 @@ func Solve() day6 {
 
 	parsedData := utils.StringSliceToIntegerSlice(strings.Split(data, "\t"))
 
-	return day6{
+	d := day6{
 		data:       data,
 		startTime:  startTime,
 		parsedData: parsedData,
+		states:     make(map[string]int),
+		loopSize:   0,
+		steps:      0,
 	}
+
+	d.GenerateStates()
+
+	return d
 }
 
 func (d day6) TimeTaken() time.Duration {
