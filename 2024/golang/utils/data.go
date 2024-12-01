@@ -5,11 +5,17 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 func GetRawInputDataFromAOC(year, day int) (string, error) {
-	// Read the sessionkey.txt file
+	cacheFileName := filepath.Join("cache", fmt.Sprintf("aoc_%d_day%d.txt", year, day))
+
+	if cacheData, err := os.ReadFile(cacheFileName); err == nil {
+		return string(cacheData), nil
+	}
+
 	sessionKey, err := os.ReadFile("sessionkey.txt")
 	if err != nil {
 		return "", err
@@ -38,14 +44,21 @@ func GetRawInputDataFromAOC(year, day int) (string, error) {
 	}
 
 	bodyString := string(bodyBytes)
-
 	bodyString = strings.Trim(bodyString, "\n")
 
 	if resp.StatusCode != 200 {
 		return "", fmt.Errorf("Could not fetch input. %s", bodyString)
 	}
 
-	return bodyString, err
+	// Save to cache file
+	if err := os.MkdirAll(filepath.Dir(cacheFileName), 0755); err != nil {
+		return "", fmt.Errorf("Failed to create cache directory: %v", err)
+	}
+	if err := os.WriteFile(cacheFileName, []byte(bodyString), 0644); err != nil {
+		return "", fmt.Errorf("Failed to write cache file: %v", err)
+	}
+
+	return bodyString, nil
 }
 
 func GetInputDataFromAOC(year int, day int) ([]string, error) {

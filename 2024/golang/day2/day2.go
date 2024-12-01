@@ -1,4 +1,4 @@
-package day1
+package day2
 
 import (
 	"time"
@@ -6,21 +6,21 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day1 struct {
+type day2 struct {
 	data      []string
   timeTaken time.Duration
 	startTime time.Time
 }
 
-func (d *day1) Part1() any {
+func (d *day2) Part1() any {
 	return 0
 }
 
-func (d *day1) Part2() any {
+func (d *day2) Part2() any {
 	return 0
 }
 
-func Solve() *day1 {
+func Solve() *day2 {
 	data, err := utils.GetInputDataFromAOC(2024, 1)
 	if err != nil {
 		panic(err)
@@ -28,19 +28,20 @@ func Solve() *day1 {
 
 	startTime := time.Now()
 
-	// data = utils.GetInputDataFromFile("day1/example.txt")
+	// data = utils.GetInputDataFromFile("day2/example.txt")
 
   endTime := time.Now()
 
-	return &day1{
+	return &day2{
 		data:      data,
 		startTime: startTime,
     timeTaken: endTime.Sub(startTime),
 	}
 }
 
-func (d day1) TimeTaken() time.Duration {
+func (d day2) TimeTaken() time.Duration {
 	return d.timeTaken
 }
+
 
 

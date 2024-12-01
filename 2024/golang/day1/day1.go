@@ -11,14 +11,15 @@ import (
 
 type day1 struct {
 	data      []string
+	timeTaken time.Duration
 	startTime time.Time
 	leftList  []int
 	rightlist []int
 }
 
 func (d day1) Part1() any {
-  slices.Sort(d.leftList)
-  slices.Sort(d.rightlist)
+	slices.Sort(d.leftList)
+	slices.Sort(d.rightlist)
 
 	distance := 0
 
@@ -62,14 +63,17 @@ func Solve() day1 {
 		rightlist = append(rightlist, rval)
 	}
 
+	endTime := time.Now()
+
 	return day1{
 		data:      data,
 		startTime: startTime,
 		leftList:  leftList,
 		rightlist: rightlist,
+		timeTaken: endTime.Sub(startTime),
 	}
 }
 
 func (d day1) TimeTaken() time.Duration {
-	return time.Since(d.startTime)
+	return d.timeTaken
 }
