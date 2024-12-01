@@ -10,27 +10,29 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day4"
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day5"
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day6"
+	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day7"
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/models"
 )
 
 func GetSolution(day int) models.Solution {
+  var solution models.Solution
 	switch day {
 	case 1:
-		return day1.Solve()
+		solution = day1.Solve()
 	case 2:
-		return day2.Solve()
+		solution = day2.Solve()
 	case 3:
-		return day3.Solve()
+		solution = day3.Solve()
 	case 4:
-		return day4.Solve()
+		solution = day4.Solve()
 	case 5:
-		return day5.Solve()
+		solution = day5.Solve()
 	case 6:
-		return day6.Solve()
-
-	default:
-		panic("Solution not implemented yet")
+		solution = day6.Solve()
+	case 7:
+		solution = day7.Solve()
 	}
+  return solution
 }
 
 func GetTodaysSolution() models.Solution {
@@ -47,6 +49,9 @@ func GetTodaysSolution() models.Solution {
 func RunAllSolutions() {
 	for i := 1; i <= 25; i++ {
 		solution := GetSolution(i)
+    if solution == nil {
+      continue
+    }
 		fmt.Println("Day", i)
 		fmt.Println("Answer for Part 1:", solution.Part1())
 		fmt.Println("Answer for Part 2:", solution.Part2())

@@ -9,13 +9,12 @@ import (
 )
 
 func GetSolution(day int) models.Solution {
+	var solution models.Solution
 	switch day {
 	case 1:
-		return day1.Solve()
-
-	default:
-		panic("Solution not implemented yet")
+		solution = day1.Solve()
 	}
+	return solution
 }
 
 func GetTodaysSolution() models.Solution {
@@ -32,6 +31,9 @@ func GetTodaysSolution() models.Solution {
 func RunAllSolutions() {
 	for i := 1; i <= 25; i++ {
 		solution := GetSolution(i)
+		if solution == nil {
+			continue
+		}
 		fmt.Println("Day", i)
 		fmt.Println("Answer for Part 1:", solution.Part1())
 		fmt.Println("Answer for Part 2:", solution.Part2())
@@ -39,3 +41,4 @@ func RunAllSolutions() {
 		fmt.Println()
 	}
 }
+

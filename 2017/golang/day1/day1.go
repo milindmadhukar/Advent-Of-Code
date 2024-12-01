@@ -13,7 +13,7 @@ type day1 struct {
 	startTime  time.Time
 }
 
-func (d day1) Part1() any {
+func (d *day1) Part1() any {
 	sum := 0
 	for i := 0; i < len(d.parsedData)-1; i++ {
 		if d.parsedData[i] == d.parsedData[(i+1)%len(d.parsedData)] {
@@ -24,7 +24,7 @@ func (d day1) Part1() any {
 	return sum
 }
 
-func (d day1) Part2() any {
+func (d *day1) Part2() any {
 	sum := 0
 	for i := 0; i < len(d.parsedData)-1; i++ {
 		if d.parsedData[i] == d.parsedData[(i+(len(d.parsedData)/2))%len(d.parsedData)] {
@@ -35,7 +35,7 @@ func (d day1) Part2() any {
 	return sum
 }
 
-func Solve() day1 {
+func Solve() *day1 {
 	data, err := utils.GetInputDataFromAOC(2017, 1)
 	if err != nil {
 		panic(err)
@@ -50,7 +50,7 @@ func Solve() day1 {
 
 	parsedData := utils.StringSliceToIntegerSlice(data)
 
-	return day1{
+	return &day1{
 		data:       data,
 		parsedData: parsedData,
 		startTime:  startTime,

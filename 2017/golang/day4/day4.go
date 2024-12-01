@@ -37,7 +37,7 @@ func isAnagram(s string, t string) bool {
 	return true
 }
 
-func (d day4) Part1() any {
+func (d *day4) Part1() any {
 	validCount := 0
 	for _, line := range d.parsedData {
 		unique := utils.GetUniqueElements(line)
@@ -48,7 +48,7 @@ func (d day4) Part1() any {
 	return validCount
 }
 
-func (d day4) Part2() any {
+func (d *day4) Part2() any {
 	validCount := 0
 	for _, line := range d.parsedData {
 		isValid := true
@@ -69,7 +69,7 @@ func (d day4) Part2() any {
 	return validCount
 }
 
-func Solve() day4 {
+func Solve() *day4 {
 	data, err := utils.GetInputDataFromAOC(2017, 4)
 	if err != nil {
 		panic(err)
@@ -79,7 +79,7 @@ func Solve() day4 {
 
 	// data = utils.GetInputDataFromFile("day4/example.txt")
 
-	return day4{
+	return &day4{
 		data:       data,
 		startTime:  startTime,
 		parsedData: utils.GetSplitData(data, " "),

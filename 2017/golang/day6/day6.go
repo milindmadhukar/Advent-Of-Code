@@ -65,15 +65,15 @@ func (d *day6) GenerateStates() {
 	}
 }
 
-func (d day6) Part1() any {
+func (d *day6) Part1() any {
 	return d.steps
 }
 
-func (d day6) Part2() any {
+func (d *day6) Part2() any {
 	return d.loopSize
 }
 
-func Solve() day6 {
+func Solve() *day6 {
 	data, err := utils.GetRawInputDataFromAOC(2017, 6)
 	if err != nil {
 		panic(err)
@@ -86,7 +86,7 @@ func Solve() day6 {
 
 	parsedData := utils.StringSliceToIntegerSlice(strings.Split(data, "\t"))
 
-	d := day6{
+	d := &day6{
 		data:       data,
 		startTime:  startTime,
 		parsedData: parsedData,

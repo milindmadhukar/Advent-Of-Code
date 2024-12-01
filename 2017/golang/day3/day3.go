@@ -82,15 +82,15 @@ func (d *day3) GenerateMemoryBlock() {
 	}
 }
 
-func (d day3) Part1() any {
+func (d *day3) Part1() any {
 	return d.coordinates[d.num].manhattanDistance()
 }
 
-func (d day3) Part2() any {
+func (d *day3) Part2() any {
 	return d.firstValueBiggerThanInput
 }
 
-func Solve() day3 {
+func Solve() *day3 {
 
 	data, err := utils.GetInputDataFromAOC(2017, 3)
 	if err != nil {
@@ -110,7 +110,7 @@ func Solve() day3 {
 	}
 	d.GenerateMemoryBlock()
 
-	return d
+	return &d
 }
 
 func (d day3) TimeTaken() time.Duration {

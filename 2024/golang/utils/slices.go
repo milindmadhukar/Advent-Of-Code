@@ -24,3 +24,13 @@ func Intersection[K comparable](A, B []K) []K {
 
 	return result
 }
+
+func CountOf[K comparable](slice []K, element K) int {
+  count := 0
+  for _, item := range slice {
+    if item == element {
+      count++
+    }
+  }
+  return count
+}

@@ -13,7 +13,7 @@ type day2 struct {
 	parsedData [][]int
 }
 
-func (d day2) Part1() any {
+func (d *day2) Part1() any {
 
 	checksum := 0
 
@@ -34,7 +34,7 @@ func (d day2) Part1() any {
 	return checksum
 }
 
-func (d day2) Part2() any {
+func (d *day2) Part2() any {
 	checksum := 0
 
 	for _, line := range d.parsedData {
@@ -59,7 +59,7 @@ func (d day2) Part2() any {
 	return checksum
 }
 
-func Solve() day2 {
+func Solve() *day2 {
 	data, err := utils.GetInputDataFromAOC(2017, 2)
 	if err != nil {
 		panic(err)
@@ -74,7 +74,7 @@ func Solve() day2 {
 		parsedData = append(parsedData, utils.StringSliceToIntegerSlice(val))
 	}
 
-	return day2{
+	return &day2{
 		data:       data,
 		startTime:  startTime,
 		parsedData: parsedData,

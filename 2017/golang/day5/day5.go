@@ -12,7 +12,7 @@ type day5 struct {
 	parsedData []int
 }
 
-func (d day5) Part1() any {
+func (d *day5) Part1() any {
 	ptr := 0
 	steps := 0
   offsets := make([]int, len(d.parsedData))
@@ -27,7 +27,7 @@ func (d day5) Part1() any {
 	return steps
 }
 
-func (d day5) Part2() any {
+func (d *day5) Part2() any {
 	ptr := 0
 	steps := 0
   offsets := make([]int, len(d.parsedData))
@@ -46,7 +46,7 @@ func (d day5) Part2() any {
 	return steps
 }
 
-func Solve() day5 {
+func Solve() *day5 {
 	data, err := utils.GetInputDataFromAOC(2017, 5)
 	if err != nil {
 		panic(err)
@@ -54,7 +54,7 @@ func Solve() day5 {
 
 	startTime := time.Now()
 
-	return day5{
+	return &day5{
 		data:       data,
 		startTime:  startTime,
 		parsedData: utils.StringSliceToIntegerSlice(data),

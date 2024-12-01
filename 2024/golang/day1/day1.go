@@ -11,15 +11,15 @@ type day1 struct {
 	startTime time.Time
 }
 
-func (d day1) Part1() any {
+func (d *day1) Part1() any {
 	return 0
 }
 
-func (d day1) Part2() any {
+func (d *day1) Part2() any {
 	return 0
 }
 
-func Solve() day1 {
+func Solve() *day1 {
 	data, err := utils.GetInputDataFromAOC(2024, 1)
 	if err != nil {
 		panic(err)
@@ -27,10 +27,9 @@ func Solve() day1 {
 
 	startTime := time.Now()
 
-	// exampleFileData, _ := os.ReadFile("day1/example.txt")
-	// data = utils.ParseFromString(string(exampleFile))
+	// data = utils.GetInputDataFromFile("day1/example.txt")
 
-	return day1{
+	return &day1{
 		data:      data,
 		startTime: startTime,
 	}
@@ -39,3 +38,6 @@ func Solve() day1 {
 func (d day1) TimeTaken() time.Duration {
 	return time.Since(d.startTime)
 }
+
+
+
