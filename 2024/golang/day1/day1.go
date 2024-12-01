@@ -17,13 +17,8 @@ type day1 struct {
 }
 
 func (d day1) Part1() any {
-	slices.SortFunc(d.leftList, func(a, b int) int {
-		return a - b
-	})
-
-	slices.SortFunc(d.rightlist, func(a, b int) int {
-		return a - b
-	})
+  slices.Sort(d.leftList)
+  slices.Sort(d.rightlist)
 
 	distance := 0
 
