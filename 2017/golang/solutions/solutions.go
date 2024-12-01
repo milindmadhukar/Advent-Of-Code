@@ -11,11 +11,12 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day5"
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day6"
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day7"
+	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/day8"
 	"github.com/milindmadhukar/Advent-Of-Code/2017/golang/models"
 )
 
 func GetSolution(day int) models.Solution {
-  var solution models.Solution
+	var solution models.Solution
 	switch day {
 	case 1:
 		solution = day1.Solve()
@@ -31,8 +32,11 @@ func GetSolution(day int) models.Solution {
 		solution = day6.Solve()
 	case 7:
 		solution = day7.Solve()
+  case 8:
+    solution = day8.Solve()
+
 	}
-  return solution
+	return solution
 }
 
 func GetTodaysSolution() models.Solution {
@@ -43,15 +47,21 @@ func GetTodaysSolution() models.Solution {
 		panic("Not the right time to run this")
 	}
 
-	return GetSolution(day)
+	sol := GetSolution(day)
+
+	if sol == nil {
+		panic("Solution not found")
+	}
+
+	return sol
 }
 
 func RunAllSolutions() {
 	for i := 1; i <= 25; i++ {
 		solution := GetSolution(i)
-    if solution == nil {
-      continue
-    }
+		if solution == nil {
+			continue
+		}
 		fmt.Println("Day", i)
 		fmt.Println("Answer for Part 1:", solution.Part1())
 		fmt.Println("Answer for Part 2:", solution.Part2())
