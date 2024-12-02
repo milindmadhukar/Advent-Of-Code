@@ -37,6 +37,14 @@ func CountOf[K comparable](slice []K, element K) int {
 	return count
 }
 
+func CountOfAll[K comparable](slice []K) map[K]int {
+	counts := make(map[K]int)
+	for _, item := range slice {
+		counts[item]++
+	}
+	return counts
+}
+
 func Remove[K comparable](slice []K, element K) []K {
 	var result []K
 	for _, item := range slice {

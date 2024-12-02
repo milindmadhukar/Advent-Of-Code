@@ -1,4 +1,4 @@
-## 2023 Golang Solutions
+## 2024 Golang Solutions
 
 ### Instructions to run
 

@@ -31,9 +31,10 @@ func (d day1) Part1() any {
 func (d day1) Part2() any {
 	similarity := 0
 
+	countsRight := utils.CountOfAll(d.rightlist)
 	for idx := 0; idx < len(d.leftList); idx++ {
 		leftNum := d.leftList[idx]
-		rightCount := utils.CountOf(d.rightlist, leftNum)
+		rightCount := countsRight[leftNum]
 		similarity += (leftNum * rightCount)
 	}
 
