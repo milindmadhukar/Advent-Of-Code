@@ -2,21 +2,19 @@ package day2
 
 import (
 	"math"
-	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
 type day2 struct {
 	data      []string
-	timeTaken time.Duration
 	reports   [][]int
 }
 
 func isReportValid(report []int) bool {
 	isValid := true
-	var isAscending = false
-	var isDescending = false
+	isAscending := false
+	isDescending := false
 
 	diff := report[0] - report[1]
 
@@ -44,8 +42,7 @@ func isReportValid(report []int) bool {
 func (d *day2) Part1() any {
 	validCount := 0
 	for _, report := range d.reports {
-		isValid := isReportValid(report)
-		if isValid {
+		if isReportValid(report) {
 			validCount++
 		}
 	}
@@ -57,20 +54,15 @@ func (d *day2) Part2() any {
 	validCount := 0
 
 	for _, report := range d.reports {
-		isValid := isReportValid(report)
-
-		if isValid {
+		if isReportValid(report) {
 			validCount++
 		} else {
 			canTolerate := false
-
 			for idx := range report {
 				newReport := make([]int, len(report))
 				copy(newReport, report)
-				newReport = append(newReport[:idx], newReport[idx+1:]...)
-				isValid := isReportValid(newReport)
-
-				if isValid {
+				_, newReport = utils.Pop(newReport, idx)
+				if isReportValid(newReport) {
 					canTolerate = true
 					break
 				}
@@ -93,23 +85,14 @@ func Solve() *day2 {
 
 	// data = utils.GetInputDataFromFile("day2/example.txt")
 
-	startTime := time.Now()
-
 	splitData := utils.GetSplitData(data, " ")
 	var reports [][]int
 	for _, line := range splitData {
 		reports = append(reports, utils.StringSliceToIntegerSlice(line))
 	}
 
-	endTime := time.Now()
-
 	return &day2{
 		data:      data,
-		timeTaken: endTime.Sub(startTime),
 		reports:   reports,
 	}
-}
-
-func (d day2) TimeTaken() time.Duration {
-	return d.timeTaken
 }

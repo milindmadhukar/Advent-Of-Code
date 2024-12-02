@@ -37,6 +37,37 @@ func CountOf[K comparable](slice []K, element K) int {
 	return count
 }
 
+func Remove[K comparable](slice []K, element K) []K {
+	var result []K
+	for _, item := range slice {
+		if item != element {
+			result = append(result, item)
+		}
+	}
+	return result
+}
+
+func Pop[K any](slice []K, index int) (K, []K) {
+	if index < 0 || index >= len(slice) {
+		panic("Index out of range")
+	}
+
+	result := slice[index]
+	slice = append(slice[:index], slice[index+1:]...)
+	return result, slice
+}
+
+func Insert[K any](slice []K, index int, element K) []K {
+	if index < 0 || index > len(slice) {
+		panic("Index out of range")
+	}
+
+	slice = append(slice, element)
+	copy(slice[index+1:], slice[index:])
+	slice[index] = element
+	return slice
+}
+
 func Zip[T, U any](slice1 []T, slice2 []U) []models.Pair[T, U] {
 	minLen := len(slice1)
 	if len(slice2) < minLen {

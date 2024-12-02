@@ -4,14 +4,12 @@ import (
 	"math"
 	"slices"
 	"strconv"
-	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
 type day1 struct {
 	data      []string
-	timeTaken time.Duration
 	leftList  []int
 	rightlist []int
 }
@@ -50,8 +48,6 @@ func Solve() day1 {
 
 	// data = utils.GetInputDataFromFile("day1/example.txt")
 
-	startTime := time.Now()
-
 	parsedData := utils.GetSplitData(data, "   ")
 	var leftList, rightlist []int
 
@@ -62,16 +58,9 @@ func Solve() day1 {
 		rightlist = append(rightlist, rval)
 	}
 
-	endTime := time.Now()
-
 	return day1{
 		data:      data,
 		leftList:  leftList,
 		rightlist: rightlist,
-		timeTaken: endTime.Sub(startTime),
 	}
-}
-
-func (d day1) TimeTaken() time.Duration {
-	return d.timeTaken
 }

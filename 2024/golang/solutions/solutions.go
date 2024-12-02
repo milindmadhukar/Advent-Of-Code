@@ -38,9 +38,12 @@ func RunAllSolutions() {
 			continue
 		}
 		fmt.Println("Day", i)
+    part1Time := time.Now()
 		fmt.Println("Answer for Part 1:", solution.Part1())
+    fmt.Println("Time taken for Part 1:", time.Since(part1Time))
+    part2Time := time.Now()
 		fmt.Println("Answer for Part 2:", solution.Part2())
-		fmt.Println("Time taken:", solution.TimeTaken())
+    fmt.Println("Time taken for Part 2:", time.Since(part2Time))
 		fmt.Println()
 	}
 }
