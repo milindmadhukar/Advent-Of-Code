@@ -1,15 +1,11 @@
 package day1
 
 import (
-	"time"
-
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
 type day1 struct {
 	data      []string
-  timeTaken time.Duration
-	startTime time.Time
 }
 
 func (d *day1) Part1() any {
@@ -28,20 +24,8 @@ func Solve() *day1 {
 
 	// data = utils.GetInputDataFromFile("day1/example.txt")
 
-	startTime := time.Now()
-
-
-  endTime := time.Now()
-
 	return &day1{
 		data:      data,
-		startTime: startTime,
-    timeTaken: endTime.Sub(startTime),
 	}
 }
-
-func (d day1) TimeTaken() time.Duration {
-	return d.timeTaken
-}
-
 
