@@ -20,30 +20,19 @@ func isReportValid(report []int) bool {
 
 	diff := report[0] - report[1]
 
-	if diff == 0 {
-		return false
-	}
-
 	if diff < 0 {
 		isDescending = true
-	}
-	if diff > 0 {
+	} else if diff > 0 {
 		isAscending = true
+	} else {
+		// Diff is 0
+		return false
 	}
 
 	for idx := 0; idx < len(report)-1; idx++ {
 		diff := report[idx] - report[idx+1]
-		if isAscending && diff < 0 {
-			isValid = false
-			break
-		}
-
-		if isDescending && diff > 0 {
-			isValid = false
-			break
-		}
-
-		if math.Abs(float64(diff)) < 1 || math.Abs(float64(diff)) > 3 {
+		absDiff := math.Abs(float64(diff))
+		if (isAscending && diff < 0) || (isDescending && diff > 0) || (absDiff < 1 || absDiff > 3) {
 			isValid = false
 			break
 		}
@@ -53,15 +42,12 @@ func isReportValid(report []int) bool {
 }
 
 func (d *day2) Part1() any {
-
 	validCount := 0
-
 	for _, report := range d.reports {
 		isValid := isReportValid(report)
 		if isValid {
 			validCount++
 		}
-
 	}
 
 	return validCount
@@ -81,7 +67,6 @@ func (d *day2) Part2() any {
 			for idx := range report {
 				newReport := make([]int, len(report))
 				copy(newReport, report)
-
 				newReport = append(newReport[:idx], newReport[idx+1:]...)
 				isValid := isReportValid(newReport)
 
@@ -111,9 +96,7 @@ func Solve() *day2 {
 	startTime := time.Now()
 
 	splitData := utils.GetSplitData(data, " ")
-
 	var reports [][]int
-
 	for _, line := range splitData {
 		reports = append(reports, utils.StringSliceToIntegerSlice(line))
 	}
