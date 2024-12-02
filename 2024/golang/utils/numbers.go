@@ -29,4 +29,10 @@ func Abs[T Number](x T) T {
 	return x
 }
 
-
+func Sum[T Number](numbers []T) T {
+  var sum T
+  for _, val := range numbers {
+    sum += val
+  }
+  return sum
+}
