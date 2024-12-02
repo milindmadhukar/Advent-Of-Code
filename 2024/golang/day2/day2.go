@@ -1,14 +1,14 @@
 package day2
 
 import (
-	"math"
+	"slices"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
 type day2 struct {
-	data      []string
-	reports   [][]int
+	data    []string
+	reports [][]int
 }
 
 func isReportValid(report []int) bool {
@@ -29,7 +29,7 @@ func isReportValid(report []int) bool {
 
 	for idx := 0; idx < len(report)-1; idx++ {
 		diff := report[idx] - report[idx+1]
-		absDiff := math.Abs(float64(diff))
+		absDiff := utils.Abs(diff)
 		if (isAscending && diff > 0) || (isDescending && diff < 0) || (absDiff < 1 || absDiff > 3) {
 			isValid = false
 			break
@@ -59,8 +59,7 @@ func (d *day2) Part2() any {
 		} else {
 			canTolerate := false
 			for idx := range report {
-				newReport := make([]int, len(report))
-				copy(newReport, report)
+				newReport := slices.Clone(report)
 				_, newReport = utils.Pop(newReport, idx)
 				if isReportValid(newReport) {
 					canTolerate = true
@@ -92,7 +91,7 @@ func Solve() *day2 {
 	}
 
 	return &day2{
-		data:      data,
-		reports:   reports,
+		data:    data,
+		reports: reports,
 	}
 }

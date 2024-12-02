@@ -1,7 +1,6 @@
 package day1
 
 import (
-	"math"
 	"slices"
 	"strconv"
 
@@ -22,7 +21,7 @@ func (d day1) Part1() any {
 
 	for idx := 0; idx < len(d.leftList); idx++ {
 		diff := d.leftList[idx] - d.rightlist[idx]
-		distance += int(math.Abs(float64(diff)))
+		distance += utils.Abs(diff)
 	}
 
 	return distance

@@ -1,5 +1,12 @@
 package utils
 
+import "golang.org/x/exp/constraints"
+
+type Number interface {
+    constraints.Integer | constraints.Float
+}
+
+
 func Gcd(a, b int) int {
 	if a == 0 {
 		return b
@@ -14,3 +21,12 @@ func Lcm(numbers []int) int {
 	}
 	return result
 }
+
+func Abs[T Number](x T) T {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+
