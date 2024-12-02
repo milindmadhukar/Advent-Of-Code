@@ -27,6 +27,15 @@ func Intersection[K comparable](A, B []K) []K {
 	return result
 }
 
+func Contains[K comparable](slice []K, element K) bool {
+  for _, item := range slice {
+    if item == element {
+      return true
+    }
+  }
+  return false
+}
+
 func CountOf[K comparable](slice []K, element K) int {
 	count := 0
 	for _, item := range slice {
@@ -112,4 +121,14 @@ func ZipLongest[T, U any](slice1 []T, slice2 []U) []models.Pair[T, U] {
 	}
 
 	return result
+}
+
+func Reduce[K any, V any](reducer func(V, K) V, values []K, initialValue V) V {
+  result := initialValue
+
+  for _, value := range values {
+    result = reducer(result, value)
+  }
+
+  return result
 }

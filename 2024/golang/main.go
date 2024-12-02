@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	solution := solutions.GetSolution(1)
+	solution := solutions.GetTodaysSolution()
 
 	part1Time := time.Now()
 	fmt.Println("Answer for Part 1:", solution.Part1())
