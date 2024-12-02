@@ -34,7 +34,6 @@ func GetSolution(day int) models.Solution {
 		solution = day7.Solve()
   case 8:
     solution = day8.Solve()
-
 	}
 	return solution
 }

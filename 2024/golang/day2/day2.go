@@ -19,9 +19,9 @@ func isReportValid(report []int) bool {
 	diff := report[0] - report[1]
 
 	if diff < 0 {
-		isDescending = true
-	} else if diff > 0 {
 		isAscending = true
+	} else if diff > 0 {
+		isDescending = true
 	} else {
 		// Diff is 0
 		return false
@@ -30,7 +30,7 @@ func isReportValid(report []int) bool {
 	for idx := 0; idx < len(report)-1; idx++ {
 		diff := report[idx] - report[idx+1]
 		absDiff := math.Abs(float64(diff))
-		if (isAscending && diff < 0) || (isDescending && diff > 0) || (absDiff < 1 || absDiff > 3) {
+		if (isAscending && diff > 0) || (isDescending && diff < 0) || (absDiff < 1 || absDiff > 3) {
 			isValid = false
 			break
 		}
