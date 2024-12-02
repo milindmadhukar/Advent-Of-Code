@@ -9,7 +9,6 @@ import (
 type day3 struct {
 	data      []string
 	timeTaken time.Duration
-	startTime time.Time
 }
 
 func (d *day3) Part1() any {
@@ -34,7 +33,6 @@ func Solve() *day3 {
 
 	return &day3{
 		data:      data,
-		startTime: startTime,
 		timeTaken: endTime.Sub(startTime),
 	}
 }
