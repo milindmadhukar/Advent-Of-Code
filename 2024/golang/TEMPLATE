@@ -26,9 +26,10 @@ func Solve() *day1 {
 		panic(err)
 	}
 
+	// data = utils.GetInputDataFromFile("day1/example.txt")
+
 	startTime := time.Now()
 
-	// data = utils.GetInputDataFromFile("day1/example.txt")
 
   endTime := time.Now()
 
