@@ -13,10 +13,10 @@ type day3 struct {
 
 func (d *day3) Part1() any {
 	sum := 0
+	var num1, num2 int
 	reg := regexp.MustCompile(`mul\(\d+,\d+\)`)
 	matches := reg.FindAllString(d.data, -1)
 	for _, match := range matches {
-		var num1, num2 int
 		fmt.Sscanf(match, "mul(%d,%d)", &num1, &num2)
 		sum += num1 * num2
 	}
@@ -26,6 +26,7 @@ func (d *day3) Part1() any {
 
 func (d *day3) Part2() any {
 	sum := 0
+	var num1, num2 int
 	reg := regexp.MustCompile(`mul\(\d+,\d+\)|do\(\)|don\'t\(\)`)
 	matches := reg.FindAllString(d.data, -1)
 	isMulEnabled := true
@@ -35,7 +36,6 @@ func (d *day3) Part2() any {
 		} else if match == "don't()" {
 			isMulEnabled = false
 		} else if isMulEnabled {
-			var num1, num2 int
 			fmt.Sscanf(match, "mul(%d,%d)", &num1, &num2)
 			sum += num1 * num2
 		}
