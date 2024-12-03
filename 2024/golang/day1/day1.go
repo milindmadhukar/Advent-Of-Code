@@ -24,6 +24,16 @@ func (d day1) Part1() any {
 		distance += utils.Abs(diff)
 	}
 
+	/*
+		return utils.Sum(
+			utils.Map(func(pair models.Pair[int, int]) int {
+				return utils.Abs(pair.First - pair.Second)
+			},
+				utils.Zip(d.leftList, d.rightlist),
+			),
+		)
+	*/
+
 	return distance
 }
 
