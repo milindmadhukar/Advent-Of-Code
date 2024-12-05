@@ -27,6 +27,15 @@ func Intersection[K comparable](A, B []K) []K {
 	return result
 }
 
+func IndexOf[K comparable](slice []K, element K) int {
+	for i, item := range slice {
+		if item == element {
+			return i
+		}
+	}
+	return -1
+}
+
 func Contains[K comparable](slice []K, element K) bool {
 	for _, item := range slice {
 		if item == element {

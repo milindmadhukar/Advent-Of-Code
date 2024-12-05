@@ -40,6 +40,30 @@ func GetTodaysSolution() models.Solution {
 	return GetSolution(day)
 }
 
+func RunSolution(solution models.Solution, day int) {
+	fmt.Println("Day", day)
+	part1Time := time.Now()
+	fmt.Println("Answer for Part 1:", solution.Part1())
+	fmt.Println("Time taken for Part 1:", time.Since(part1Time))
+	part2Time := time.Now()
+	fmt.Println("Answer for Part 2:", solution.Part2())
+	fmt.Println("Time taken for Part 2:", time.Since(part2Time))
+}
+
+func RunSolutionForDay(day int) {
+	solution := GetSolution(day)
+	if solution == nil {
+		fmt.Println("No solution found for day", day)
+		return
+	}
+	RunSolution(solution, day)
+}
+
+func RunTodaysSolution() {
+	solution := GetTodaysSolution()
+	RunSolution(solution, time.Now().Day())
+}
+
 func RunAllSolutions() {
 	for i := 1; i <= 25; i++ {
 		solution := GetSolution(i)

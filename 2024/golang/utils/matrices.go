@@ -1,33 +1,33 @@
 package utils
 
 func Transpose[T any](arr [][]T) [][]T {
-  rowLength := len(arr)
-  colLength := len(arr[0])
+	rowLength := len(arr)
+	colLength := len(arr[0])
 
-  transposed := make([][]T, colLength)
+	transposed := make([][]T, colLength)
 
-  for i := 0; i < colLength; i++ {
-    transposed[i] = make([]T, rowLength)
-  }
+	for i := 0; i < colLength; i++ {
+		transposed[i] = make([]T, rowLength)
+	}
 
-  for i := 0; i < rowLength; i++ {
-    for j := 0; j < colLength; j++ {
-      transposed[j][i] = arr[i][j]
-    }
-  }
+	for i := 0; i < rowLength; i++ {
+		for j := 0; j < colLength; j++ {
+			transposed[j][i] = arr[i][j]
+		}
+	}
 
-  return transposed
+	return transposed
 }
 
-func Diagonals[T any](grid [][]T) [][]T {
+// Top-left to bottom-right diagonals
+func TLBRDiagonals[T any](grid [][]T) [][]T {
 	rowLength := len(grid)
 	colLength := len(grid[0])
 
-  diagonals := make([][]T, 0)
+	var diagonals [][]T
 
-	// Top-left to bottom-right diagonals
 	for rowStart := 0; rowStart < rowLength; rowStart++ {
-		diagonal := make([]T, 0)
+		var diagonal []T
 		row, col := rowStart, 0
 		for row < rowLength && col < colLength {
 			diagonal = append(diagonal, grid[row][col])
@@ -38,7 +38,7 @@ func Diagonals[T any](grid [][]T) [][]T {
 	}
 
 	for colStart := 1; colStart < colLength; colStart++ {
-		diagonal := make([]T, 0)
+		var diagonal []T
 		row, col := 0, colStart
 		for row < rowLength && col < colLength {
 			diagonal = append(diagonal, grid[row][col])
@@ -48,9 +48,18 @@ func Diagonals[T any](grid [][]T) [][]T {
 		diagonals = append(diagonals, diagonal)
 	}
 
-	// Top-right to bottom-left diagonals
+	return diagonals
+}
+
+// Top-right to bottom-left diagonals
+func TRBLDiagonals[T any](grid [][]T) [][]T {
+	rowLength := len(grid)
+	colLength := len(grid[0])
+
+	var diagonals [][]T
+
 	for rowStart := 0; rowStart < rowLength; rowStart++ {
-		diagonal := make([]T, 0)
+		var diagonal []T
 		row, col := rowStart, colLength-1
 		for row < rowLength && col >= 0 {
 			diagonal = append(diagonal, grid[row][col])
@@ -61,7 +70,7 @@ func Diagonals[T any](grid [][]T) [][]T {
 	}
 
 	for colStart := colLength - 2; colStart >= 0; colStart-- {
-		diagonal := make([]T, 0)
+		var diagonal []T
 		row, col := 0, colStart
 		for row < rowLength && col >= 0 {
 			diagonal = append(diagonal, grid[row][col])
@@ -70,6 +79,15 @@ func Diagonals[T any](grid [][]T) [][]T {
 		}
 		diagonals = append(diagonals, diagonal)
 	}
+
+	return diagonals
+}
+
+func Diagonals[T any](grid [][]T) [][]T {
+	var diagonals [][]T
+
+	diagonals = append(diagonals, TLBRDiagonals(grid)...)
+	diagonals = append(diagonals, TRBLDiagonals(grid)...)
 
 	return diagonals
 }
