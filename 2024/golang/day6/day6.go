@@ -106,6 +106,9 @@ func (d *day6) Part2() any {
 		for x := 0; x < xLimit; x++ {
 			go func() {
 				defer wg.Done()
+				if d.parsedData[y][x] == "#" || d.parsedData[y][x] == "^" {
+					return
+				}
 				var newData [][]string
 				for _, line := range d.parsedData {
 					newData = append(newData, slices.Clone(line))
