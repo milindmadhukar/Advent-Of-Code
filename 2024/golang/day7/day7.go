@@ -14,13 +14,12 @@ type day7 struct {
 }
 
 type Expression struct {
-	result int
-	nums   []int
+	result   int
+	operands []int
 }
 
 func (d *day7) Compute(num1, num2 int, op string) int {
 	var result int
-
 	switch op {
 	case "+":
 		result = num1 + num2
@@ -42,15 +41,14 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 	for _, exp := range d.expressions {
 		go func() {
 			defer expressionWg.Done()
-			numsCount := len(exp.nums)
+			numsCount := len(exp.operands)
 			operatorsLayout := utils.Permutations(operators, numsCount-1)
 			var operatorWg sync.WaitGroup
 			operatorWg.Add(len(operatorsLayout))
-			var result int
-			for _, layout := range operatorsLayout {
-				result = d.Compute(exp.nums[0], exp.nums[1], string(layout[0]))
+			for layout := range operatorsLayout {
+				result := d.Compute(exp.operands[0], exp.operands[1], string(layout[0]))
 				for i := 2; i < numsCount; i++ {
-					result = d.Compute(result, exp.nums[i], string(layout[i-1]))
+					result = d.Compute(result, exp.operands[i], string(layout[i-1]))
 				}
 				if result == exp.result {
 					sum += exp.result
@@ -91,7 +89,7 @@ func Solve() *day7 {
 		var exp Expression
 		split := strings.Split(line, ": ")
 		exp.result, _ = strconv.Atoi(split[0])
-		exp.nums = utils.StringSliceToIntegerSlice(strings.Split(split[1], " "))
+		exp.operands = utils.StringSliceToIntegerSlice(strings.Split(split[1], " "))
 		expressions = append(expressions, exp)
 	}
 
