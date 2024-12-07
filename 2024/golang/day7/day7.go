@@ -35,18 +35,21 @@ func (d *day7) Compute(num1, num2 int, op string) int {
 func (d *day7) ValidExpressionsSum(operators []string) int {
 	sum := 0
 
-	var expressionWg sync.WaitGroup
-	expressionWg.Add(len(d.expressions))
+	var wg sync.WaitGroup
+	wg.Add(len(d.expressions))
 
 	for _, exp := range d.expressions {
 		go func() {
-			defer expressionWg.Done()
+			defer wg.Done()
 			numsCount := len(exp.operands)
 			operatorsLayout := utils.Permutations(operators, numsCount-1)
 			for layout := range operatorsLayout {
 				result := d.Compute(exp.operands[0], exp.operands[1], string(layout[0]))
 				for i := 2; i < numsCount; i++ {
 					result = d.Compute(result, exp.operands[i], string(layout[i-1]))
+					if result > exp.result {
+						break
+					}
 				}
 				if result == exp.result {
 					sum += exp.result
@@ -56,7 +59,7 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 		}()
 	}
 
-	expressionWg.Wait()
+	wg.Wait()
 
 	return sum
 }
