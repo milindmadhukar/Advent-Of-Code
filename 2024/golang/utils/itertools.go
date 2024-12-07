@@ -47,3 +47,23 @@ func combinationsHelper[T comparable](input []T, r, index, start int, current []
 		combinationsHelper(input, r, index+1, i+1, current, ch)
 	}
 }
+
+func MuffinsPermutations[K any](input []K, n int) [][]K {
+    result := [][]K{}
+    current := make([]K, n)
+    var permute func(int)
+    permute = func(index int) {
+        if index == n {
+            temp := make([]K, n)
+            copy(temp, current)
+            result = append(result, temp)
+            return
+        }
+        for i := 0; i < len(input); i++ {
+            current[index] = input[i]
+            permute(index + 1)
+        }
+    }
+    permute(0)
+    return result
+}

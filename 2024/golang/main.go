@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	solutions.RunTodaysSolution()
+	solutions.RunSolutionForDay(7)
 }
