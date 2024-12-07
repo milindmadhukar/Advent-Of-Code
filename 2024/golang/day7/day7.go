@@ -26,7 +26,14 @@ func (d *day7) Compute(num1, num2 int, op string) int {
 	case "*":
 		result = num1 * num2
 	case "||":
-		result, _ = strconv.Atoi(strconv.Itoa(num1) + strconv.Itoa(num2))
+		if num2 == 0 {
+			return num1 * 10
+		}
+		digits := 1
+		for temp := num2; temp > 0; temp /= 10 {
+			digits *= 10
+		}
+		return num1*digits + num2
 	}
 
 	return result
@@ -47,9 +54,6 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 				result := d.Compute(exp.operands[0], exp.operands[1], string(layout[0]))
 				for i := 2; i < numsCount; i++ {
 					result = d.Compute(result, exp.operands[i], string(layout[i-1]))
-					if result > exp.result {
-						break
-					}
 				}
 				if result == exp.result {
 					sum += exp.result
