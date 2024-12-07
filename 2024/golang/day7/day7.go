@@ -49,7 +49,7 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 		go func() {
 			defer wg.Done()
 			numsCount := len(exp.operands)
-			operatorsLayout := utils.Permutations(operators, numsCount-1)
+			operatorsLayout := utils.GeneratePermutations(operators, numsCount-1)
 			for layout := range operatorsLayout {
 				result := d.Compute(exp.operands[0], exp.operands[1], string(layout[0]))
 				for i := 2; i < numsCount; i++ {
@@ -57,7 +57,7 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 				}
 				if result == exp.result {
 					sum += exp.result
-					break
+					return
 				}
 			}
 		}()

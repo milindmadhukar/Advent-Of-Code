@@ -1,6 +1,6 @@
 package utils
 
-func Permutations[T any](src []T, size int) func(yield func([]T) bool) {
+func GeneratePermutations[T any](src []T, size int) func(yield func([]T) bool) {
 	var res = make([]T, size)
 	var generate func(int) bool
 
@@ -27,7 +27,7 @@ func Permutations[T any](src []T, size int) func(yield func([]T) bool) {
 	}
 }
 
-func Combinations[T any](src []T, size int) func(yield func([]T) bool) {
+func GenerateCombinations[T any](src []T, size int) func(yield func([]T) bool) {
 	var res = make([]T, size)
 	var generate func(int, int) bool
 
@@ -51,4 +51,24 @@ func Combinations[T any](src []T, size int) func(yield func([]T) bool) {
 
 		generate(0, 0)
 	}
+}
+
+func Permutations[T any](src []T, size int) [][]T {
+	var result [][]T
+	gen := GeneratePermutations(src, size)
+	gen(func(perm []T) bool {
+		result = append(result, append([]T{}, perm...))
+		return true
+	})
+	return result
+}
+
+func Combinations[T any](src []T, size int) [][]T {
+	var result [][]T
+	gen := GenerateCombinations(src, size)
+	gen(func(comb []T) bool {
+		result = append(result, comb)
+		return true
+	})
+	return result
 }
