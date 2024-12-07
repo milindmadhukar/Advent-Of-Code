@@ -43,8 +43,6 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 			defer expressionWg.Done()
 			numsCount := len(exp.operands)
 			operatorsLayout := utils.Permutations(operators, numsCount-1)
-			var operatorWg sync.WaitGroup
-			operatorWg.Add(len(operatorsLayout))
 			for layout := range operatorsLayout {
 				result := d.Compute(exp.operands[0], exp.operands[1], string(layout[0]))
 				for i := 2; i < numsCount; i++ {

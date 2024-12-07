@@ -1,69 +1,54 @@
 package utils
 
-func Permutations[T comparable](input []T, size int) <-chan []T {
-	ch := make(chan []T)
-	go func() {
-		defer close(ch)
-		current := make([]T, size)
-		permutationsHelper(input, size, 0, current, ch)
-	}()
-	return ch
-}
+func Permutations[T any](src []T, size int) func(yield func([]T) bool) {
+	var res = make([]T, size)
+	var generate func(int) bool
 
-func permutationsHelper[T comparable](input []T, size int, position int, current []T, ch chan<- []T) {
-	if position == size {
-		combination := make([]T, size)
-		copy(combination, current)
-		ch <- combination
-		return
-	}
+	return func(yield func([]T) bool) {
+		generate = func(idx int) bool {
+			if idx == size {
+				if !yield(res) {
+					return false
+				}
 
-	for i := 0; i < len(input); i++ {
-		current[position] = input[i]
-		permutationsHelper(input, size, position+1, current, ch)
-	}
-}
+				return true
+			}
 
-func Combinations[T comparable](input []T, r int) <-chan []T {
-	ch := make(chan []T)
-	go func() {
-		defer close(ch)
-		current := make([]T, r)
-		combinationsHelper(input, r, 0, 0, current, ch)
-	}()
-	return ch
-}
+			for _, v := range src {
+				res[idx] = v
+				if !generate(idx + 1) {
+					return false
+				}
+			}
+			return true
+		}
 
-func combinationsHelper[T comparable](input []T, r, index, start int, current []T, ch chan<- []T) {
-	if index == r {
-		combination := make([]T, r)
-		copy(combination, current)
-		ch <- combination
-		return
-	}
-
-	for i := start; i < len(input); i++ {
-		current[index] = input[i]
-		combinationsHelper(input, r, index+1, i+1, current, ch)
+		generate(0)
 	}
 }
 
-func MuffinsPermutations[K any](input []K, n int) [][]K {
-    result := [][]K{}
-    current := make([]K, n)
-    var permute func(int)
-    permute = func(index int) {
-        if index == n {
-            temp := make([]K, n)
-            copy(temp, current)
-            result = append(result, temp)
-            return
-        }
-        for i := 0; i < len(input); i++ {
-            current[index] = input[i]
-            permute(index + 1)
-        }
-    }
-    permute(0)
-    return result
+func Combinations[T any](src []T, size int) func(yield func([]T) bool) {
+	var res = make([]T, size)
+	var generate func(int, int) bool
+
+	return func(yield func([]T) bool) {
+		generate = func(idx, start int) bool {
+			if idx == size {
+				if !yield(append([]T{}, res...)) {
+					return false
+				}
+				return true
+			}
+
+			for i := start; i < len(src); i++ {
+				res[idx] = src[i]
+				if !generate(idx+1, i+1) {
+					return false
+				}
+			}
+			return true
+		}
+
+		generate(0, 0)
+	}
 }
