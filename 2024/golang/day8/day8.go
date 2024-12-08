@@ -17,8 +17,7 @@ type Point struct {
 func (d *day8) Part1() any {
 	antiNodes := make(map[Point]bool)
 	for _, locations := range d.antennas {
-		pairs := utils.Combinations(locations, 2)
-		for _, pair := range pairs {
+		for pair := range utils.GenerateCombinations(locations, 2) {
 			yDiff := pair[0].y - pair[1].y
 			xDiff := pair[0].x - pair[1].x
 
@@ -40,28 +39,28 @@ func (d *day8) Part1() any {
 func (d *day8) Part2() any {
 	antiNodes := make(map[Point]bool)
 	for _, locations := range d.antennas {
-		pairs := utils.Combinations(locations, 2)
-		for _, pair := range pairs {
+		for pair := range utils.GenerateCombinations(locations, 2) {
 			yDiff := pair[0].y - pair[1].y
 			xDiff := pair[0].x - pair[1].x
+      var antiNode Point
 
-			i := 0
+			dist := 0
 			for {
-				antiNode := Point{pair[0].x + (xDiff * i), pair[0].y + (yDiff * i)}
+				antiNode = Point{pair[0].x + (xDiff * dist), pair[0].y + (yDiff * dist)}
 				if antiNode.x >= 0 && antiNode.y >= 0 && antiNode.x < len(d.data[0]) && antiNode.y < len(d.data) {
 					antiNodes[antiNode] = true
-					i++
+					dist++
 				} else {
 					break
 				}
 			}
 
-			i = 0
+			dist = 0
 			for {
-				antiNode := Point{pair[1].x - (xDiff * i), pair[1].y - (yDiff * i)}
+				antiNode = Point{pair[1].x - (xDiff * dist), pair[1].y - (yDiff * dist)}
 				if antiNode.x >= 0 && antiNode.y >= 0 && antiNode.x < len(d.data[0]) && antiNode.y < len(d.data) {
 					antiNodes[antiNode] = true
-					i++
+					dist++
 				} else {
 					break
 				}
