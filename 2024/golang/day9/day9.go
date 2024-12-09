@@ -9,10 +9,10 @@ import (
 )
 
 type day9 struct {
-	data             string
-	filesBlock       []Block
-	unallocatedBlock []Block
-	totalBlockSize   int
+	data              string
+	filesBlocks       []Block
+	unallocatedBlocks []Block
+	totalBlockSize    int
 }
 
 type Block struct {
@@ -25,12 +25,12 @@ func (d *day9) Part1() any {
 	var emptyIdxs []int
 
 	var indivisualFiles []Block
-	for _, file := range d.filesBlock {
+	for _, file := range d.filesBlocks {
 		for i := 0; i < file.size; i++ {
 			indivisualFiles = append(indivisualFiles, Block{file.fileId, 1, file.pos + i})
 		}
 	}
-	for _, unallocatedBlock := range d.unallocatedBlock {
+	for _, unallocatedBlock := range d.unallocatedBlocks {
 		for i := 0; i < unallocatedBlock.size; i++ {
 			emptyIdxs = append(emptyIdxs, unallocatedBlock.pos+i)
 		}
@@ -51,16 +51,16 @@ func (d *day9) Part1() any {
 }
 
 func (d *day9) Part2() any {
-	slices.Reverse(d.filesBlock)
+	slices.Reverse(d.filesBlocks)
 
-	for fileBlockIdx, fileBlock := range d.filesBlock {
-		for emptyBlockIdx, emptyBlock := range d.unallocatedBlock {
+	for fileBlockIdx, fileBlock := range d.filesBlocks {
+		for emptyBlockIdx, emptyBlock := range d.unallocatedBlocks {
 			if emptyBlock.size >= fileBlock.size && emptyBlock.pos <= fileBlock.pos {
-				d.filesBlock[fileBlockIdx].pos = emptyBlock.pos
-				d.unallocatedBlock[emptyBlockIdx].size -= fileBlock.size
-				d.unallocatedBlock[emptyBlockIdx].pos += fileBlock.size
-				if d.unallocatedBlock[emptyBlockIdx].size == 0 {
-					_, d.unallocatedBlock = utils.Pop(d.unallocatedBlock, emptyBlockIdx)
+				d.filesBlocks[fileBlockIdx].pos = emptyBlock.pos
+				d.unallocatedBlocks[emptyBlockIdx].size -= fileBlock.size
+				d.unallocatedBlocks[emptyBlockIdx].pos += fileBlock.size
+				if d.unallocatedBlocks[emptyBlockIdx].size == 0 {
+					_, d.unallocatedBlocks = utils.Pop(d.unallocatedBlocks, emptyBlockIdx)
 				}
 				break
 			}
@@ -68,7 +68,7 @@ func (d *day9) Part2() any {
 	}
 
 	sum := 0
-	for _, file := range d.filesBlock {
+	for _, file := range d.filesBlocks {
 		for i := 0; i < file.size; i++ {
 			sum += file.fileId * (file.pos + i)
 		}
@@ -110,8 +110,8 @@ func Solve() *day9 {
 	}
 
 	return &day9{
-		data:             data,
-		filesBlock:       filesBlock,
-		unallocatedBlock: unallocatedBlock,
+		data:              data,
+		filesBlocks:       filesBlock,
+		unallocatedBlocks: unallocatedBlock,
 	}
 }
