@@ -1,4 +1,4 @@
-package day5
+package day05
 
 import (
 	"slices"
@@ -7,7 +7,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day5 struct {
+type day05 struct {
 	data              string
 	pageOrderingRules [][]int
 	pagesToProduce    [][]int
@@ -15,7 +15,7 @@ type day5 struct {
 	invalidLines      [][]int
 }
 
-func (d *day5) ValidateLines() {
+func (d *day05) ValidateLines() {
 	pagesBefore := make(map[int][]int)
 
 	for _, line := range d.pageOrderingRules {
@@ -70,7 +70,7 @@ func (d *day5) ValidateLines() {
 	}
 }
 
-func (d *day5) Part1() any {
+func (d *day05) Part1() any {
 	sum := 0
 	for _, validLine := range d.validLines {
 		midIdx := len(validLine) / 2
@@ -80,7 +80,7 @@ func (d *day5) Part1() any {
 	return sum
 }
 
-func (d *day5) Part2() any {
+func (d *day05) Part2() any {
 	sum := 0
 	for _, validLine := range d.invalidLines {
 		midIdx := len(validLine) / 2
@@ -90,14 +90,14 @@ func (d *day5) Part2() any {
 	return sum
 }
 
-func Solve() *day5 {
+func Solve() *day05 {
 	data, err := utils.GetRawInputDataFromAOC(2024, 5)
 	if err != nil {
 		panic(err)
 	}
 
 	/*
-		fileData, _ := os.ReadFile("day5/example.txt")
+		fileData, _ := os.ReadFile("day05/example.txt")
 		data = string(fileData)
 		data = strings.Trim(data, " ")
 		data = strings.Trim(data, "\n")
@@ -118,7 +118,7 @@ func Solve() *day5 {
 		pagesToProduce = append(pagesToProduce, utils.StringSliceToIntegerSlice(line))
 	}
 
-	d := day5{
+	d := day05{
 		data:              data,
 		pageOrderingRules: pageOrderingRules,
 		pagesToProduce:    pagesToProduce,

@@ -1,4 +1,4 @@
-package day7
+package day07
 
 import (
 	"strconv"
@@ -8,7 +8,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day7 struct {
+type day07 struct {
 	data        []string
 	expressions []Expression
 }
@@ -18,7 +18,7 @@ type Expression struct {
 	operands []int
 }
 
-func (d *day7) Compute(num1, num2 int, op string) int {
+func (d *day07) Compute(num1, num2 int, op string) int {
 	var result int
 	switch op {
 	case "+":
@@ -39,7 +39,7 @@ func (d *day7) Compute(num1, num2 int, op string) int {
 	return result
 }
 
-func (d *day7) ValidExpressionsSum(operators []string) int {
+func (d *day07) ValidExpressionsSum(operators []string) int {
 	sum := 0
 
 	var wg sync.WaitGroup
@@ -68,25 +68,25 @@ func (d *day7) ValidExpressionsSum(operators []string) int {
 	return sum
 }
 
-func (d *day7) Part1() any {
+func (d *day07) Part1() any {
 	operators := []string{"+", "*"}
 	validSum := d.ValidExpressionsSum(operators)
 	return validSum
 }
 
-func (d *day7) Part2() any {
+func (d *day07) Part2() any {
 	operators := []string{"+", "*", "||"}
 	validSum := d.ValidExpressionsSum(operators)
 	return validSum
 }
 
-func Solve() *day7 {
+func Solve() *day07 {
 	data, err := utils.GetInputDataFromAOC(2024, 7)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day7/example.txt")
+	// data = utils.GetInputDataFromFile("day07/example.txt")
 
 	var expressions []Expression
 
@@ -98,7 +98,7 @@ func Solve() *day7 {
 		expressions = append(expressions, exp)
 	}
 
-	return &day7{
+	return &day07{
 		data:        data,
 		expressions: expressions,
 	}

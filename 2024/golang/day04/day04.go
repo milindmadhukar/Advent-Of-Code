@@ -1,4 +1,4 @@
-package day4
+package day04
 
 import (
 	"strings"
@@ -6,12 +6,12 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day4 struct {
+type day04 struct {
 	data       []string
 	parsedData [][]string
 }
 
-func (d *day4) Part1() any {
+func (d *day04) Part1() any {
 	count := 0
 
 	// Horizontals
@@ -43,7 +43,7 @@ func isValidSubgrid(grid [][]string) bool {
 		((grid[0][2] == "M" && grid[2][0] == "S") || (grid[0][2] == "S" && grid[2][0] == "M"))
 }
 
-func (d *day4) Part2() any {
+func (d *day04) Part2() any {
 	count := 0
 
 	for i := 0; i < len(d.parsedData)-2; i++ {
@@ -62,17 +62,17 @@ func (d *day4) Part2() any {
 	return count
 }
 
-func Solve() *day4 {
+func Solve() *day04 {
 	data, err := utils.GetInputDataFromAOC(2024, 4)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day4/example.txt")
+	// data = utils.GetInputDataFromFile("day04/example.txt")
 
 	parsedData := utils.GetSplitData(data, "")
 
-	return &day4{
+	return &day04{
 		data:       data,
 		parsedData: parsedData,
 	}

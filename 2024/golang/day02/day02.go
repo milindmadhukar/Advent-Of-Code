@@ -1,4 +1,4 @@
-package day2
+package day02
 
 import (
 	"slices"
@@ -6,7 +6,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day2 struct {
+type day02 struct {
 	data    []string
 	reports [][]int
 }
@@ -39,7 +39,7 @@ func isReportValid(report []int) bool {
 	return isValid
 }
 
-func (d *day2) Part1() any {
+func (d *day02) Part1() any {
 	validCount := 0
 	for _, report := range d.reports {
 		if isReportValid(report) {
@@ -50,7 +50,7 @@ func (d *day2) Part1() any {
 	return validCount
 }
 
-func (d *day2) Part2() any {
+func (d *day02) Part2() any {
 	validCount := 0
 
 	for _, report := range d.reports {
@@ -75,14 +75,14 @@ func (d *day2) Part2() any {
 	return validCount
 }
 
-func Solve() *day2 {
+func Solve() *day02 {
 
 	data, err := utils.GetInputDataFromAOC(2024, 2)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day2/example.txt")
+	// data = utils.GetInputDataFromFile("day02/example.txt")
 
 	splitData := utils.GetSplitData(data, " ")
 	var reports [][]int
@@ -90,7 +90,7 @@ func Solve() *day2 {
 		reports = append(reports, utils.StringSliceToIntegerSlice(line))
 	}
 
-	return &day2{
+	return &day02{
 		data:    data,
 		reports: reports,
 	}

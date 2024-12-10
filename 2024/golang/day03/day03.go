@@ -1,4 +1,4 @@
-package day3
+package day03
 
 import (
 	"fmt"
@@ -7,11 +7,11 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day3 struct {
+type day03 struct {
 	data string
 }
 
-func (d *day3) Part1() any {
+func (d *day03) Part1() any {
 	sum := 0
 	var num1, num2 int
 	reg := regexp.MustCompile(`mul\(\d+,\d+\)`)
@@ -24,7 +24,7 @@ func (d *day3) Part1() any {
 	return sum
 }
 
-func (d *day3) Part2() any {
+func (d *day03) Part2() any {
 	sum := 0
 	var num1, num2 int
 	reg := regexp.MustCompile(`mul\(\d+,\d+\)|do\(\)|don\'t\(\)`)
@@ -43,15 +43,15 @@ func (d *day3) Part2() any {
 	return sum
 }
 
-func Solve() *day3 {
+func Solve() *day03 {
 	data, err := utils.GetRawInputDataFromAOC(2024, 3)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day3/example.txt")
+	// data = utils.GetInputDataFromFile("day03/example.txt")
 
-	return &day3{
+	return &day03{
 		data: data,
 	}
 }

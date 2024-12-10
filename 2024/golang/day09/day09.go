@@ -1,4 +1,4 @@
-package day9
+package day09
 
 import (
 	"slices"
@@ -8,7 +8,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day9 struct {
+type day09 struct {
 	data              string
 	filesBlocks       []Block
 	unallocatedBlocks []Block
@@ -21,7 +21,7 @@ type Block struct {
 	pos    int
 }
 
-func (d *day9) Part1() any {
+func (d *day09) Part1() any {
 	var emptyIdxs []int
 
 	var indivisualFiles []Block
@@ -50,7 +50,7 @@ func (d *day9) Part1() any {
 	return sum
 }
 
-func (d *day9) Part2() any {
+func (d *day09) Part2() any {
 	slices.Reverse(d.filesBlocks)
 
 	for fileBlockIdx, fileBlock := range d.filesBlocks {
@@ -77,14 +77,14 @@ func (d *day9) Part2() any {
 	return sum
 }
 
-func Solve() *day9 {
+func Solve() *day09 {
 	data, err := utils.GetRawInputDataFromAOC(2024, 9)
 	if err != nil {
 		panic(err)
 	}
 
 	/*
-		fileData, _ := os.ReadFile("day9/example.txt")
+		fileData, _ := os.ReadFile("day09/example.txt")
 		data = string(fileData)
 		data = strings.Trim(data, " ")
 		data = strings.Trim(data, "\n")
@@ -109,7 +109,7 @@ func Solve() *day9 {
 		}
 	}
 
-	return &day9{
+	return &day09{
 		data:              data,
 		filesBlocks:       filesBlock,
 		unallocatedBlocks: unallocatedBlock,

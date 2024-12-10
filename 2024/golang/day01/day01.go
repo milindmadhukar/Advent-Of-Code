@@ -1,4 +1,4 @@
-package day1
+package day01
 
 import (
 	"slices"
@@ -7,13 +7,13 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day1 struct {
+type day01 struct {
 	data      []string
 	leftList  []int
 	rightlist []int
 }
 
-func (d day1) Part1() any {
+func (d day01) Part1() any {
 	slices.Sort(d.leftList)
 	slices.Sort(d.rightlist)
 
@@ -37,7 +37,7 @@ func (d day1) Part1() any {
 	return distance
 }
 
-func (d day1) Part2() any {
+func (d day01) Part2() any {
 	similarity := 0
 
 	countsRight := utils.CountOfAll(d.rightlist)
@@ -50,13 +50,13 @@ func (d day1) Part2() any {
 	return similarity
 }
 
-func Solve() day1 {
+func Solve() day01 {
 	data, err := utils.GetInputDataFromAOC(2024, 1)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day1/example.txt")
+	// data = utils.GetInputDataFromFile("day01/example.txt")
 
 	parsedData := utils.GetSplitData(data, "   ")
 	var leftList, rightlist []int
@@ -68,7 +68,7 @@ func Solve() day1 {
 		rightlist = append(rightlist, rval)
 	}
 
-	return day1{
+	return day01{
 		data:      data,
 		leftList:  leftList,
 		rightlist: rightlist,

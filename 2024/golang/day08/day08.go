@@ -1,10 +1,10 @@
-package day8
+package day08
 
 import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day8 struct {
+type day08 struct {
 	data     []string
 	antennas map[byte][]Point
 }
@@ -14,7 +14,7 @@ type Point struct {
 	y int
 }
 
-func (d *day8) Part1() any {
+func (d *day08) Part1() any {
 	antiNodes := make(map[Point]bool)
 	for _, locations := range d.antennas {
 		for pair := range utils.GenerateCombinations(locations, 2) {
@@ -36,7 +36,7 @@ func (d *day8) Part1() any {
 	return len(antiNodes)
 }
 
-func (d *day8) Part2() any {
+func (d *day08) Part2() any {
 	antiNodes := make(map[Point]bool)
 	for _, locations := range d.antennas {
 		for pair := range utils.GenerateCombinations(locations, 2) {
@@ -71,13 +71,13 @@ func (d *day8) Part2() any {
 	return len(antiNodes)
 }
 
-func Solve() *day8 {
+func Solve() *day08 {
 	data, err := utils.GetInputDataFromAOC(2024, 8)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day8/example.txt")
+	// data = utils.GetInputDataFromFile("day08/example.txt")
 
 	antennas := make(map[byte][]Point)
 
@@ -91,7 +91,7 @@ func Solve() *day8 {
 		}
 	}
 
-	return &day8{
+	return &day08{
 		data:     data,
 		antennas: antennas,
 	}

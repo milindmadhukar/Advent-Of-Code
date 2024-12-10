@@ -1,4 +1,4 @@
-package day6
+package day06
 
 import (
 	"slices"
@@ -7,7 +7,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
 
-type day6 struct {
+type day06 struct {
 	data       []string
 	parsedData [][]string
 	guardPos   Point
@@ -19,7 +19,7 @@ type Point struct {
 }
 
 // Returns true if we looped.
-func (d *day6) Traverse(data [][]string) (int, bool) {
+func (d *day06) Traverse(data [][]string) (int, bool) {
 	guardCurrentPos := d.guardPos
 
 	yLimit := len(data)
@@ -78,7 +78,7 @@ func (d *day6) Traverse(data [][]string) (int, bool) {
 	return uniqueVisits, false
 }
 
-func (d *day6) findGuardPos() Point {
+func (d *day06) findGuardPos() Point {
 	for y := 0; y < len(d.parsedData); y++ {
 		line := d.parsedData[y]
 		for x := 0; x < len(line); x++ {
@@ -89,12 +89,12 @@ func (d *day6) findGuardPos() Point {
 	}
 	return Point{}
 }
-func (d *day6) Part1() any {
+func (d *day06) Part1() any {
 	uniqueVisits, _ := d.Traverse(d.parsedData)
 	return uniqueVisits
 }
 
-func (d *day6) Part2() any {
+func (d *day06) Part2() any {
 	count := 0
 	var wg sync.WaitGroup
 
@@ -126,17 +126,17 @@ func (d *day6) Part2() any {
 	return count
 }
 
-func Solve() *day6 {
+func Solve() *day06 {
 	data, err := utils.GetInputDataFromAOC(2024, 6)
 	if err != nil {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day6/example.txt")
+	// data = utils.GetInputDataFromFile("day06/example.txt")
 
 	parsedData := utils.GetSplitData(data, "")
 
-	d := day6{
+	d := day06{
 		data:       data,
 		parsedData: parsedData,
 	}
