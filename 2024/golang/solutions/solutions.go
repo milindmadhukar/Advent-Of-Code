@@ -2,6 +2,7 @@ package solutions
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day01"
@@ -47,17 +48,6 @@ func GetSolution(day int) models.Solution {
 	return solution
 }
 
-func GetTodaysSolution() models.Solution {
-	day := time.Now().Day()
-	month := time.Now().Month()
-
-	if month != 12 || day > 25 {
-		panic("Not the right time to run this")
-	}
-
-	return GetSolution(day)
-}
-
 func RunSolution(solution models.Solution, day int) {
 	fmt.Println("Day", day)
 	part1Time := time.Now()
@@ -71,14 +61,21 @@ func RunSolution(solution models.Solution, day int) {
 func RunSolutionForDay(day int) {
 	solution := GetSolution(day)
 	if solution == nil {
-		fmt.Println("No solution found for day", day)
+		log.Fatal("No solution found for Day ", day)
 		return
 	}
 	RunSolution(solution, day)
 }
 
 func RunTodaysSolution() {
-	solution := GetTodaysSolution()
+	day := time.Now().Day()
+	month := time.Now().Month()
+
+	if month != 12 || day > 25 {
+		panic("Not the right time to run this\nTry running --help")
+	}
+
+	solution := GetSolution(day)
 	RunSolution(solution, time.Now().Day())
 }
 
