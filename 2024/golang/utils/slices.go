@@ -79,7 +79,7 @@ func Pop[K any](slice []K, index int) (K, []K) {
 	}
 
 	result := slice[index]
-	slice = slices.Delete(slice, index, index+1)
+	slice = append(slice[:index], slice[index+1:]...)
 	return result, slice
 }
 
