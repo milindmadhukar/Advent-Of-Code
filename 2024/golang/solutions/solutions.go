@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day1"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day01"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day02"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day03"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day04"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day05"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day06"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day07"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day08"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day09"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day10"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day2"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day3"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day4"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day5"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day6"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day7"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day8"
-	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day9"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/models"
 )
 
@@ -80,18 +80,11 @@ func RunTodaysSolution() {
 }
 
 func RunAllSolutions() {
-	for i := 1; i <= 25; i++ {
-		solution := GetSolution(i)
+	for day := 1; day <= 25; day++ {
+		solution := GetSolution(day)
 		if solution == nil {
 			continue
 		}
-		fmt.Println("Day", i)
-		part1Time := time.Now()
-		fmt.Println("Answer for Part 1:", solution.Part1())
-		fmt.Println("Time taken for Part 1:", time.Since(part1Time))
-		part2Time := time.Now()
-		fmt.Println("Answer for Part 2:", solution.Part2())
-		fmt.Println("Time taken for Part 2:", time.Since(part2Time))
-		fmt.Println()
+		RunSolution(solution, day)
 	}
 }
