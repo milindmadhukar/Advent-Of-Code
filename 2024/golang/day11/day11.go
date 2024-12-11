@@ -28,7 +28,7 @@ func Blink(count int, stones []int, limit int, cache map[StonePos]uint64) uint64
 	for _, stone := range stones {
 		stonePos := StonePos{stone, count}
 
-		if v, ok := cache[stonePos]; ok && v != 0 {
+		if v, ok := cache[stonePos]; ok {
 			sum += v
 			continue
 		}
