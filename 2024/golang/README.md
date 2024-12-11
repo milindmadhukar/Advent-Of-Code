@@ -6,6 +6,7 @@
 1. To run all solutions, run `go run main.go --all`
 1. To run solution for a given day, Run `go run main.go --day <day>`
 1. If no flags are given, today's solution will be ran.
+1. (Optional) Add the `--profile <type>` (eg. cpu) to profile the solution
 
 
 #### Steps to find you session key:

@@ -41,6 +41,8 @@ func main() {
 			profileType = profile.GoroutineProfile
 		case "clock":
 			profileType = profile.TraceProfile
+		case "trace":
+			profileType = profile.TraceProfile
 		default:
 			log.Fatalf("Invalid profile type: %s", *profileVal)
 		}
@@ -64,7 +66,11 @@ func main() {
 
 	if *profileVal != "" {
 		profiler.Stop()
-		cmd := exec.Command("go", "tool", "pprof", "-http=:6060", fmt.Sprintf("profiles/%s.pprof", *profileVal))
+		args := []string{"tool", "pprof", "-http=:6060", fmt.Sprintf("profiles/%s.pprof", *profileVal)}
+		if *profileVal == "trace" {
+			args = []string{"tool", "trace", "profiles/trace.out"}
+		}
+		cmd := exec.Command("go", args...)
 		err := cmd.Run()
 		if err != nil {
 			panic(err.Error())

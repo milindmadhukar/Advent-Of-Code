@@ -31,10 +31,10 @@ func (d *day06) Traverse(data [][]string) (int, bool) {
 	visited := make(map[Point]bool)
 	visited[guardCurrentPos] = true
 
-	var hitOnTop []Point
-	var hitOnRight []Point
-	var hitOnBottom []Point
-	var hitOnLeft []Point
+	hitOnTop := make(map[Point]bool)
+	hitOnRight := make(map[Point]bool)
+	hitOnBottom := make(map[Point]bool)
+	hitOnLeft := make(map[Point]bool)
 
 	for {
 		nextX := guardCurrentPos.X + delta[deltaIdx].X
@@ -46,25 +46,25 @@ func (d *day06) Traverse(data [][]string) (int, bool) {
 
 			switch deltaIdx {
 			case 0:
-				if utils.Contains(hitOnTop, guardCurrentPos) {
+				if hitOnTop[guardCurrentPos] {
 					return -1, true
 				}
-				hitOnTop = append(hitOnTop, guardCurrentPos)
+				hitOnTop[guardCurrentPos] = true
 			case 1:
-				if utils.Contains(hitOnRight, guardCurrentPos) {
+				if hitOnRight[guardCurrentPos] {
 					return -1, true
 				}
-				hitOnRight = append(hitOnRight, guardCurrentPos)
+				hitOnRight[guardCurrentPos] = true
 			case 2:
-				if utils.Contains(hitOnBottom, guardCurrentPos) {
+				if hitOnBottom[guardCurrentPos] {
 					return -1, true
 				}
-				hitOnBottom = append(hitOnBottom, guardCurrentPos)
+				hitOnBottom[guardCurrentPos] = true
 			case 3:
-				if utils.Contains(hitOnLeft, guardCurrentPos) {
+				if hitOnLeft[guardCurrentPos] {
 					return -1, true
 				}
-				hitOnLeft = append(hitOnLeft, guardCurrentPos)
+				hitOnLeft[guardCurrentPos] = true
 			}
 			deltaIdx = (deltaIdx + 1) % 4
 		} else {

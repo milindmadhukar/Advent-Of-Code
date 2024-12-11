@@ -73,6 +73,9 @@ func Remove[K comparable](slice []K, element K) []K {
 	return result
 }
 
+// PERF: Do I need to return the slice?
+//       Can I just modify the slice in place?
+//       slices.Delete?
 func Pop[K any](slice []K, index int) (K, []K) {
 	if index < 0 || index >= len(slice) {
 		panic("Index out of range")
