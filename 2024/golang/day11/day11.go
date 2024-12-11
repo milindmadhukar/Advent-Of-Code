@@ -67,6 +67,13 @@ func Solve() *day11 {
 		panic(err)
 	}
 
+	/*
+		fileData, _ := os.ReadFile("day09/example.txt")
+		data = string(fileData)
+		data = strings.Trim(data, " ")
+		data = strings.Trim(data, "\n")
+	*/
+
 	stones := utils.StringSliceToIntegerSlice(strings.Split(data, " "))
 
 	return &day11{
