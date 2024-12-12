@@ -1,6 +1,7 @@
 package day11
 
 import (
+	"math"
 	"strconv"
 	"strings"
 
@@ -37,9 +38,9 @@ func Blink(count int, stones []int, limit int, cache map[StonePos]uint64) uint64
 			cache[stonePos] = res
 			sum += res
 		} else if stoneStr := strconv.Itoa(stone); len(stoneStr)%2 == 0 {
-			mid := len(strconv.Itoa(stone)) / 2
-			left, _ := strconv.Atoi(stoneStr[:mid])
-			right, _ := strconv.Atoi(stoneStr[mid:])
+			pow := math.Pow10(len(stoneStr) / 2)
+			left := int(float64(stone) / pow)
+			right := stone % int(pow)
 			res = Blink(count+1, []int{left, right}, limit, cache)
 			cache[stonePos] = res
 			sum += res
