@@ -89,16 +89,16 @@ func calculateSides(plants map[Point]bool) int {
 		count := 0
 		bulk := false
 		for _, pos := range points {
-			_, inArea := plants[pos]
-			if !inArea {
+			_, inCluster := plants[pos]
+			if !inCluster {
 				bulk = false
 				continue
 			}
-			_, nextInArea := plants[Point{x: pos.x + dx, y: pos.y + dy}]
-			if !nextInArea && !bulk {
+			_, nextInCluster := plants[Point{x: pos.x + dx, y: pos.y + dy}]
+			if !nextInCluster && !bulk {
 				count++
 			}
-			bulk = !nextInArea
+			bulk = !nextInCluster
 		}
 		return count
 	}
