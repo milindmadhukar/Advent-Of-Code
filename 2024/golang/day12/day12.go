@@ -147,9 +147,12 @@ func Solve() *day12 {
 		panic(err)
 	}
 
-	data = utils.GetInputDataFromFile("day12/example.txt")
+	// data = utils.GetInputDataFromFile("day12/example.txt")
 
 	garden := utils.GetSplitData(data, "")
+
+	// visualize(garden)
+
 	yMax := len(garden)
 	xMax := len(garden[0])
 
