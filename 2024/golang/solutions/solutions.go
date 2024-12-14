@@ -82,6 +82,12 @@ func RunTodaysSolution() {
 	}
 
 	solution := GetSolution(day)
+
+  if solution == nil {
+    log.Fatal("No solution found for Day ", day)
+    return
+  }
+
 	RunSolution(solution, time.Now().Day())
 }
 
