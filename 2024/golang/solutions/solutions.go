@@ -18,6 +18,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day11"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day12"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day13"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day14"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/models"
 )
 
@@ -50,6 +51,8 @@ func GetSolution(day int) models.Solution {
 		solution = day12.Solve()
 	case 13:
 		solution = day13.Solve()
+	case 14:
+		solution = day14.Solve()
 	}
 	return solution
 }
@@ -83,10 +86,10 @@ func RunTodaysSolution() {
 
 	solution := GetSolution(day)
 
-  if solution == nil {
-    log.Fatal("No solution found for Day ", day)
-    return
-  }
+	if solution == nil {
+		log.Fatal("No solution found for Day ", day)
+		return
+	}
 
 	RunSolution(solution, time.Now().Day())
 }
