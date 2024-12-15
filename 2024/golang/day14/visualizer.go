@@ -4,22 +4,9 @@ import (
 	"image"
 	"image/color"
 	"image/gif"
-	"math/rand"
 	"os"
 	"sync"
-	"time"
 )
-
-func randomColor() color.RGBA {
-	source := rand.NewSource(time.Now().UnixNano())
-	rand := rand.New(source)
-	return color.RGBA{
-		R: uint8(rand.Intn(256)),
-		G: uint8(rand.Intn(256)),
-		B: uint8(rand.Intn(256)),
-		A: 255,
-	}
-}
 
 func processRow(y int, xMax int, upscaledImageBy int, clusterColors map[Point]color.RGBA, upscaled *image.Paletted, wg *sync.WaitGroup) {
 	defer wg.Done()

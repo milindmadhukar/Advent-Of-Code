@@ -2,6 +2,8 @@ package day15
 
 import (
 	"fmt"
+	"image"
+	"os"
 	"strings"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
@@ -76,6 +78,8 @@ func (d *day15) Part1() any {
 
 	var robotOrignal Point = d.robot
 
+	var frames []*image.Paletted
+
 	for _, move := range d.moves {
 		switch move {
 		case "<":
@@ -90,6 +94,8 @@ func (d *day15) Part1() any {
 
 		// fmt.Println("Current Move", move)
 		// d.PrintGridPart1()
+
+		frames = append(frames, visualizePart1(d.gridSize, d.walls, d.boxes, d.robot))
 	}
 
 	sum := 0
@@ -101,6 +107,8 @@ func (d *day15) Part1() any {
 
 	d.robot = robotOrignal
 	d.boxes = boxesOriginal
+
+	EncodeGif(frames, 0, "part1")
 
 	return sum
 }
@@ -228,6 +236,8 @@ func (d *day15) Part2() any {
 
 	d.walls = walls
 
+  var frames []*image.Paletted
+
 	for _, move := range d.moves {
 		switch move {
 		case "<":
@@ -240,6 +250,8 @@ func (d *day15) Part2() any {
 			d.MoveBoxesPart2(0, 1, boxes)
 		}
 
+    frames = append(frames, visualizePart2(Point{d.gridSize.x * 2, d.gridSize.y}, walls, boxes, d.robot))
+
 		// fmt.Println("Current Move", move)
 		// d.PrintGridPart2(boxes)
 	}
@@ -251,6 +263,8 @@ func (d *day15) Part2() any {
 		}
 	}
 
+  EncodeGif(frames, 0, "part2")
+
 	return sum
 }
 
@@ -260,12 +274,10 @@ func Solve() *day15 {
 		panic(err)
 	}
 
-	/*
-		fileData, _ := os.ReadFile("day15/example.txt")
-		data = string(fileData)
-		data = strings.Trim(data, " ")
-		data = strings.Trim(data, "\n")
-	*/
+	fileData, _ := os.ReadFile("day15/example.txt")
+	data = string(fileData)
+	data = strings.Trim(data, " ")
+	data = strings.Trim(data, "\n")
 
 	splitData := strings.Split(data, "\n\n")
 	grid := utils.GetSplitData(strings.Split(splitData[0], "\n"), "")
