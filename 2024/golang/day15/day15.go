@@ -2,7 +2,6 @@ package day15
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
@@ -273,10 +272,12 @@ func Solve() *day15 {
 		panic(err)
 	}
 
+  /*
 	fileData, _ := os.ReadFile("day15/example.txt")
 	data = string(fileData)
 	data = strings.Trim(data, " ")
 	data = strings.Trim(data, "\n")
+  */
 
 	splitData := strings.Split(data, "\n\n")
 	grid := utils.GetSplitData(strings.Split(splitData[0], "\n"), "")
