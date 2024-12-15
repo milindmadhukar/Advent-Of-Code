@@ -8,7 +8,6 @@ import (
 )
 
 type day05 struct {
-	data              string
 	pageOrderingRules [][]int
 	pagesToProduce    [][]int
 	validLines        [][]int
@@ -119,7 +118,6 @@ func Solve() *day05 {
 	}
 
 	d := day05{
-		data:              data,
 		pageOrderingRules: pageOrderingRules,
 		pagesToProduce:    pagesToProduce,
 	}

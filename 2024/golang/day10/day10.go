@@ -12,7 +12,6 @@ type Point struct {
 var deltas = []Point{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}
 
 type day10 struct {
-	data           []string
 	topologicalMap [][]int
 	trailheads     []Point
 	visited9s      map[Point]int
@@ -82,7 +81,6 @@ func Solve() *day10 {
 	}
 
 	return &day10{
-		data:           data,
 		topologicalMap: topologicalMap,
 		trailheads:     trailheads,
 	}

@@ -9,7 +9,6 @@ import (
 )
 
 type day14 struct {
-	data     []string
 	robots   []Robot
 	gridSize Point
 }
@@ -119,7 +118,6 @@ func Solve() *day14 {
 	gridSize := Point{101, 103}
 
 	return &day14{
-		data:     data,
 		robots:   robots,
 		gridSize: gridSize,
 	}

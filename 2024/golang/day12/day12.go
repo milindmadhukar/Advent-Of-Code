@@ -7,7 +7,6 @@ import (
 )
 
 type day12 struct {
-	data     []string
 	garden   [][]string
 	clusters []Cluster
 }
@@ -157,7 +156,6 @@ func Solve() *day12 {
 	xMax := len(garden[0])
 
 	d := day12{
-		data:   data,
 		garden: garden,
 	}
 

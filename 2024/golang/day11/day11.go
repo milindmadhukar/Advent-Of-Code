@@ -9,7 +9,6 @@ import (
 )
 
 type day11 struct {
-	data   string
 	stones []int
 }
 
@@ -78,7 +77,6 @@ func Solve() *day11 {
 	stones := utils.StringSliceToIntegerSlice(strings.Split(data, " "))
 
 	return &day11{
-		data:   data,
 		stones: stones,
 	}
 }

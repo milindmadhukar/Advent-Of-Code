@@ -8,7 +8,6 @@ import (
 )
 
 type day01 struct {
-	data      []string
 	leftList  []int
 	rightlist []int
 }
@@ -69,7 +68,6 @@ func Solve() day01 {
 	}
 
 	return day01{
-		data:      data,
 		leftList:  leftList,
 		rightlist: rightlist,
 	}

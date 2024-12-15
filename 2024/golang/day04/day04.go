@@ -7,7 +7,6 @@ import (
 )
 
 type day04 struct {
-	data       []string
 	parsedData [][]string
 }
 
@@ -73,7 +72,6 @@ func Solve() *day04 {
 	parsedData := utils.GetSplitData(data, "")
 
 	return &day04{
-		data:       data,
 		parsedData: parsedData,
 	}
 }

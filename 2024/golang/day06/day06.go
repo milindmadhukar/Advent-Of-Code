@@ -8,7 +8,6 @@ import (
 )
 
 type day06 struct {
-	data       []string
 	parsedData [][]string
 	guardPos   Point
 }
@@ -98,8 +97,8 @@ func (d *day06) Part2() any {
 	count := 0
 	var wg sync.WaitGroup
 
-	yLimit := len(d.data)
-	xLimit := len(d.data[0])
+	yLimit := len(d.parsedData)
+	xLimit := len(d.parsedData[0])
 	wg.Add(xLimit * yLimit)
 
 	for y := 0; y < yLimit; y++ {
@@ -137,7 +136,6 @@ func Solve() *day06 {
 	parsedData := utils.GetSplitData(data, "")
 
 	d := day06{
-		data:       data,
 		parsedData: parsedData,
 	}
 	d.guardPos = d.findGuardPos()

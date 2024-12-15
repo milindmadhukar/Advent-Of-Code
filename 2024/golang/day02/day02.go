@@ -7,7 +7,6 @@ import (
 )
 
 type day02 struct {
-	data    []string
 	reports [][]int
 }
 
@@ -91,7 +90,6 @@ func Solve() *day02 {
 	}
 
 	return &day02{
-		data:    data,
 		reports: reports,
 	}
 }

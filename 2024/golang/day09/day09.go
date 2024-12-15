@@ -9,7 +9,6 @@ import (
 )
 
 type day09 struct {
-	data              string
 	filesBlocks       []Block
 	unallocatedBlocks []Block
 	totalBlockSize    int
@@ -110,7 +109,6 @@ func Solve() *day09 {
 	}
 
 	return &day09{
-		data:              data,
 		filesBlocks:       filesBlock,
 		unallocatedBlocks: unallocatedBlock,
 	}
