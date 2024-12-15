@@ -78,7 +78,7 @@ func (d *day15) Part1() any {
 
 	var robotOrignal Point = d.robot
 
-	var frames []*image.Paletted
+	// var frames []*image.Paletted
 
 	for _, move := range d.moves {
 		switch move {
@@ -95,7 +95,7 @@ func (d *day15) Part1() any {
 		// fmt.Println("Current Move", move)
 		// d.PrintGridPart1()
 
-		frames = append(frames, visualizePart1(d.gridSize, d.walls, d.boxes, d.robot))
+		// frames = append(frames, visualizePart1(d.gridSize, d.walls, d.boxes, d.robot))
 	}
 
 	sum := 0
@@ -108,7 +108,7 @@ func (d *day15) Part1() any {
 	d.robot = robotOrignal
 	d.boxes = boxesOriginal
 
-	EncodeGif(frames, 0, "part1")
+	// EncodeGif(frames, 0, "part1")
 
 	return sum
 }
@@ -236,7 +236,7 @@ func (d *day15) Part2() any {
 
 	d.walls = walls
 
-  var frames []*image.Paletted
+  // var frames []*image.Paletted
 
 	for _, move := range d.moves {
 		switch move {
@@ -250,10 +250,10 @@ func (d *day15) Part2() any {
 			d.MoveBoxesPart2(0, 1, boxes)
 		}
 
-    frames = append(frames, visualizePart2(Point{d.gridSize.x * 2, d.gridSize.y}, walls, boxes, d.robot))
-
 		// fmt.Println("Current Move", move)
 		// d.PrintGridPart2(boxes)
+
+    // frames = append(frames, visualizePart2(Point{d.gridSize.x * 2, d.gridSize.y}, walls, boxes, d.robot))
 	}
 
 	sum := 0
@@ -263,7 +263,7 @@ func (d *day15) Part2() any {
 		}
 	}
 
-  EncodeGif(frames, 0, "part2")
+  // EncodeGif(frames, 0, "part2")
 
 	return sum
 }
