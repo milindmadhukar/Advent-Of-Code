@@ -66,10 +66,10 @@ func (d *day15) MoveBoxesPart1(dx, dy int) {
 	tempPos := d.robot
 	for {
 		tempPos = Point{tempPos.x + dx, tempPos.y + dy}
+		if wallFound := d.walls[Point{tempPos.x + dx, tempPos.y + dy}]; wallFound {
+			return
+		}
 		if boxFound := d.boxes[tempPos]; boxFound {
-			if wallFound := d.walls[Point{tempPos.x + dx, tempPos.y + dy}]; wallFound {
-				return
-			}
 			boxesToMove = append(boxesToMove, tempPos)
 		} else {
 			break
@@ -94,7 +94,6 @@ func (d *day15) Part1() any {
 	}
 
 	var robotOrignal Point = d.robot
-	fmt.Println("Original Robot", robotOrignal)
 
 	for _, move := range d.moves {
 		switch move {
@@ -147,14 +146,12 @@ func (d *day15) MoveBoxesPart2(dx, dy int, boxes map[Point]string) {
 		}
 	} else {
 		for {
-			// Check phase
 			for box := range boxesToMove {
 				if wallFound := d.walls[Point{box.x + dx, box.y + dy}]; wallFound {
 					return
 				}
 			}
 
-			// Add phase
 			if len(boxesToMove) == 0 {
 				if boxFound := boxes[Point{tempPos.x + dx, tempPos.y + dy}]; boxFound != "" {
 					if boxFound == "[" {
