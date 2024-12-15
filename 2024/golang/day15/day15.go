@@ -2,7 +2,6 @@ package day15
 
 import (
 	"fmt"
-	"image"
 	"os"
 	"strings"
 
