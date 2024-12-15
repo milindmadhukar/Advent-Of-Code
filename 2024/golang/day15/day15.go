@@ -37,25 +37,6 @@ func (d *day15) PrintGridPart1() {
 	fmt.Println()
 }
 
-func (d *day15) PrintGridPart2(boxes map[Point]string) {
-	for y := 0; y < d.gridSize.y; y++ {
-		for x := 0; x < 2*d.gridSize.x; x++ {
-			if wallFound := d.walls[Point{x, y}]; wallFound {
-				fmt.Print("#")
-			} else if boxFound := boxes[Point{x, y}]; boxFound != "" {
-				fmt.Print(boxFound)
-			} else if d.robot.x == x && d.robot.y == y {
-				fmt.Print("@")
-			} else {
-				fmt.Print(".")
-			}
-		}
-		fmt.Println()
-	}
-	fmt.Println()
-
-}
-
 func (d *day15) MoveBoxesPart1(dx, dy int) {
 	if wallFound := d.walls[Point{d.robot.x + dx, d.robot.y + dy}]; wallFound {
 		return
@@ -122,6 +103,25 @@ func (d *day15) Part1() any {
 	}
 
 	return sum
+}
+
+func (d *day15) PrintGridPart2(boxes map[Point]string) {
+	for y := 0; y < d.gridSize.y; y++ {
+		for x := 0; x < 2*d.gridSize.x; x++ {
+			if wallFound := d.walls[Point{x, y}]; wallFound {
+				fmt.Print("#")
+			} else if boxFound := boxes[Point{x, y}]; boxFound != "" {
+				fmt.Print(boxFound)
+			} else if d.robot.x == x && d.robot.y == y {
+				fmt.Print("@")
+			} else {
+				fmt.Print(".")
+			}
+		}
+		fmt.Println()
+	}
+	fmt.Println()
+
 }
 
 func (d *day15) MoveBoxesPart2(dx, dy int, boxes map[Point]string) {
