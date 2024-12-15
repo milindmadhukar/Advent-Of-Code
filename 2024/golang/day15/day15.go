@@ -1,6 +1,7 @@
 package day15
 
 import (
+	"os"
 	"strings"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
@@ -36,7 +37,7 @@ func (d *day15) PrintGrid() {
 	println()
 }
 
-func (d *day15) MoveBoxes(dx, dy int) {
+func (d *day15) MoveBoxes(dx, dy int, boxes map[Point]bool) {
 	if wallFound := d.walls[Point{d.robot.x + dx, d.robot.y + dy}]; wallFound {
 		return
 	}
@@ -45,10 +46,9 @@ func (d *day15) MoveBoxes(dx, dy int) {
 	hitAWall := false
 
 	tempPos := d.robot
-
 	for {
 		tempPos = Point{tempPos.x + dx, tempPos.y + dy}
-		if boxFound := d.boxes[tempPos]; boxFound {
+		if boxFound := boxes[tempPos]; boxFound {
 			if wallFound := d.walls[Point{tempPos.x + dx, tempPos.y + dy}]; wallFound {
 				hitAWall = true
 				break
@@ -64,35 +64,38 @@ func (d *day15) MoveBoxes(dx, dy int) {
 	}
 
 	for _, box := range boxesToMove {
-		delete(d.boxes, box)
+		delete(boxes, box)
 	}
 
 	for _, box := range boxesToMove {
-		d.boxes[Point{box.x + dx, box.y + dy}] = true
+		boxes[Point{box.x + dx, box.y + dy}] = true
 	}
 
 	d.robot = Point{d.robot.x + dx, d.robot.y + dy}
 }
 
 func (d *day15) Part1() any {
-	for _, move := range d.moves {
+	boxes := make(map[Point]bool)
+	for k, v := range d.boxes {
+		boxes[k] = v
+	}
 
+	for _, move := range d.moves {
 		switch move {
 		case "<":
-			d.MoveBoxes(-1, 0)
+			d.MoveBoxes(-1, 0, boxes)
 		case ">":
-			d.MoveBoxes(1, 0)
+			d.MoveBoxes(1, 0, boxes)
 		case "^":
-			d.MoveBoxes(0, -1)
+			d.MoveBoxes(0, -1, boxes)
 		case "v":
-			d.MoveBoxes(0, 1)
+			d.MoveBoxes(0, 1, boxes)
 		}
 	}
 
 	sum := 0
-
-	for box, present := range d.boxes {
-		if present {
+	for box, isPresent := range boxes {
+		if isPresent {
 			sum += (100 * box.y) + box.x
 		}
 	}
@@ -110,12 +113,10 @@ func Solve() *day15 {
 		panic(err)
 	}
 
-	/*
-		fileData, _ := os.ReadFile("day15/example.txt")
-		data = string(fileData)
-		data = strings.Trim(data, " ")
-		data = strings.Trim(data, "\n")
-	*/
+	fileData, _ := os.ReadFile("day15/example.txt")
+	data = string(fileData)
+	data = strings.Trim(data, " ")
+	data = strings.Trim(data, "\n")
 
 	splitData := strings.Split(data, "\n\n")
 	grid := utils.GetSplitData(strings.Split(splitData[0], "\n"), "")
