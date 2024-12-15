@@ -47,10 +47,10 @@ func (d *day15) MoveBoxesPart1(dx, dy int) {
 	tempPos := d.robot
 	for {
 		tempPos = Point{tempPos.x + dx, tempPos.y + dy}
-		if wallFound := d.walls[Point{tempPos.x + dx, tempPos.y + dy}]; wallFound {
-			return
-		}
 		if boxFound := d.boxes[tempPos]; boxFound {
+			if wallFound := d.walls[Point{tempPos.x + dx, tempPos.y + dy}]; wallFound {
+				return
+			}
 			boxesToMove = append(boxesToMove, tempPos)
 		} else {
 			break
@@ -89,11 +89,8 @@ func (d *day15) Part1() any {
 		}
 
 		// fmt.Println("Current Move", move)
-		// d.PrintGrid(d.gridSize)
+		// d.PrintGridPart1()
 	}
-
-	d.robot = robotOrignal
-	d.boxes = boxesOriginal
 
 	sum := 0
 	for box, isPresent := range d.boxes {
@@ -101,6 +98,9 @@ func (d *day15) Part1() any {
 			sum += (100 * box.y) + box.x
 		}
 	}
+
+	d.robot = robotOrignal
+	d.boxes = boxesOriginal
 
 	return sum
 }
