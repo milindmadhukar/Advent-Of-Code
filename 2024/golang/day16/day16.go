@@ -16,11 +16,37 @@ type Point struct {
 	x, y int
 }
 
+type PointDir struct {
+	p      Point
+	dirIdx int
+}
+
 var deltas = []Point{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
 
-func popSmallest(pq map[Point]int) Point {
+func (d *day16) Adjacents(current PointDir) func(yield func(PointDir, int) bool) {
+	return func(yield func(PointDir, int) bool) {
+		newDir1 := (current.dirIdx + 1) % 4
+		if !yield(PointDir{p: current.p, dirIdx: newDir1}, 1000) {
+			return
+		}
+
+		newDir2 := (current.dirIdx - 1 + 4) % 4
+		if !yield(PointDir{p: current.p, dirIdx: newDir2}, 1000) {
+			return
+		}
+
+		newPoint := Point{x: current.p.x + deltas[current.dirIdx].x, y: current.p.y + deltas[current.dirIdx].y}
+		if d.maze[newPoint.y][newPoint.x] != "#" {
+			if !yield(PointDir{p: newPoint, dirIdx: current.dirIdx}, 1) {
+				return
+			}
+		}
+	}
+}
+
+func popSmallest(pq map[PointDir]int) PointDir {
 	var min = math.MaxInt
-	var minPoint Point
+	var minPoint PointDir
 
 	for k, v := range pq {
 		if v < min {
@@ -34,58 +60,101 @@ func popSmallest(pq map[Point]int) Point {
 }
 
 func (d *day16) Part1() any {
-	visited := make(map[Point]bool)
-	dist := make(map[Point]int)
-
+	dist := make(map[PointDir]int)
 	for y, row := range d.maze {
 		for x := range row {
-			dist[Point{x, y}] = math.MaxInt
+			for i := 0; i < 4; i++ {
+				dist[PointDir{p: Point{x, y}, dirIdx: i}] = math.MaxInt
+			}
+		}
+	}
+	pq := make(map[PointDir]int)
+
+	start := PointDir{p: d.start, dirIdx: 1}
+
+	dist[start] = 0
+	pq[start] = 0
+
+	var current PointDir
+
+	for len(pq) > 0 {
+		current = popSmallest(pq)
+		if current.p == d.end {
+			break
+		}
+
+		for adjacent, distDelta := range d.Adjacents(current) {
+			newDist := dist[current] + distDelta
+			if newDist < dist[adjacent] {
+				dist[adjacent] = newDist
+				pq[adjacent] = dist[adjacent]
+			}
 		}
 	}
 
-	visited[d.start] = true
-	dist[d.start] = 0
+	return dist[current]
+}
 
-	pq := make(map[Point]int)
-	nodeDeltaIdx := make(map[Point]int)
+func (d *day16) Part2() any {
+	dist := make(map[PointDir]int)
+	for y, row := range d.maze {
+		for x := range row {
+			for i := 0; i < 4; i++ {
+				dist[PointDir{p: Point{x, y}, dirIdx: i}] = math.MaxInt
+			}
+		}
+	}
+	pq := make(map[PointDir]int)
 
-	pq[d.start] = 0
-	nodeDeltaIdx[d.start] = 1
+	from := make(map[PointDir][]PointDir)
 
-	var current Point
+	start := PointDir{p: d.start, dirIdx: 1}
+
+	dist[start] = 0
+	pq[start] = 0
+
+	var current PointDir
 
 	for len(pq) > 0 {
 		current = popSmallest(pq)
 
-		if current == d.end {
-			break
-		}
-
-		for idx, delta := range deltas {
-			neighbor := Point{current.x + delta.x, current.y + delta.y}
-			if d.maze[neighbor.y][neighbor.x] == "#" {
-				continue
-			}
-
-			if _, ok := visited[neighbor]; ok {
-				continue
-			}
-
-			diff := utils.Abs(idx - nodeDeltaIdx[current])
-			newDist := dist[current] + (diff * 1000) + 1
-			if newDist < dist[neighbor] {
-				dist[neighbor] = newDist
-				nodeDeltaIdx[neighbor] = idx
-				pq[neighbor] = dist[neighbor]
+		for adjacent, distDelta := range d.Adjacents(current) {
+			newDist := dist[current] + distDelta
+			if newDist < dist[adjacent] {
+				dist[adjacent] = newDist
+				pq[adjacent] = dist[adjacent]
+				from[adjacent] = []PointDir{current}
+			} else if newDist <= dist[adjacent] {
+				from[adjacent] = append(from[adjacent], current)
 			}
 		}
 	}
 
-	return dist[d.end]
-}
+  for k, v := range from {
+    from[k] = utils.GetUniqueElements(v)
+  }
 
-func (d *day16) Part2() any {
-	return 0
+	stack := []PointDir{{p: d.end, dirIdx: 2}}
+	concernedNodes := make(map[PointDir]bool)
+	concernedNodes[PointDir{p: d.end, dirIdx: 2}] = true
+
+	for len(stack) > 0 {
+		current, stack = utils.Pop(stack, len(stack)-1)
+
+		for _, prev := range from[current] {
+			if _, ok := concernedNodes[prev]; !ok {
+				concernedNodes[prev] = true
+				stack = append(stack, prev)
+			}
+		}
+	}
+
+	points := make(map[Point]bool)
+	for point := range concernedNodes {
+		points[point.p] = true
+	}
+
+	return len(points)
 }
 
 func Solve() *day16 {
@@ -106,11 +175,10 @@ func Solve() *day16 {
 			} else if col == "E" {
 				end = Point{x, y}
 			}
-
 		}
 	}
-  
-  fmt.Println(start, end)
+
+	fmt.Println(start, end)
 
 	return &day16{
 		maze:  maze,
