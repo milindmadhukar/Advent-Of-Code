@@ -1,7 +1,6 @@
 package day16
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
@@ -177,8 +176,6 @@ func Solve() *day16 {
 			}
 		}
 	}
-
-	fmt.Println(start, end)
 
 	return &day16{
 		maze:  maze,
