@@ -72,3 +72,33 @@ func Combinations[T any](src []T, size int) [][]T {
 	})
 	return result
 }
+
+func GenerateRange(vals ...int) func(yield func(int) bool) {
+	var start, end, step int
+	if len(vals) == 0 {
+		panic("GenerateRange requires at least one argument")
+	}
+	if len(vals) == 1 {
+		start = 0
+		end = vals[0]
+		step = 1
+	} else if len(vals) == 2 {
+		start = vals[0]
+		end = vals[1]
+		step = 1
+	} else if len(vals) == 3 {
+		start = vals[0]
+		end = vals[1]
+		step = vals[2]
+	} else {
+		panic("GenerateRange requires at most three arguments")
+	}
+
+	return func(yield func(int) bool) {
+		for i := start; i < end; i += step {
+			if !yield(i) {
+				return
+			}
+		}
+	}
+}
