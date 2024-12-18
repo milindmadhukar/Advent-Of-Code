@@ -22,6 +22,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day15"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day16"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day17"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day18"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/models"
 )
 
@@ -62,6 +63,8 @@ func GetSolution(day int) models.Solution {
 		solution = day16.Solve()
 	case 17:
 		solution = day17.Solve()
+	case 18:
+		solution = day18.Solve()
 	}
 	return solution
 }
