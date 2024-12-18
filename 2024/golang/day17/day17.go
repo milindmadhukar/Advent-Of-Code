@@ -2,7 +2,6 @@ package day17
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"strconv"
 	"strings"
@@ -38,7 +37,7 @@ func (d *day17) ComboOperandValue(operand int) int {
 	}
 }
 
-func (d *day17) Instruction(opcode int, operand int) {
+func (d *day17) ExecuteInstruction(opcode int, operand int) {
 	switch opcode {
 	// adv
 	case 0:
@@ -69,12 +68,12 @@ func (d *day17) Instruction(opcode int, operand int) {
 	}
 }
 
-func (d *day17) RunInstructions() {
+func (d *day17) Part1() any {
 	d.instructionPointer = 0
 	for d.instructionPointer < len(d.programs) {
 		instruction := d.programs[d.instructionPointer]
 		operand := d.programs[d.instructionPointer+1]
-		d.Instruction(instruction, operand)
+		d.ExecuteInstruction(instruction, operand)
 		if instruction == 3 {
 			if d.regA == 0 {
 				d.instructionPointer += 2
@@ -83,36 +82,35 @@ func (d *day17) RunInstructions() {
 		}
 		d.instructionPointer += 2
 	}
+
+	return strings.Join(d.outputs, ",")
 }
 
 func (d *day17) Find(programs []int, answer int) int {
-
 	if len(programs) == 0 {
 		return answer
 	}
 
-	// 2,4: b = a % 8
-	// 1,2: b = b ^ 2
-	// 7,5: c = a >> b
-
-	// 0,3: a = a >> 3
-
-	// 4,7: b = b ^ c
-	// 1,7: b = b ^ 7
-	// 5,5: output += b % 8
-
-	// 3,0: if a != 0 goto 0
-
 	for d.regB = range utils.GenerateRange(8) {
 		d.regA = (answer << 3) | d.regB
-		d.regB = d.regB ^ 2
-		d.regC = d.regA >> d.regB
-		d.regB = d.regB ^ d.regC
-		d.regB = d.regB ^ 7
-		if d.regB%8 == programs[len(programs)-1] {
-			subAnswer := d.Find(programs[:len(programs)-1], d.regA)
-			if subAnswer != -1 {
-				return subAnswer
+		d.regB = 0
+		d.regC = 0
+		d.outputs = nil
+
+		for d.instructionPointer = range utils.GenerateRange(0, len(d.programs)-2, 2) {
+			instruction := d.programs[d.instructionPointer]
+			operand := d.programs[d.instructionPointer+1]
+			if instruction == 0 && operand == 3 {
+				continue
+			}
+
+			d.ExecuteInstruction(instruction, operand)
+
+			if instruction == 5 && d.regB%8 == programs[len(programs)-1] {
+				subAnswer := d.Find(programs[:len(programs)-1], d.regA)
+				if subAnswer != -1 {
+					return subAnswer
+				}
 			}
 		}
 	}
@@ -120,26 +118,11 @@ func (d *day17) Find(programs []int, answer int) int {
 	return -1
 }
 
-func (d *day17) Part1() any {
-	d.RunInstructions()
-
-	return strings.Join(d.outputs, ",")
-}
-
 func (d *day17) Part2() any {
-	d.outputs = nil
-	d.regA = 0
-	d.regB = 0
-	d.regC = 0
-
-	myPrograms := []int{2, 4, 1, 2, 7, 5, 0, 3, 4, 7, 1, 7, 5, 5, 3, 0}
-
-	if len(utils.Intersection(d.programs, myPrograms)) != len(myPrograms) {
-		log.Println("WARNING: This program is hard coded for a particular set of programs which is not the same as the input")
-	}
-
+	// This solution assumes there is only one jump in the end 3 0
+	// That there is exists a left shift by 3 on A register and happens only once
+	// There is a single output in the program
 	return d.Find(d.programs, 0)
-
 }
 
 func Solve() *day17 {
