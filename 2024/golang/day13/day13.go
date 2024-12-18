@@ -71,12 +71,7 @@ func Solve() *day13 {
 		panic(err)
 	}
 
-	/*
-		fileData, _ := os.ReadFile("day13/example.txt")
-		data = string(fileData)
-		data = strings.Trim(data, " ")
-		data = strings.Trim(data, "\n")
-	*/
+	// data = utils.GetRawInputDataFromFile("day13/example.txt")
 
 	clawMachinesStr := strings.Split(data, "\n\n")
 

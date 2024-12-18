@@ -22,7 +22,7 @@ func Solve() *day18 {
 		panic(err)
 	}
 
-	// data = utils.GetInputDataFromFile("day18/example.txt")
+	data = utils.GetInputDataFromFile("day18/example.txt")
 
 	return &day18{
 		data:      data,

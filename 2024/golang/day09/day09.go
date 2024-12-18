@@ -82,12 +82,7 @@ func Solve() *day09 {
 		panic(err)
 	}
 
-	/*
-		fileData, _ := os.ReadFile("day09/example.txt")
-		data = string(fileData)
-		data = strings.Trim(data, " ")
-		data = strings.Trim(data, "\n")
-	*/
+  // data = utils.GetRawInputDataFromFile("day09/example.txt")
 
 	splitData := strings.Split(data, "")
 

@@ -67,12 +67,7 @@ func Solve() *day11 {
 		panic(err)
 	}
 
-	/*
-		fileData, _ := os.ReadFile("day09/example.txt")
-		data = string(fileData)
-		data = strings.Trim(data, " ")
-		data = strings.Trim(data, "\n")
-	*/
+  // data = utils.GetRawInputDataFromFile("day11/example.txt")
 
 	stones := utils.StringSliceToIntegerSlice(strings.Split(data, " "))
 
