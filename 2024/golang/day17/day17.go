@@ -103,9 +103,8 @@ func (d *day17) Find(programs []int, answer int) int {
 
 	// 3,0: if a != 0 goto 0
 
-	for b := range utils.GenerateRange(8) {
-		d.regA = (answer << 3) | b
-		d.regB = b
+	for d.regB = range utils.GenerateRange(8) {
+		d.regA = (answer << 3) | d.regB
 		d.regB = d.regB ^ 2
 		d.regC = d.regA >> d.regB
 		d.regB = d.regB ^ d.regC
