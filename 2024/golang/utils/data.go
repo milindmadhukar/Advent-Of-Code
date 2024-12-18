@@ -71,13 +71,11 @@ func GetInputDataFromAOC(year int, day int) ([]string, error) {
 
 func GetInputDataFromFile(fileName string) []string {
 	contents := GetRawInputDataFromFile(fileName)
-
-	data := strings.Split(contents, "\n")
-	return data
+	return ParseFromString(contents)
 }
 
 func GetRawInputDataFromFile(fileName string) string {
-	fileData, _ := os.ReadFile("day09/example.txt")
+	fileData, _ := os.ReadFile(fileName)
 	data := string(fileData)
 	data = strings.Trim(data, " ")
 	data = strings.Trim(data, "\n")
