@@ -88,6 +88,7 @@ func (d *day06) findGuardPos() Point {
 	}
 	return Point{}
 }
+
 func (d *day06) Part1() any {
 	uniqueVisits, _ := d.Traverse(d.parsedData)
 	return uniqueVisits
