@@ -2,7 +2,6 @@ package day17
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 	"strings"
 
@@ -41,7 +40,7 @@ func (d *day17) ExecuteInstruction(opcode int, operand int) {
 	switch opcode {
 	// adv
 	case 0:
-		d.regA = int(float64(d.regA) / math.Pow(2, float64(d.ComboOperandValue(operand))))
+		d.regA >>= d.ComboOperandValue(operand)
 	// bxl
 	case 1:
 		d.regB ^= operand
@@ -61,10 +60,10 @@ func (d *day17) ExecuteInstruction(opcode int, operand int) {
 		d.outputs = append(d.outputs, strconv.Itoa(d.ComboOperandValue(operand)%8))
 	// bdv
 	case 6:
-		d.regB = int(float64(d.regA) / math.Pow(2, float64(d.ComboOperandValue(operand))))
+		d.regB = d.regA >> d.ComboOperandValue(operand)
 	// cdv
 	case 7:
-		d.regC = int(float64(d.regA) / math.Pow(2, float64(d.ComboOperandValue(operand))))
+		d.regC = d.regA >> d.ComboOperandValue(operand)
 	}
 }
 

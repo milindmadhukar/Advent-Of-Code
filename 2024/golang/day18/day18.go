@@ -66,21 +66,22 @@ func (d *day18) Part1() any {
 }
 
 func (d *day18) Part2() any {
-	secondsSimulated := 0
-	for {
+	left, right := 0, len(d.bytePositions)-1
+	var lastInvalid Point
+	for left <= right {
+		mid := (left + right) / 2
 		memoryMap := make(map[Point]bool)
-		for i := 0; i < secondsSimulated; i++ {
+		for i := 0; i < mid; i++ {
 			memoryMap[d.bytePositions[i]] = true
 		}
-
-		result := d.BFS(memoryMap)
-		if result == -1 {
-			bytePos := d.bytePositions[secondsSimulated-1]
-			return fmt.Sprintf("%d,%d", bytePos.x, bytePos.y)
+		if d.BFS(memoryMap) != -1 {
+			left = mid + 1
+		} else {
+			lastInvalid = d.bytePositions[mid-1]
+			right = mid - 1
 		}
-
-		secondsSimulated++
 	}
+	return fmt.Sprintf("%d,%d", lastInvalid.x, lastInvalid.y)
 }
 
 func Solve() *day18 {
