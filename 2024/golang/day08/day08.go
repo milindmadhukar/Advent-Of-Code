@@ -42,7 +42,7 @@ func (d *day08) Part2() any {
 		for pair := range utils.GenerateCombinations(locations, 2) {
 			yDiff := pair[0].y - pair[1].y
 			xDiff := pair[0].x - pair[1].x
-      var antiNode Point
+			var antiNode Point
 
 			dist := 0
 			for {

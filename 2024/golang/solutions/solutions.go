@@ -28,8 +28,9 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/models"
 )
 
-func GetSolution(day int) models.Solution {
+func GetSolution(day int) (models.Solution, time.Time) {
 	var solution models.Solution
+	startTime := time.Now()
 	switch day {
 	case 1:
 		solution = day01.Solve()
@@ -72,10 +73,10 @@ func GetSolution(day int) models.Solution {
 	case 20:
 		solution = day20.Solve()
 	}
-	return solution
+	return solution, startTime
 }
 
-func RunSolution(solution models.Solution, day int) {
+func RunSolution(solution models.Solution, startTime time.Time, day int) {
 	fmt.Println("Day", day)
 	part1Time := time.Now()
 	fmt.Println("Answer for Part 1:", solution.Part1())
@@ -83,15 +84,16 @@ func RunSolution(solution models.Solution, day int) {
 	part2Time := time.Now()
 	fmt.Println("Answer for Part 2:", solution.Part2())
 	fmt.Println("Time taken for Part 2:", time.Since(part2Time))
+	fmt.Println("Total time taken:", time.Since(startTime))
 }
 
 func RunSolutionForDay(day int) {
-	solution := GetSolution(day)
+	solution, startTime := GetSolution(day)
 	if solution == nil {
 		log.Fatal("No solution found for Day ", day)
 		return
 	}
-	RunSolution(solution, day)
+	RunSolution(solution, startTime, day)
 }
 
 func RunTodaysSolution() {
@@ -102,22 +104,22 @@ func RunTodaysSolution() {
 		panic("Not the right time to run this\nTry running --help")
 	}
 
-	solution := GetSolution(day)
+	solution, startTime := GetSolution(day)
 
 	if solution == nil {
 		log.Fatal("No solution found for Day ", day)
 		return
 	}
 
-	RunSolution(solution, time.Now().Day())
+	RunSolution(solution, startTime, time.Now().Day())
 }
 
 func RunAllSolutions() {
 	for day := 1; day <= 25; day++ {
-		solution := GetSolution(day)
+		solution, startTime := GetSolution(day)
 		if solution == nil {
 			continue
 		}
-		RunSolution(solution, day)
+		RunSolution(solution, startTime, day)
 	}
 }
