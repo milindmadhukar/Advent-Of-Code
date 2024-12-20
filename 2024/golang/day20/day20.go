@@ -1,7 +1,9 @@
 package day20
 
 import (
+	"slices"
 	"strings"
+	"sync"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/utils"
 )
@@ -25,7 +27,7 @@ type QueueItem struct {
 
 var directions = []Point{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
 
-func (d *day20) BFS() (int, map[Point]Point) {
+func (d *day20) BFS(maze [][]string, secondsToCheat int) (int, map[Point]Point) {
 	queue := []QueueItem{{point: d.start, steps: 0}}
 	visited := make(map[Point]bool)
 	next := make(map[Point]Point)
@@ -42,11 +44,11 @@ func (d *day20) BFS() (int, map[Point]Point) {
 
 		for _, dir := range directions {
 			nextPoint := Point{current.point.x + dir.x, current.point.y + dir.y}
-			if nextPoint.x < 0 || nextPoint.x > len(d.maze[0])-1 || nextPoint.y < 0 || nextPoint.y > len(d.maze)-1 {
+			if nextPoint.x < 0 || nextPoint.x > len(maze[0])-1 || nextPoint.y < 0 || nextPoint.y > len(maze)-1 {
 				continue
 			}
 
-			if d.maze[nextPoint.y][nextPoint.x] == "#" || visited[nextPoint] {
+			if maze[nextPoint.y][nextPoint.x] == "#" || visited[nextPoint] {
 				continue
 			}
 
@@ -63,6 +65,9 @@ func (d *day20) Part1() any {
 
 	timeSaved := make(map[int]int)
 
+	var wg sync.WaitGroup
+	var mutex sync.Mutex
+
 	for y, line := range d.maze {
 		for x, char := range line {
 			if x == 0 || y == 0 || x == len(d.maze[0])-1 || y == len(d.maze)-1 {
@@ -70,22 +75,33 @@ func (d *day20) Part1() any {
 			}
 
 			if char == "#" && char != "S" && char != "E" {
-				d.maze[y][x] = "."
-				steps, _ := d.BFS()
-				d.maze[y][x] = "#"
-				if steps < d.pathSteps {
-					timeSaved[d.pathSteps-steps]++
-				}
+				wg.Add(1)
+				go func() {
+					defer wg.Done()
+					var newMaze [][]string
+					for _, line := range d.maze {
+						newMaze = append(newMaze, slices.Clone(line))
+					}
+					newMaze[y][x] = "."
+					steps, _ := d.BFS(newMaze, 2)
+					if steps < d.pathSteps {
+						mutex.Lock()
+						timeSaved[d.pathSteps-steps]++
+						mutex.Unlock()
+					}
+				}()
 			}
 		}
 	}
 
+	wg.Wait()
+
 	cheatsThatSaveTimeLessThan100ps := 0
 
 	for k, v := range timeSaved {
-    if k >= 100 {
-      cheatsThatSaveTimeLessThan100ps += v
-    }
+		if k >= 100 {
+			cheatsThatSaveTimeLessThan100ps += v
+		}
 	}
 
 	return cheatsThatSaveTimeLessThan100ps
@@ -125,7 +141,7 @@ func Solve() *day20 {
 		end:   end,
 	}
 
-	d.pathSteps, d.parents = d.BFS()
+	d.pathSteps, d.parents = d.BFS(d.maze)
 
 	return &d
 }
