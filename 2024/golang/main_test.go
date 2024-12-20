@@ -7,6 +7,7 @@ import (
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day06"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day09"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day11"
+	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/day19"
 	"github.com/milindmadhukar/Advent-Of-Code/2024/golang/models"
 )
 
@@ -41,6 +42,15 @@ func BenchmarkDay11(b *testing.B) {
 	var sol models.Solution
 	for i := 0; i < b.N; i++ {
 		sol = day11.Solve()
+		sol.Part1()
+		sol.Part2()
+	}
+}
+
+func BenchmarkDay19(b *testing.B) {
+	var sol models.Solution
+	for i := 0; i < b.N; i++ {
+		sol = day19.Solve()
 		sol.Part1()
 		sol.Part2()
 	}
