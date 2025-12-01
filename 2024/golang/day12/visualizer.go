@@ -118,7 +118,7 @@ func visualize(gardenOrignal [][]string) {
 	xMax = xMax * upscalePointsBy
 	yMax = yMax * upscalePointsBy
 
-	upscaleImageBy := 10
+	upscaleImageBy := 1000
 	upscaled := image.NewRGBA(image.Rect(0, 0, xMax*upscaleImageBy, yMax*upscaleImageBy))
 
 	var wg sync.WaitGroup

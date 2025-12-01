@@ -31,7 +31,7 @@ func visualize(gridSize Point, allPositions []map[Point]bool) {
 	}
 
 	count := 0
-	delayPerFrame := 25
+	delayPerFrame := 100
 
 	for _, positionMap := range allPositions {
 		robotPositionColours := make(map[Point]color.RGBA)

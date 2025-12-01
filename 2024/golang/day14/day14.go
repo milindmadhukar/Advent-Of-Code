@@ -93,7 +93,7 @@ func (d *day14) Part2() any {
 		}
 	}
 
-	// visualize(d.gridSize, allPositions[count-6:])
+	visualize(d.gridSize, allPositions[count-6:])
 
 	return count
 }
