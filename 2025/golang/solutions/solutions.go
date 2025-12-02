@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/milindmadhukar/Advent-Of-Code/2025/golang/day01"
+	"github.com/milindmadhukar/Advent-Of-Code/2025/golang/day02"
 	"github.com/milindmadhukar/Advent-Of-Code/2025/golang/models"
 )
 
@@ -15,6 +16,8 @@ func GetSolution(day int) (models.Solution, time.Time) {
 	switch day {
 	case 1:
 		solution = day01.Solve()
+	case 2:
+		solution = day02.Solve()
 	}
 	return solution, startTime
 }
