@@ -15,11 +15,19 @@ func main() {
 	day := flag.String("day", "", "Specify the day to run")
 	all := flag.Bool("all", false, "Run all solutions")
 	help := flag.Bool("help", false, "Show help message")
+	generate := flag.Int("generate", 0, "Generate a new day solution")
 	profileVal := flag.String("profile", "", "Enable Profiling")
 	flag.Parse()
 
 	if *help {
 		printHelp()
+		return
+	}
+
+	if *generate > 0 {
+		if err := generateDay(*generate); err != nil {
+			log.Fatalf("Failed to generate day %d: %v", *generate, err)
+		}
 		return
 	}
 
@@ -82,6 +90,7 @@ func printHelp() {
 	fmt.Println("Usage:")
 	fmt.Println("  -day <number>: Run solution for a specific day")
 	fmt.Println("  -all: Run all solutions")
+	fmt.Println("  -generate <number>: Generate a new day solution")
 	fmt.Println("  -help: Show this help message")
 	fmt.Println("  -profile: Enable CPU profiling (pprof server on localhost:6060)")
 	fmt.Println("If no flags are provided, today's solution will be run.")
