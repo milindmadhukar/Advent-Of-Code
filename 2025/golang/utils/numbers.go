@@ -3,18 +3,17 @@ package utils
 import "golang.org/x/exp/constraints"
 
 type Number interface {
-    constraints.Integer | constraints.Float
+	constraints.Integer | constraints.Float
 }
 
-
-func Gcd(a, b int) int {
+func Gcd[T constraints.Integer](a, b T) T {
 	if a == 0 {
 		return b
 	}
 	return Gcd(b%a, a)
 }
 
-func Lcm(numbers []int) int {
+func Lcm[T constraints.Integer](numbers []T) T {
 	result := numbers[0]
 	for i := 1; i < len(numbers); i++ {
 		result = (result * numbers[i]) / Gcd(result, numbers[i])
@@ -30,9 +29,9 @@ func Abs[T Number](x T) T {
 }
 
 func Sum[T Number](numbers []T) T {
-  var sum T
-  for _, val := range numbers {
-    sum += val
-  }
-  return sum
+	var sum T
+	for _, val := range numbers {
+		sum += val
+	}
+	return sum
 }

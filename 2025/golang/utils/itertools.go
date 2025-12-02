@@ -1,5 +1,7 @@
 package utils
 
+import "golang.org/x/exp/constraints"
+
 func GeneratePermutations[T any](src []T, size int) func(yield func([]T) bool) {
 	var res = make([]T, size)
 	var generate func(int) bool
@@ -73,19 +75,19 @@ func Combinations[T any](src []T, size int) [][]T {
 	return result
 }
 
-func GenerateRange(vals ...int) func(yield func(int) bool) {
-	var start, end, step int
+func GenerateRange[T constraints.Integer](vals ...T) func(yield func(T) bool) {
+	var start, end, step T
 	if len(vals) == 0 {
 		panic("GenerateRange requires at least one argument")
 	}
 	if len(vals) == 1 {
-		start = 0
+		start = T(0)
 		end = vals[0]
-		step = 1
+		step = T(1)
 	} else if len(vals) == 2 {
 		start = vals[0]
 		end = vals[1]
-		step = 1
+		step = T(1)
 	} else if len(vals) == 3 {
 		start = vals[0]
 		end = vals[1]
@@ -94,10 +96,18 @@ func GenerateRange(vals ...int) func(yield func(int) bool) {
 		panic("GenerateRange requires at most three arguments")
 	}
 
-	return func(yield func(int) bool) {
-		for i := start; i < end; i += step {
-			if !yield(i) {
-				return
+	return func(yield func(T) bool) {
+		if step > 0 {
+			for i := start; i < end; i += step {
+				if !yield(i) {
+					return
+				}
+			}
+		} else if step < 0 {
+			for i := start; i > end; i += step {
+				if !yield(i) {
+					return
+				}
 			}
 		}
 	}
