@@ -41,10 +41,7 @@ func (d *day01) Part2() any {
 
 	for _, line := range d.data {
 		direction := string(line[0])
-		amt, err := strconv.Atoi(line[1:])
-		if err != nil {
-			panic(err)
-		}
+		amt, _ := strconv.Atoi(line[1:])
 
 		for range amt {
 			if direction == "R" {
