@@ -17,7 +17,7 @@ func generateDay(day int) error {
 		return fmt.Errorf("directory %s already exists", dayDir)
 	}
 
-	if err := os.Mkdir(dayDir, 0755); err != nil {
+	if err := os.MkdirAll(dayDir, 0755); err != nil {
 		return fmt.Errorf("failed to create directory: %w", err)
 	}
 
