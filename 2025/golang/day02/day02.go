@@ -9,13 +9,14 @@ import (
 
 type day02 struct {
 	data       string
-	idSequence [][]uint64
+	idSequence [][2]uint64
 }
 
 func (d *day02) Part1() any {
 	var invalidIdSum uint64 = 0
 
 	for _, sequence := range d.idSequence {
+
 		for currentId := sequence[0]; currentId <= sequence[1]; currentId++ {
 			currentIdStr := strconv.FormatUint(currentId, 10)
 			if len(currentIdStr)%2 != 0 {
@@ -69,12 +70,12 @@ func Solve() *day02 {
 
 	splitData := strings.Split(data, ",")
 
-	idSequenceInts := make([][]uint64, len(splitData))
+	idSequenceInts := make([][2]uint64, len(splitData))
 	for i, r := range splitData {
 		nums := strings.Split(r, "-")
 		start, _ := strconv.ParseUint(nums[0], 10, 64)
 		end, _ := strconv.ParseUint(nums[1], 10, 64)
-		idSequenceInts[i] = []uint64{start, end}
+		idSequenceInts[i] = [2]uint64{start, end}
 	}
 
 	return &day02{

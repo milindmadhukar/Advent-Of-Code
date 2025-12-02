@@ -17,10 +17,7 @@ func (d *day01) Part1() any {
 
 	for _, line := range d.data {
 		direction := string(line[0])
-		amt, err := strconv.Atoi(line[1:])
-		if err != nil {
-			fmt.Println("Error converting string to int:", err)
-		}
+		amt, _ := strconv.Atoi(line[1:])
 
 		if direction == "R" {
 			location = (location + amt) % 100
