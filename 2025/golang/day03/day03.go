@@ -5,15 +5,52 @@ import (
 )
 
 type day03 struct {
-	data      []string
+	batteries [][]string
+}
+
+func GreedySubsequenceSelector(bank []int, subsequenceLen int) int {
+	currentLen := len(bank)
+	countCanBeSkipped := currentLen - subsequenceLen
+	if countCanBeSkipped < 0 || subsequenceLen == 0 {
+		return 0
+	}
+
+	maxNum := bank[0]
+	maxIdx := 0
+	for i := 0; i <= countCanBeSkipped; i++ {
+		if bank[i] > maxNum {
+			maxNum = bank[i]
+			maxIdx = i
+		}
+	}
+
+	nextDigits := GreedySubsequenceSelector(bank[maxIdx+1:], subsequenceLen-1)
+	multiplier := 1
+	for range subsequenceLen - 1 {
+		multiplier *= 10
+	}
+
+	return maxNum*multiplier + nextDigits
 }
 
 func (d *day03) Part1() any {
-	return 0
+	joltageSum := 0
+	for _, bank := range d.batteries {
+		bankInt := utils.StringSliceToIntegerSlice(bank)
+		maxNum := GreedySubsequenceSelector(bankInt, 2)
+		joltageSum += maxNum
+	}
+	return joltageSum
 }
 
 func (d *day03) Part2() any {
-	return 0
+	joltageSum := 0
+	for _, bank := range d.batteries {
+		bankInt := utils.StringSliceToIntegerSlice(bank)
+		maxNum := GreedySubsequenceSelector(bankInt, 12)
+		joltageSum += maxNum
+	}
+	return joltageSum
 }
 
 func Solve() *day03 {
@@ -24,8 +61,8 @@ func Solve() *day03 {
 
 	// data = utils.GetInputDataFromFile("day03/example.txt")
 
+	batteries := utils.GetSplitData(data, "")
 	return &day03{
-		data:      data,
+		batteries: batteries,
 	}
 }
-
