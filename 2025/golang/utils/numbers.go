@@ -35,3 +35,11 @@ func Sum[T Number](numbers []T) T {
 	}
 	return sum
 }
+
+func Product[T Number](numbers []T) T {
+	var product T = 1
+	for _, val := range numbers {
+		product *= val
+	}
+	return product
+}

@@ -6,12 +6,12 @@ func Transpose[T any](arr [][]T) [][]T {
 
 	transposed := make([][]T, colLength)
 
-	for i := 0; i < colLength; i++ {
+	for i := range colLength {
 		transposed[i] = make([]T, rowLength)
 	}
 
-	for i := 0; i < rowLength; i++ {
-		for j := 0; j < colLength; j++ {
+	for i := range rowLength {
+		for j := range colLength {
 			transposed[j][i] = arr[i][j]
 		}
 	}
@@ -26,7 +26,7 @@ func TLBRDiagonals[T any](grid [][]T) [][]T {
 
 	var diagonals [][]T
 
-	for rowStart := 0; rowStart < rowLength; rowStart++ {
+	for rowStart := range rowLength {
 		var diagonal []T
 		row, col := rowStart, 0
 		for row < rowLength && col < colLength {
@@ -58,7 +58,7 @@ func TRBLDiagonals[T any](grid [][]T) [][]T {
 
 	var diagonals [][]T
 
-	for rowStart := 0; rowStart < rowLength; rowStart++ {
+	for rowStart := range rowLength {
 		var diagonal []T
 		row, col := rowStart, colLength-1
 		for row < rowLength && col >= 0 {
