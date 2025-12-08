@@ -22,6 +22,9 @@ func GreedySubsequenceSelector(bank []int, subsequenceLen int) int {
 			maxNum = bank[i]
 			maxIdx = i
 		}
+		if maxNum == 9 {
+			break
+		}
 	}
 
 	nextDigits := GreedySubsequenceSelector(bank[maxIdx+1:], subsequenceLen-1)
